@@ -1,0 +1,38 @@
+{
+  "id": "kitchen_layout",
+  "background": "res://art/backgrounds/cooking_counter.png",
+  "zones": {
+    "boil": {
+      "drop_rect": [
+        0.19,
+        0.31,
+        0.101,
+        0.1
+      ]
+    },
+    "fry": {
+      "drop_rect": [
+        0.32,
+        0.36,
+        0.1,
+        0.14
+      ]
+    },
+    "cut": {
+      "drop_rect": [
+        0.647,
+        0.375,
+        0.142,
+        0.16
+      ]
+    },
+    "plate": {
+      "drop_rect": [
+        0.817,
+        0.365,
+        0.112,
+        0.16
+      ]
+    }
+  }
+}

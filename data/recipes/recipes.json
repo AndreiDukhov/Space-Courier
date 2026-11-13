@@ -1,0 +1,134 @@
+[
+  {
+    "id": "recipe_carrot_01",
+    "name": "Тестовая тарелка №1",
+    "starter": true,
+    "dish": "dish_carrot_01",
+    "ingredients": [
+      {
+        "item": "carrot",
+        "count": 1
+      }
+    ],
+    "slots": 1,
+    "tags": [
+      "vegetable"
+    ],
+    "self_effects": [
+      {
+        "buff": "steady_hands",
+        "days": 1
+      }
+    ],
+    "serve_effects": [
+      {
+        "stat": "{target}.mood",
+        "add": 6
+      },
+      {
+        "stat": "{target}.attitude",
+        "add": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_carrot_02",
+    "name": "Тестовая тарелка №2",
+    "starter": false,
+    "dish": "dish_carrot_02",
+    "ingredients": [
+      {
+        "item": "carrot",
+        "count": 1
+      }
+    ],
+    "slots": 1,
+    "tags": [
+      "vegetable"
+    ],
+    "self_effects": [
+      {
+        "buff": "steady_hands",
+        "days": 1
+      }
+    ],
+    "serve_effects": [
+      {
+        "stat": "{target}.mood",
+        "add": 6
+      },
+      {
+        "stat": "{target}.attitude",
+        "add": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_carrot_03",
+    "name": "Тестовая тарелка №3",
+    "starter": false,
+    "dish": "dish_carrot_03",
+    "ingredients": [
+      {
+        "item": "carrot",
+        "count": 1
+      }
+    ],
+    "slots": 1,
+    "tags": [
+      "vegetable"
+    ],
+    "self_effects": [
+      {
+        "buff": "steady_hands",
+        "days": 1
+      }
+    ],
+    "serve_effects": [
+      {
+        "stat": "{target}.mood",
+        "add": 6
+      },
+      {
+        "stat": "{target}.attitude",
+        "add": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_carrot_noodles",
+    "name": "Морковь с лапшой (тест)",
+    "starter": true,
+    "dish": "dish_carrot_noodles",
+    "ingredients": [
+      {
+        "item": "carrot",
+        "count": 1
+      },
+      {
+        "item": "noodles",
+        "count": 1
+      }
+    ],
+    "slots": 1,
+    "tags": [
+      "vegetable"
+    ],
+    "self_effects": [
+      {
+        "buff": "steady_hands",
+        "days": 1
+      }
+    ],
+    "serve_effects": [
+      {
+        "stat": "{target}.mood",
+        "add": 6
+      },
+      {
+        "stat": "{target}.attitude",
+        "add": 2
+      }
+    ]
+  }
+]

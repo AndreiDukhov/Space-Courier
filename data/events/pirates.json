@@ -1,0 +1,674 @@
+[
+  {
+    "id": "event_earth_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_earth_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_alpha_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_alpha_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_beta_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_beta_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_colony_3_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_colony_3_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_delta_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_delta_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_far_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_far_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_gamma_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_gamma_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_epsilon_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_epsilon_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_zeta_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_zeta_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_orion_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_orion_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_vega_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_vega_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_frontier_raider_2",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_frontier_raider_3",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  }
+]

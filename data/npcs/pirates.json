@@ -1,0 +1,1058 @@
+[
+  {
+    "id": "npc_earth_raider_2",
+    "system": "sys_earth",
+    "name": "TODO Pirate earth 2",
+    "pos": [
+      2348,
+      780
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_earth_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_earth_raider_3",
+    "system": "sys_earth",
+    "name": "TODO Pirate earth 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_earth_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_alpha_raider_2",
+    "system": "sys_alpha",
+    "name": "TODO Pirate alpha 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_alpha_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_alpha_raider_3",
+    "system": "sys_alpha",
+    "name": "TODO Pirate alpha 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_alpha_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_beta_raider_2",
+    "system": "sys_beta",
+    "name": "TODO Pirate beta 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_beta_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_beta_raider_3",
+    "system": "sys_beta",
+    "name": "TODO Pirate beta 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_beta_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_colony_3_raider_2",
+    "system": "sys_colony_3",
+    "name": "TODO Pirate colony_3 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_colony_3_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_colony_3_raider_3",
+    "system": "sys_colony_3",
+    "name": "TODO Pirate colony_3 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_colony_3_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_delta_raider_2",
+    "system": "sys_delta",
+    "name": "TODO Pirate delta 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_delta_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_delta_raider_3",
+    "system": "sys_delta",
+    "name": "TODO Pirate delta 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_delta_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_far_raider_2",
+    "system": "sys_far",
+    "name": "TODO Pirate far 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_far_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_far_raider_3",
+    "system": "sys_far",
+    "name": "TODO Pirate far 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_far_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_gamma_raider_2",
+    "system": "sys_gamma",
+    "name": "TODO Pirate gamma 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_gamma_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_gamma_raider_3",
+    "system": "sys_gamma",
+    "name": "TODO Pirate gamma 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_gamma_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_epsilon_raider_2",
+    "system": "sys_epsilon",
+    "name": "TODO Pirate epsilon 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_epsilon_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_epsilon_raider_3",
+    "system": "sys_epsilon",
+    "name": "TODO Pirate epsilon 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_epsilon_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_zeta_raider_2",
+    "system": "sys_zeta",
+    "name": "TODO Pirate zeta 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_zeta_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_zeta_raider_3",
+    "system": "sys_zeta",
+    "name": "TODO Pirate zeta 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_zeta_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_orion_raider_2",
+    "system": "sys_orion",
+    "name": "TODO Pirate orion 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_orion_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_orion_raider_3",
+    "system": "sys_orion",
+    "name": "TODO Pirate orion 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_orion_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_vega_raider_2",
+    "system": "sys_vega",
+    "name": "TODO Pirate vega 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_vega_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_vega_raider_3",
+    "system": "sys_vega",
+    "name": "TODO Pirate vega 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_vega_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_frontier_raider_2",
+    "system": "sys_frontier",
+    "name": "TODO Pirate frontier 2",
+    "pos": [
+      2498,
+      1110
+    ],
+    "waypoints": [
+      [
+        480,
+        1050
+      ],
+      [
+        480,
+        1560
+      ],
+      [
+        780,
+        1860
+      ],
+      [
+        780,
+        900
+      ]
+    ],
+    "speed": 225,
+    "event": "event_frontier_raider_2",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_frontier_raider_3",
+    "system": "sys_frontier",
+    "name": "TODO Pirate frontier 3",
+    "pos": [
+      2400,
+      1950
+    ],
+    "waypoints": [
+      [
+        2400,
+        1950
+      ],
+      [
+        2670,
+        1950
+      ],
+      [
+        2670,
+        2160
+      ],
+      [
+        2250,
+        2160
+      ]
+    ],
+    "speed": 225,
+    "event": "event_frontier_raider_3",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  }
+]

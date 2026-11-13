@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Space Courier"
+run/main_scene="res://scenes/boot.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://scripts/game_state.gd"
+DataLoader="*res://scripts/data_loader.gd"
+Clock="*res://scripts/clock.gd"
+EffectApplier="*res://scripts/effect_applier.gd"
+ScheduleManager="*res://scripts/schedule_manager.gd"
+OrderManager="*res://scripts/order_manager.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/size/min_width=900
+window/size/min_height=600
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

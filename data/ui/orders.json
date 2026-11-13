@@ -1,0 +1,9 @@
+[
+  { "id": "ui_order_payment", "text": "Оплата: {amount} кредитов" },
+  { "id": "ui_order_system", "text": "Система: {name}" },
+  { "id": "ui_order_planet", "text": "Планета: {name}" },
+  { "id": "ui_order_summary", "text": "Масса: {mass} · Срок: {days} дн." },
+  { "id": "ui_order_accept", "text": "Принять заказ" },
+  { "id": "ui_order_complete", "text": "Завершить тестовую доставку" },
+  { "id": "ui_order_fail", "text": "Провалить заказ" }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ui_flight_deliver",
+    "text": "Передать груз"
+  },
+  {
+    "id": "ui_flight_deliver_direct",
+    "text": "Сдать заказ — {name}"
+  },
+  {
+    "id": "ui_flight_delivery_unavailable",
+    "text": "Сдача заказа сейчас недоступна. Проверьте расстояние и срок."
+  },
+  {
+    "id": "ui_flight_delivered",
+    "text": "Доставка завершена: {name}"
+  },
+  {
+    "id": "ui_food_contact_blocked",
+    "text": "Общение заблокировано. Сначала нужно примириться."
+  },
+  {
+    "id": "ui_flight_deliveries",
+    "text": "Активные доставки"
+  }
+]

@@ -1,0 +1,190 @@
+[
+  {
+    "id": "ui_combat_title",
+    "text": "Бой · Раунд {round}"
+  },
+  {
+    "id": "ui_combat_resources",
+    "text": "ОД {ap}/6 · ОП {mp} · Топливо {fuel}"
+  },
+  {
+    "id": "ui_combat_player",
+    "text": "Ваш корабль\nКорпус {hull} · Щит {shield}\nНастроение СБ: {mood}"
+  },
+  {
+    "id": "ui_combat_enemy",
+    "text": "{name}\nКорпус {hull} · Щит {shield}"
+  },
+  {
+    "id": "ui_combat_move",
+    "text": "Манёвр · ЛКМ по клетке"
+  },
+  {
+    "id": "ui_combat_shield",
+    "text": "Щит +5 · 2 ОД"
+  },
+  {
+    "id": "ui_combat_end_turn",
+    "text": "Завершить ход"
+  },
+  {
+    "id": "ui_combat_continue",
+    "text": "Продолжить"
+  },
+  {
+    "id": "ui_combat_ability",
+    "text": "{name}\n{ap} ОД · Перезарядка: {cooldown}"
+  },
+  {
+    "id": "ui_combat_evasion",
+    "text": "Уклонение +{value}% на 2 хода противника. Сила зависит от настроения пилота."
+  },
+  {
+    "id": "ui_combat_burn",
+    "text": "Добавляет {move} ОП на этот ход, расходует все оставшиеся ОД и {fuel} топлива. Эффективность зависит от настроения пилота."
+  },
+  {
+    "id": "ui_combat_help",
+    "text": "ЛКМ — манёвр или выстрел выбранным орудием · СКМ / ПКМ — камера · Колесо — масштаб"
+  },
+  {
+    "id": "ui_combat_victory",
+    "text": "Победа\nЛут: {money} кр. и {fuel} топлива.\nНажмите «Продолжить», чтобы забрать награду и вернуться в полёт."
+  },
+  {
+    "id": "ui_combat_defeat",
+    "text": "Поражение\nБуксир в хаб: 400 кр. и 1 день. Корпус и топливо будут восстановлены. Можно продолжить даже при нехватке денег."
+  },
+  {
+    "id": "ui_combat_hit",
+    "text": "Попадание"
+  },
+  {
+    "id": "ui_combat_miss",
+    "text": "Промах"
+  },
+  {
+    "id": "ui_combat_enemy_turn",
+    "text": "Ход противника завершён"
+  },
+  {
+    "id": "ui_combat_undo",
+    "text": "Отменить последний манёвр"
+  },
+  {
+    "id": "ui_combat_weapons",
+    "text": "Орудия · Выберите оружие"
+  },
+  {
+    "id": "ui_combat_weapon",
+    "text": "{name}\n{ap} ОД · Дальность {range}\n{status}"
+  },
+  {
+    "id": "ui_combat_move_hint",
+    "text": "Движение возможно только вперёд в подсвеченном конусе. Корабль плавно развернётся по курсу манёвра."
+  },
+  {
+    "id": "ui_combat_pick_target",
+    "text": "Наведите на клетку, чтобы увидеть шанс попадания. ЛКМ — выстрел."
+  },
+  {
+    "id": "ui_combat_invalid_target",
+    "text": "Клетка вне сектора или дальности выбранного орудия, либо не хватает ОД."
+  },
+  {
+    "id": "ui_combat_target",
+    "text": "Клетка {x}, {z}\nПопадание: {chance}%\nКрит при попадании: {critical}%\nЛКМ — выстрел"
+  },
+  {
+    "id": "ui_combat_animating",
+    "text": "Выполняется действие…"
+  },
+  {
+    "id": "ui_combat_shot_hit",
+    "text": "Попадание · {weapon} · Урон {damage}"
+  },
+  {
+    "id": "ui_combat_shot_miss",
+    "text": "Промах · {weapon}"
+  },
+  {
+    "id": "ui_combat_shot_critical",
+    "text": "КРИТИЧЕСКОЕ ПОПАДАНИЕ · {weapon} · Урон {damage}"
+  },
+  {
+    "id": "ui_combat_player_marker",
+    "text": "ВАШ КОРАБЛЬ"
+  },
+  {
+    "id": "ui_combat_enemy_marker",
+    "text": "ПРОТИВНИК"
+  },
+  {
+    "id": "ui_combat_gun_ready",
+    "text": "Готово к выстрелу"
+  },
+  {
+    "id": "ui_combat_gun_fired",
+    "text": "Уже стреляло в этом ходу"
+  },
+  {
+    "id": "ui_combat_weapon_spent",
+    "text": "Это орудие уже стреляло. Дождитесь следующего хода."
+  },
+  {
+    "id": "ui_combat_enemy_guns",
+    "text": "Орудия противника:\n{weapons}"
+  },
+  {
+    "id": "ui_combat_edge_assist",
+    "text": "Манёвр у границы: поворот до {angle}° вместе с движением. Выберите подсвеченную клетку, чтобы выйти от края."
+  },
+  {
+    "id": "ui_tactical_hull",
+    "text": "Корпус {current}/{max}"
+  },
+  {
+    "id": "ui_tactical_shield",
+    "text": "Щиты {current}/{max}"
+  },
+  {
+    "id": "ui_tactical_mount_turret",
+    "text": "Башенное орудие"
+  },
+  {
+    "id": "ui_tactical_mount_course",
+    "text": "Курсовое орудие"
+  },
+  {
+    "id": "ui_tactical_mount_broadside",
+    "text": "Бортовое орудие"
+  },
+  {
+    "id": "ui_tactical_type_kinetic",
+    "text": "Кинетический"
+  },
+  {
+    "id": "ui_tactical_type_laser",
+    "text": "Лазерный"
+  },
+  {
+    "id": "ui_tactical_weapon_tip",
+    "text": "{name}\n{mount} · {type}\nУрон {min}–{max} · Дальность {range} клеток\nСектор {arc}° · Крит {critical}%\nЦена {ap} ОД · Один выстрел за ход\n{status}"
+  },
+  {
+    "id": "ui_tactical_ability_tip",
+    "text": "{name}\n{description}\nЦена ОД — {ap}\nПерезарядка — {cooldown}"
+  },
+  {
+    "id": "ui_tactical_recharge",
+    "text": "Через {delay} раунд, после хода противника, восстанавливает до {amount} щитов."
+  },
+  {
+    "id": "ui_tactical_all_ap",
+    "text": "все оставшиеся"
+  },
+  {
+    "id": "ui_tactical_pending",
+    "text": "Восстановление запланировано на раунд {round}."
+  }
+]

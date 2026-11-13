@@ -1,0 +1,386 @@
+[
+  {
+    "id": "ui_home_title",
+    "text": "Хаб · снабжение и кухня"
+  },
+  {
+    "id": "ui_home_resources",
+    "text": "{money} кр.   ·   Трюм {mass} / {capacity}   ·   День {day}, {slot}"
+  },
+  {
+    "id": "ui_home_close",
+    "text": "Вернуться в хаб"
+  },
+  {
+    "id": "ui_home_inventory",
+    "text": "Инвентарь"
+  },
+  {
+    "id": "ui_home_kitchen",
+    "text": "Кухня"
+  },
+  {
+    "id": "ui_home_shop",
+    "text": "Магазин"
+  },
+  {
+    "id": "ui_home_save",
+    "text": "Сохранить"
+  },
+  {
+    "id": "ui_home_load",
+    "text": "Загрузить"
+  },
+  {
+    "id": "ui_home_saved",
+    "text": "Игра сохранена"
+  },
+  {
+    "id": "ui_home_loaded",
+    "text": "Сохранение загружено"
+  },
+  {
+    "id": "ui_home_error",
+    "text": "Действие сейчас недоступно. Проверьте условия или выберите другое сохранение."
+  },
+  {
+    "id": "ui_home_empty",
+    "text": "Пока пусто"
+  },
+  {
+    "id": "ui_home_done",
+    "text": "Готово"
+  },
+  {
+    "id": "ui_home_buy",
+    "text": "Купить · {price} кр."
+  },
+  {
+    "id": "ui_home_sell",
+    "text": "Продать · {price} кр."
+  },
+  {
+    "id": "ui_home_locked",
+    "text": "Требуется отношение {value}"
+  },
+  {
+    "id": "ui_home_shop_hours",
+    "text": "Открыто днём и вечером · отношение {attitude}"
+  },
+  {
+    "id": "ui_home_shop_closed",
+    "text": "Магазин закрыт. Приходите днём или вечером."
+  },
+  {
+    "id": "ui_home_quests",
+    "text": "Тестовые поручения · без срока и штрафа"
+  },
+  {
+    "id": "ui_home_quest_accept",
+    "text": "Взять поручение"
+  },
+  {
+    "id": "ui_home_quest_complete",
+    "text": "Выполнить"
+  },
+  {
+    "id": "ui_home_quest_completed",
+    "text": "Выполнено"
+  },
+  {
+    "id": "ui_home_quest_labor",
+    "text": "Помощь в магазине: {slots} слот(а)"
+  },
+  {
+    "id": "ui_home_quest_fetch",
+    "text": "Принести: {items}"
+  },
+  {
+    "id": "ui_home_cook",
+    "text": "Приготовить · {slots} слот(а)"
+  },
+  {
+    "id": "ui_home_skill",
+    "text": "Навык готовки: {skill} · качество следующего блюда: {quality}"
+  },
+  {
+    "id": "ui_home_ingredients",
+    "text": "Ингредиенты: {items}"
+  },
+  {
+    "id": "ui_home_recipe_locked",
+    "text": "Нужна кулинарная книга"
+  },
+  {
+    "id": "ui_home_stack",
+    "text": "{name} ×{count}   ·   {mass} ед. массы"
+  },
+  {
+    "id": "ui_home_quality",
+    "text": "Качество {quality}"
+  },
+  {
+    "id": "ui_home_read",
+    "text": "Прочитать книгу"
+  },
+  {
+    "id": "ui_home_eat",
+    "text": "Съесть"
+  },
+  {
+    "id": "ui_home_serve",
+    "text": "Подать: {name}"
+  },
+  {
+    "id": "ui_home_buff",
+    "text": "Твёрдая рука: +0,05 к зоне стелса до дня {day}"
+  },
+  {
+    "id": "ui_home_practice",
+    "text": "Тест тайминга · {name}"
+  },
+  {
+    "id": "ui_home_food_stack",
+    "text": "{name} ×{count} · инвентарь игрока"
+  },
+  {
+    "id": "ui_home_food_locked",
+    "text": "Еда доступна для использования на кухне хаба."
+  },
+  {
+    "id": "ui_kitchen_title",
+    "text": "Кухня · тест готовки"
+  },
+  {
+    "id": "ui_kitchen_help",
+    "text": "Перетащите продукты на гарнитур. Обработайте их кнопкой над посудой, перенесите на тарелку и подтвердите блюдо."
+  },
+  {
+    "id": "ui_kitchen_cut",
+    "text": "Доска · нарезка"
+  },
+  {
+    "id": "ui_kitchen_boil",
+    "text": "Кастрюля · варка"
+  },
+  {
+    "id": "ui_kitchen_fry",
+    "text": "Сковородка · жарка"
+  },
+  {
+    "id": "ui_kitchen_plate",
+    "text": "Тарелка"
+  },
+  {
+    "id": "ui_kitchen_finish",
+    "text": "Подтвердить и закончить готовку"
+  },
+  {
+    "id": "ui_kitchen_cancel",
+    "text": "Убрать со стола"
+  },
+  {
+    "id": "ui_kitchen_ingredients",
+    "text": "Ингредиенты"
+  },
+  {
+    "id": "ui_kitchen_prepared",
+    "text": "{steps}"
+  },
+  {
+    "id": "ui_kitchen_carrot",
+    "text": "Морковь"
+  },
+  {
+    "id": "ui_kitchen_buy_hint",
+    "text": "Купите продукты в магазине хаба."
+  },
+  {
+    "id": "ui_kitchen_choose",
+    "text": "Выбрать рецепт"
+  },
+  {
+    "id": "ui_kitchen_selected",
+    "text": "Выбран"
+  },
+  {
+    "id": "ui_kitchen_recipes",
+    "text": "Рецепты"
+  },
+  {
+    "id": "ui_home_serve_hint",
+    "text": "Каждой героине можно подать одно блюдо в день. Она должна быть здесь, с настроением ≥ 20."
+  },
+  {
+    "id": "ui_home_serve_result",
+    "text": "{name}: настроение {mood}, отношение {attitude}"
+  },
+  {
+    "id": "ui_carrot_form_0",
+    "text": "Морковь"
+  },
+  {
+    "id": "ui_carrot_form_1",
+    "text": "Нарезанная морковь"
+  },
+  {
+    "id": "ui_carrot_form_2",
+    "text": "Варёная морковь"
+  },
+  {
+    "id": "ui_carrot_form_3",
+    "text": "Нарезанная варёная морковь"
+  },
+  {
+    "id": "ui_carrot_form_4",
+    "text": "Обжаренная морковь"
+  },
+  {
+    "id": "ui_carrot_form_5",
+    "text": "Нарезанная обжаренная морковь"
+  },
+  {
+    "id": "ui_carrot_form_6",
+    "text": "Варёная и обжаренная морковь"
+  },
+  {
+    "id": "ui_carrot_form_7",
+    "text": "Нарезанная, варёная и обжаренная морковь"
+  },
+  {
+    "id": "ui_kitchen_plated",
+    "text": "{name} на тарелке"
+  },
+  {
+    "id": "ui_kitchen_on_counter",
+    "text": "Все доступные продукты уже на гарнитуре."
+  },
+  {
+    "id": "ui_food_conversation_hint",
+    "text": "Чтобы угостить героиню, поговорите с ней. Вне кухни можно оставить ей ужин на следующий ход."
+  },
+  {
+    "id": "ui_food_talk_title",
+    "text": "Разговор · {name}"
+  },
+  {
+    "id": "ui_food_talk_placeholder",
+    "text": "TODO scene text"
+  },
+  {
+    "id": "ui_food_menu",
+    "text": "Предложить угоститься блюдом"
+  },
+  {
+    "id": "ui_food_invite_menu",
+    "text": "Сказать, что на кухне оставлен готовый ужин"
+  },
+  {
+    "id": "ui_food_offer",
+    "text": "Угостить: {dish}"
+  },
+  {
+    "id": "ui_food_invite",
+    "text": "На кухне оставил тебе ужин: {dish}"
+  },
+  {
+    "id": "ui_food_quality",
+    "text": "{dish} · качество {quality}"
+  },
+  {
+    "id": "ui_food_no_dishes",
+    "text": "Готовых блюд пока нет."
+  },
+  {
+    "id": "ui_food_back",
+    "text": "Назад к разговору"
+  },
+  {
+    "id": "ui_food_invited",
+    "text": "Ужин оставлен. {name} придёт на кухню: день {day}, {slot}."
+  },
+  {
+    "id": "ui_food_pending",
+    "text": "Ужин уже оставлен для этой героини."
+  },
+  {
+    "id": "ui_food_eating",
+    "text": "Сейчас она на кухне и ест оставленный ужин."
+  },
+  {
+    "id": "ui_food_daily_limit",
+    "text": "Сегодня она уже получила блюдо."
+  },
+  {
+    "id": "ui_food_refusal",
+    "text": "Сейчас она не готова принять угощение."
+  },
+  {
+    "id": "ui_food_blocked",
+    "text": "Сначала закончите или отмените готовку."
+  },
+  {
+    "id": "ui_food_slot_morning",
+    "text": "утро"
+  },
+  {
+    "id": "ui_food_slot_day",
+    "text": "день"
+  },
+  {
+    "id": "ui_food_slot_evening",
+    "text": "вечер"
+  },
+  {
+    "id": "ui_food_slot_night",
+    "text": "ночь"
+  },
+  {
+    "id": "ui_kitchen_action_cut",
+    "text": "Нарезать"
+  },
+  {
+    "id": "ui_kitchen_action_boil",
+    "text": "Сварить"
+  },
+  {
+    "id": "ui_kitchen_action_fry",
+    "text": "Пожарить"
+  },
+  {
+    "id": "ui_kitchen_required",
+    "text": "Для рецепта нужно {items}"
+  },
+  {
+    "id": "ui_kitchen_available",
+    "text": "В запасе {count}"
+  },
+  {
+    "id": "ui_kitchen_form_1",
+    "text": "Нарезано · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_2",
+    "text": "Варёное · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_3",
+    "text": "Нарезано и сварено · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_4",
+    "text": "Обжарено · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_5",
+    "text": "Нарезано и обжарено · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_6",
+    "text": "Сварено и обжарено · {name}"
+  },
+  {
+    "id": "ui_kitchen_form_7",
+    "text": "Нарезано, сварено и обжарено · {name}"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "shop_quest_01",
+    "source": "shop",
+    "giver": "shopkeeper",
+    "title": "TODO shop task 1",
+    "requires": [],
+    "reward": [
+      {
+        "stat": "shopkeeper.attitude",
+        "add": 10
+      },
+      {
+        "flag": "shop_quest_01_done",
+        "set": true
+      },
+      {
+        "unlock_scene": "shopkeeper_story_01"
+      }
+    ],
+    "labor_slots": 1
+  },
+  {
+    "id": "shop_quest_02",
+    "source": "shop",
+    "giver": "shopkeeper",
+    "title": "TODO shop task 2",
+    "requires": [
+      {
+        "flag": "shop_quest_01_done",
+        "is": true
+      }
+    ],
+    "reward": [
+      {
+        "stat": "shopkeeper.attitude",
+        "add": 10
+      },
+      {
+        "flag": "shop_quest_02_done",
+        "set": true
+      },
+      {
+        "unlock_scene": "shopkeeper_story_02"
+      }
+    ],
+    "need_items": [
+      {
+        "item": "carrot",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "id": "shop_quest_03",
+    "source": "shop",
+    "giver": "shopkeeper",
+    "title": "TODO shop task 3",
+    "requires": [
+      {
+        "flag": "shop_quest_02_done",
+        "is": true
+      }
+    ],
+    "reward": [
+      {
+        "stat": "shopkeeper.attitude",
+        "add": 10
+      },
+      {
+        "flag": "shop_quest_03_done",
+        "set": true
+      },
+      {
+        "unlock_scene": "shopkeeper_story_03"
+      }
+    ],
+    "labor_slots": 1
+  }
+]

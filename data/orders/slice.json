@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ord_slice_test",
+    "source": "private",
+    "title": "Тестовый рейс: Солнечная-2",
+    "description": "текст текст текст текст текст текст текст текст",
+    "cargo": {"type": "parcel", "mass": 1, "tags": ["legal"]},
+    "from": "sys_earth",
+    "to": "sys_earth",
+    "to_planet": "earth_2",
+    "deadline_days": 1,
+    "requires": [],
+    "reward": [{"money": 250}, {"rep": "private", "add": 1}, {"flag": "slice_delivery_done", "set": true}, {"advance_time": 1}],
+    "failure": [{"money": -25}],
+    "action_tags": [],
+    "risk_tags": ["test"]
+  }
+]

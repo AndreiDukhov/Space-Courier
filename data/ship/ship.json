@@ -1,0 +1,48 @@
+{
+  "id": "ship_main",
+  "hull": {
+    "max": 100,
+    "current": 100
+  },
+  "fuel": {
+    "max": 30,
+    "current": 30
+  },
+  "cargo": {
+    "max_mass": 10,
+    "items": []
+  },
+  "slots": {
+    "engine": 1,
+    "maneuver_engine": 1,
+    "turret": 1,
+    "course": 1,
+    "armor": 1,
+    "shield": 1,
+    "broadside": 1
+  },
+  "modules": [
+    "engine_mk1",
+    "cannon_s",
+    "course_cannon",
+    "broadside_plasma",
+    "maneuver_mk1",
+    "armor_mk1",
+    "shield_mk1"
+  ],
+  "crew_aboard": [
+    "pilot",
+    "security"
+  ],
+  "movement": {
+    "maneuver_level": 0,
+    "cone_base": 0.5,
+    "cone_slope_base": 0.5,
+    "cone_slope_per_level": 0.12,
+    "cone_slope_max": 1.0,
+    "inertia_base": 0.6,
+    "inertia_per_level": 0.1,
+    "inertia_min": 0.1,
+    "turn_steps_base": 1
+  }
+}

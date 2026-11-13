@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ord_state_01",
+    "source": "state",
+    "title": "TODO state order 01",
+    "cargo": {
+      "type": "food",
+      "mass": 4,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 3,
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 0
+      }
+    ],
+    "reward": [
+      {
+        "money": 900
+      },
+      {
+        "rep": "state",
+        "add": 2
+      }
+    ],
+    "failure": [
+      {
+        "rep": "state",
+        "add": -4
+      }
+    ],
+    "action_tags": [
+      "law_abiding",
+      "help_civilians"
+    ],
+    "risk_tags": [],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_state_02",
+    "source": "state",
+    "title": "TODO state order 02",
+    "cargo": {
+      "type": "medicine",
+      "mass": 5,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 4,
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 2
+      }
+    ],
+    "reward": [
+      {
+        "money": 1200
+      },
+      {
+        "rep": "state",
+        "add": 3
+      }
+    ],
+    "failure": [
+      {
+        "rep": "state",
+        "add": -6
+      }
+    ],
+    "action_tags": [
+      "law_abiding",
+      "help_civilians"
+    ],
+    "risk_tags": [
+      "dangerous_district"
+    ],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "carrot",
+    "name": "Морковь (тест)",
+    "type": "ingredient",
+    "tags": [
+      "vegetable"
+    ],
+    "sell_price": 8,
+    "preparations": [
+      "cut",
+      "boil",
+      "fry"
+    ]
+  },
+  {
+    "id": "noodles",
+    "name": "Лапша (тест)",
+    "type": "ingredient",
+    "tags": [],
+    "sell_price": 12,
+    "preparations": [
+      "boil",
+      "fry"
+    ]
+  },
+  {
+    "id": "hot_sauce",
+    "name": "Острый соус (тест)",
+    "type": "ingredient",
+    "tags": [
+      "spicy"
+    ],
+    "sell_price": 18
+  },
+  {
+    "id": "space_spice",
+    "name": "Космические специи (тест)",
+    "type": "ingredient",
+    "tags": [
+      "xeno"
+    ],
+    "sell_price": 30
+  },
+  {
+    "id": "xeno_crystal",
+    "name": "Кристалл (тест)",
+    "type": "ingredient",
+    "tags": [
+      "xeno"
+    ],
+    "sell_price": 40
+  },
+  {
+    "id": "gift_flower",
+    "name": "Цветок (тест)",
+    "type": "gift",
+    "tags": [],
+    "mass": 0.2,
+    "sell_price": 60
+  },
+  {
+    "id": "scrap_test",
+    "name": "Обломок (тест)",
+    "type": "loot",
+    "tags": [],
+    "mass": 1,
+    "sell_price": 20
+  },
+  {
+    "id": "personal_item",
+    "name": "Тестовый предмет",
+    "type": "quest",
+    "tags": [],
+    "mass": 0.5,
+    "sell_price": 0
+  },
+  {
+    "id": "cookbook_xeno_spices",
+    "name": "Кулинария дальних миров (тест)",
+    "type": "cookbook",
+    "tags": [],
+    "mass": 1,
+    "sell_price": 0,
+    "teaches": [
+      "recipe_carrot_02",
+      "recipe_carrot_03"
+    ]
+  },
+  {
+    "id": "dish_carrot_01",
+    "name": "Морковь на тарелке · тест 1",
+    "type": "dish",
+    "tags": [
+      "vegetable"
+    ],
+    "sell_price": 0
+  },
+  {
+    "id": "dish_carrot_02",
+    "name": "Морковь на тарелке · тест 2",
+    "type": "dish",
+    "tags": [
+      "vegetable"
+    ],
+    "sell_price": 0
+  },
+  {
+    "id": "dish_carrot_03",
+    "name": "Морковь на тарелке · тест 3",
+    "type": "dish",
+    "tags": [
+      "vegetable"
+    ],
+    "sell_price": 0
+  },
+  {
+    "id": "dish_carrot_noodles",
+    "name": "Морковь с лапшой (тест)",
+    "type": "dish",
+    "tags": [
+      "vegetable"
+    ],
+    "sell_price": 0
+  }
+]

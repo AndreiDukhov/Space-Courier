@@ -1,0 +1,103 @@
+[
+  {
+    "id": "ord_crime_01",
+    "source": "crime",
+    "title": "TODO crime order 01",
+    "cargo": {
+      "type": "contraband",
+      "mass": 2,
+      "tags": [
+        "contraband"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 2,
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 0
+      }
+    ],
+    "reward": [
+      {
+        "money": 1600
+      },
+      {
+        "rep": "mafia",
+        "add": 2
+      }
+    ],
+    "failure": [
+      {
+        "rep": "mafia",
+        "add": -4
+      },
+      {
+        "flag": "mafia_hunt",
+        "set": true
+      }
+    ],
+    "action_tags": [
+      "smuggling",
+      "risk"
+    ],
+    "risk_tags": [
+      "illegal_cargo"
+    ],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_crime_02",
+    "source": "crime",
+    "title": "TODO crime order 02",
+    "cargo": {
+      "type": "contraband",
+      "mass": 3,
+      "tags": [
+        "contraband"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 4,
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 2
+      }
+    ],
+    "reward": [
+      {
+        "money": 2200
+      },
+      {
+        "rep": "mafia",
+        "add": 3
+      }
+    ],
+    "failure": [
+      {
+        "rep": "mafia",
+        "add": -6
+      },
+      {
+        "flag": "mafia_hunt",
+        "set": true
+      }
+    ],
+    "action_tags": [
+      "smuggling",
+      "risk"
+    ],
+    "risk_tags": [
+      "illegal_cargo",
+      "dangerous_district"
+    ],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  }
+]

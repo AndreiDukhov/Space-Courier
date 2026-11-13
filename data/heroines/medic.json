@@ -1,0 +1,48 @@
+{
+  "id": "medic",
+  "food": {
+    "likes": [
+      "sweet"
+    ],
+    "dislikes": [
+      "spicy"
+    ]
+  },
+  "name": "TODO medic name",
+  "age": 24,
+  "role": "medic",
+  "stats": {
+    "attitude": 20,
+    "mood": 60,
+    "arousal": 0
+  },
+  "thresholds": {
+    "talk": 0,
+    "touch": 30,
+    "kiss": 55,
+    "intimate": 75
+  },
+  "tag_weights": {
+    "law_abiding": 2,
+    "smuggling": -3
+  },
+  "polygamy": "tolerates",
+  "suspicion": 0,
+  "contact_block": false,
+  "aboard": false,
+  "schedule": "medic",
+  "sprite": {
+    "bases": [
+      "uniform"
+    ],
+    "faces": [
+      "neutral",
+      "happy",
+      "sad",
+      "annoyed",
+      "shy"
+    ],
+    "blush_levels": 3
+  },
+  "abilities": []
+}

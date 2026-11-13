@@ -1,0 +1,21 @@
+{
+  "id": "pilot_test_03",
+  "type": "ship",
+  "tags": [],
+  "location": "hub_kitchen",
+  "conditions": [
+    { "flag": "pilot_test_01_seen", "is": true },
+    { "stat": "pilot.attitude", "op": "<", "value": 30 },
+    { "flag": "pilot_test_03_seen", "is": false }
+  ],
+  "lines": [{ "who": "pilot", "face": "neutral", "text": "TODO scene text" }],
+  "choices": [
+    {
+      "id": "recover",
+      "text": "TODO choice text (+mood, +attitude)",
+      "effects": [{ "stat": "pilot.mood", "add": 35 }, { "stat": "pilot.attitude", "add": 20 }]
+    }
+  ],
+  "on_end": [{ "flag": "pilot_test_03_seen", "set": true }, { "advance_time": 1 }],
+  "next": ["pilot_test_02"]
+}

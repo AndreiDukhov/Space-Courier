@@ -1,0 +1,260 @@
+[
+  {
+    "id": "hub_kitchen",
+    "area": "hub",
+    "name": "TODO main hall",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_kitchen.png",
+      "night": "res://art/backgrounds/hub_kitchen.png"
+    },
+    "connects": [
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait",
+      "kitchen",
+      "inventory"
+    ]
+  },
+  {
+    "id": "hub_corridor",
+    "area": "hub",
+    "name": "TODO corridor",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_corridor.png",
+      "night": "res://art/backgrounds/hub_corridor.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_tech",
+    "area": "hub",
+    "name": "TODO workshop",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_tech.png",
+      "night": "res://art/backgrounds/hub_tech.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_showers",
+      "hub_office",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "galaxy_map",
+      "flight",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_showers",
+    "area": "hub",
+    "name": "TODO showers",
+    "backgrounds": {},
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_office",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [
+      {
+        "time": [
+          "evening",
+          "night"
+        ]
+      }
+    ],
+    "actions": [
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_office",
+    "area": "hub",
+    "name": "TODO office",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_office.png",
+      "night": "res://art/backgrounds/hub_office.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "orders",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_shop",
+    "area": "hub",
+    "name": "Магазин (тест)",
+    "backgrounds": {},
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [
+      {
+        "time": [
+          "day",
+          "evening"
+        ]
+      }
+    ],
+    "actions": [
+      "talk",
+      "wait",
+      "shop",
+      "inventory"
+    ]
+  },
+  {
+    "id": "hub_bedroom",
+    "area": "hub",
+    "name": "Спальня игрока",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_bedroom.png",
+      "night": "res://art/backgrounds/hub_bedroom.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait",
+      "inventory"
+    ]
+  },
+  {
+    "id": "hub_pilot_bedroom",
+    "area": "hub",
+    "name": "Спальня пилота",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_bedroom.png",
+      "night": "res://art/backgrounds/hub_bedroom.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_medic_bedroom",
+    "area": "hub",
+    "name": "Спальня медика",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_bedroom.png",
+      "night": "res://art/backgrounds/hub_bedroom.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_security_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_security_bedroom",
+    "area": "hub",
+    "name": "Спальня СБшницы",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_bedroom.png",
+      "night": "res://art/backgrounds/hub_bedroom.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait"
+    ]
+  }
+]

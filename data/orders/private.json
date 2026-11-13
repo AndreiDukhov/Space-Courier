@@ -1,0 +1,84 @@
+[
+  {
+    "id": "ord_private_01",
+    "source": "private",
+    "title": "TODO private order 01",
+    "cargo": {
+      "type": "parcel",
+      "mass": 2,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 2,
+    "requires": [],
+    "reward": [
+      {
+        "money": 600
+      },
+      {
+        "rep": "private",
+        "add": 1
+      }
+    ],
+    "failure": [
+      {
+        "money": -120
+      },
+      {
+        "rep": "private",
+        "add": -1
+      }
+    ],
+    "action_tags": [],
+    "risk_tags": [],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_private_02",
+    "source": "private",
+    "title": "TODO private order 02",
+    "cargo": {
+      "type": "parcel",
+      "mass": 3,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 4,
+    "requires": [
+      {
+        "rep": "private",
+        "op": ">=",
+        "value": 1
+      }
+    ],
+    "reward": [
+      {
+        "money": 1000
+      },
+      {
+        "rep": "private",
+        "add": 2
+      }
+    ],
+    "failure": [
+      {
+        "money": -250
+      },
+      {
+        "rep": "private",
+        "add": -2
+      }
+    ],
+    "action_tags": [],
+    "risk_tags": [],
+    "description": "текст текст текст текст текст текст текст текст текст текст текст текст",
+    "to_planet": "colony_3_1"
+  }
+]

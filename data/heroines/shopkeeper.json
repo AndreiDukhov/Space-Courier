@@ -1,0 +1,44 @@
+{
+  "id": "shopkeeper",
+  "name": "Продавщица (тест)",
+  "age": 27,
+  "role": "shopkeeper",
+  "stats": {
+    "attitude": 0,
+    "mood": 50,
+    "arousal": 0
+  },
+  "thresholds": {
+    "talk": 0,
+    "touch": 30,
+    "kiss": 55,
+    "intimate": 75
+  },
+  "tag_weights": {},
+  "polygamy": "forbids",
+  "suspicion": 0,
+  "contact_block": false,
+  "aboard": false,
+  "food": {
+    "likes": [
+      "xeno"
+    ],
+    "dislikes": [
+      "hot"
+    ]
+  },
+  "sprite": {
+    "bases": [
+      "uniform"
+    ],
+    "faces": [
+      "neutral",
+      "happy",
+      "sad",
+      "annoyed",
+      "shy"
+    ],
+    "blush_levels": 3
+  },
+  "abilities": []
+}

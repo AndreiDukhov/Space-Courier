@@ -1,0 +1,211 @@
+[
+  {
+    "id": "event_courier_test",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [
+      {
+        "flag": "courier_test_done",
+        "is": false
+      }
+    ],
+    "options": [
+      {
+        "text": "TODO scene text 1",
+        "effects": [
+          {
+            "money": 25
+          },
+          {
+            "flag": "courier_test_done",
+            "set": true
+          }
+        ],
+        "tags": [
+          "help_civilians"
+        ]
+      },
+      {
+        "text": "TODO scene text 2",
+        "effects": [
+          {
+            "flag": "courier_test_done",
+            "set": true
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_transport_test",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [
+      {
+        "flag": "transport_test_done",
+        "is": false
+      }
+    ],
+    "options": [
+      {
+        "text": "TODO scene text 1",
+        "effects": [
+          {
+            "rep": "private",
+            "add": 1
+          },
+          {
+            "flag": "transport_test_done",
+            "set": true
+          }
+        ],
+        "tags": []
+      },
+      {
+        "text": "TODO scene text 2",
+        "effects": [
+          {
+            "fuel": -0.25
+          },
+          {
+            "flag": "transport_test_done",
+            "set": true
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "event_signal_test",
+    "trigger": "approach",
+    "chance": 1,
+    "conditions": [
+      {
+        "flag": "signal_test_done",
+        "is": false
+      }
+    ],
+    "options": [
+      {
+        "text": "TODO scene text 1",
+        "effects": [
+          {
+            "money": 50
+          },
+          {
+            "flag": "signal_test_done",
+            "set": true
+          }
+        ],
+        "tags": [
+          "help_civilians"
+        ]
+      },
+      {
+        "text": "TODO scene text 2",
+        "effects": [
+          {
+            "fuel": -0.5
+          },
+          {
+            "flag": "signal_test_done",
+            "set": true
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "event_pirate_test",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          },
+          {
+            "flag": "pirate_test_bribed",
+            "set": true
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_traffic_test",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text",
+        "effects": [],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_piracy_test",
+    "trigger": "encounter",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text — бой",
+        "effects": [
+          {
+            "start_combat": "pirate_light"
+          }
+        ],
+        "tags": [
+          "risk"
+        ]
+      },
+      {
+        "text": "Откупиться — 200 кр.",
+        "effects": [
+          {
+            "money": -200
+          }
+        ],
+        "tags": []
+      }
+    ]
+  },
+  {
+    "id": "event_planet_test",
+    "trigger": "approach",
+    "chance": 1,
+    "conditions": [],
+    "options": [
+      {
+        "text": "TODO scene text",
+        "effects": [],
+        "tags": []
+      }
+    ]
+  }
+]

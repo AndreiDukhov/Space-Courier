@@ -1,0 +1,3009 @@
+[
+  {
+    "id": "npc_earth_courier",
+    "system": "sys_earth",
+    "name": "TODO Courier 1",
+    "pos": [
+      1860,
+      1770
+    ],
+    "waypoints": [
+      [
+        2100,
+        1770
+      ],
+      [
+        2160,
+        1500
+      ],
+      [
+        1860,
+        1500
+      ],
+      [
+        1860,
+        1770
+      ]
+    ],
+    "speed": 35,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_transport",
+    "shop": "planet_market_test",
+    "system": "sys_earth",
+    "name": "TODO Transport 1",
+    "pos": [
+      630,
+      1200
+    ],
+    "waypoints": [
+      [
+        930,
+        1200
+      ],
+      [
+        930,
+        1470
+      ],
+      [
+        630,
+        1470
+      ],
+      [
+        630,
+        1200
+      ]
+    ],
+    "speed": 25,
+    "event": "event_transport_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_alpha_courier",
+    "system": "sys_alpha",
+    "name": "TODO Courier 2",
+    "pos": [
+      1950,
+      1680
+    ],
+    "waypoints": [
+      [
+        2340,
+        1680
+      ],
+      [
+        2340,
+        1380
+      ],
+      [
+        1950,
+        1380
+      ],
+      [
+        1950,
+        1680
+      ]
+    ],
+    "speed": 40,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_beta_courier",
+    "system": "sys_beta",
+    "name": "TODO Courier 3",
+    "pos": [
+      780,
+      1560
+    ],
+    "waypoints": [
+      [
+        1200,
+        1560
+      ],
+      [
+        1200,
+        1350
+      ],
+      [
+        780,
+        1350
+      ],
+      [
+        780,
+        1560
+      ]
+    ],
+    "speed": 30,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_colony_courier",
+    "system": "sys_colony_3",
+    "name": "TODO Courier 4",
+    "pos": [
+      2040,
+      1770
+    ],
+    "waypoints": [
+      [
+        2400,
+        1770
+      ],
+      [
+        2400,
+        1500
+      ],
+      [
+        2040,
+        1500
+      ],
+      [
+        2040,
+        1770
+      ]
+    ],
+    "speed": 35,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_delta_courier",
+    "system": "sys_delta",
+    "name": "TODO Courier 5",
+    "pos": [
+      720,
+      1530
+    ],
+    "waypoints": [
+      [
+        1140,
+        1530
+      ],
+      [
+        1140,
+        1290
+      ],
+      [
+        720,
+        1290
+      ],
+      [
+        720,
+        1530
+      ]
+    ],
+    "speed": 45,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_far_courier",
+    "system": "sys_far",
+    "name": "TODO Courier 6",
+    "pos": [
+      2100,
+      1590
+    ],
+    "waypoints": [
+      [
+        2430,
+        1590
+      ],
+      [
+        2430,
+        1320
+      ],
+      [
+        2100,
+        1320
+      ],
+      [
+        2100,
+        1590
+      ]
+    ],
+    "speed": 30,
+    "event": "event_courier_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_pirate",
+    "system": "sys_earth",
+    "name": "TODO pirate name",
+    "pos": [
+      2400,
+      720
+    ],
+    "waypoints": [
+      [
+        2400,
+        720
+      ],
+      [
+        2580,
+        720
+      ],
+      [
+        2580,
+        960
+      ],
+      [
+        2400,
+        960
+      ]
+    ],
+    "speed": 225,
+    "event": "event_pirate_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_earth_traffic_1",
+    "system": "sys_earth",
+    "name": "TODO Transport earth 1",
+    "pos": [
+      900,
+      660
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_traffic_2",
+    "system": "sys_earth",
+    "name": "TODO Transport earth 2",
+    "pos": [
+      1950,
+      1200
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_traffic_3",
+    "system": "sys_earth",
+    "name": "TODO Transport earth 3",
+    "pos": [
+      900,
+      660
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_traffic_4",
+    "system": "sys_earth",
+    "name": "TODO Transport earth 4",
+    "pos": [
+      1950,
+      1200
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_earth_patrol",
+    "system": "sys_earth",
+    "name": "Госполиция · TODO earth",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_alpha_traffic_1",
+    "system": "sys_alpha",
+    "name": "TODO Transport alpha 1",
+    "pos": [
+      1080,
+      840
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_alpha_traffic_2",
+    "system": "sys_alpha",
+    "name": "TODO Transport alpha 2",
+    "pos": [
+      2190,
+      1260
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_alpha_traffic_3",
+    "system": "sys_alpha",
+    "name": "TODO Transport alpha 3",
+    "pos": [
+      1080,
+      840
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_alpha_traffic_4",
+    "system": "sys_alpha",
+    "name": "TODO Transport alpha 4",
+    "pos": [
+      2190,
+      1260
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_alpha_patrol",
+    "system": "sys_alpha",
+    "name": "Госполиция · TODO alpha",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_alpha_pirate",
+    "system": "sys_alpha",
+    "name": "TODO Pirate alpha",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_beta_traffic_1",
+    "system": "sys_beta",
+    "name": "TODO Transport beta 1",
+    "pos": [
+      1860,
+      930
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_beta_traffic_2",
+    "system": "sys_beta",
+    "name": "TODO Transport beta 2",
+    "pos": [
+      780,
+      1320
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_beta_traffic_3",
+    "system": "sys_beta",
+    "name": "TODO Transport beta 3",
+    "pos": [
+      1860,
+      930
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_beta_traffic_4",
+    "system": "sys_beta",
+    "name": "TODO Transport beta 4",
+    "pos": [
+      780,
+      1320
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_beta_patrol",
+    "system": "sys_beta",
+    "name": "Госполиция · TODO beta",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_beta_pirate",
+    "system": "sys_beta",
+    "name": "TODO Pirate beta",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_colony_3_traffic_1",
+    "system": "sys_colony_3",
+    "name": "TODO Transport colony_3 1",
+    "pos": [
+      1230,
+      750
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_colony_3_traffic_2",
+    "system": "sys_colony_3",
+    "name": "TODO Transport colony_3 2",
+    "pos": [
+      2100,
+      1320
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_colony_3_traffic_3",
+    "system": "sys_colony_3",
+    "name": "TODO Transport colony_3 3",
+    "pos": [
+      1230,
+      750
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_colony_3_traffic_4",
+    "system": "sys_colony_3",
+    "name": "TODO Transport colony_3 4",
+    "pos": [
+      2100,
+      1320
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_colony_3_patrol",
+    "system": "sys_colony_3",
+    "name": "Госполиция · TODO colony_3",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_colony_3_pirate",
+    "system": "sys_colony_3",
+    "name": "TODO Pirate colony_3",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_delta_traffic_1",
+    "system": "sys_delta",
+    "name": "TODO Transport delta 1",
+    "pos": [
+      1830,
+      1350
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_delta_traffic_2",
+    "system": "sys_delta",
+    "name": "TODO Transport delta 2",
+    "pos": [
+      930,
+      840
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_delta_traffic_3",
+    "system": "sys_delta",
+    "name": "TODO Transport delta 3",
+    "pos": [
+      1830,
+      1350
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_delta_traffic_4",
+    "system": "sys_delta",
+    "name": "TODO Transport delta 4",
+    "pos": [
+      930,
+      840
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_delta_patrol",
+    "system": "sys_delta",
+    "name": "Госполиция · TODO delta",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_delta_pirate",
+    "system": "sys_delta",
+    "name": "TODO Pirate delta",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_far_traffic_1",
+    "system": "sys_far",
+    "name": "TODO Transport far 1",
+    "pos": [
+      1920,
+      930
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_far_traffic_2",
+    "system": "sys_far",
+    "name": "TODO Transport far 2",
+    "pos": [
+      900,
+      1500
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 64,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_far_traffic_3",
+    "system": "sys_far",
+    "name": "TODO Transport far 3",
+    "pos": [
+      1920,
+      930
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 68,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_far_traffic_4",
+    "system": "sys_far",
+    "name": "TODO Transport far 4",
+    "pos": [
+      900,
+      1500
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_far_patrol",
+    "system": "sys_far",
+    "name": "Госполиция · TODO far",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_far_pirate",
+    "system": "sys_far",
+    "name": "TODO Pirate far",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_gamma_traffic_1",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_traffic_2",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_traffic_3",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_traffic_4",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_traffic_5",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_traffic_6",
+    "system": "sys_gamma",
+    "name": "TODO Transport gamma 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_gamma_patrol",
+    "system": "sys_gamma",
+    "name": "Госполиция · TODO gamma",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_gamma_pirate",
+    "system": "sys_gamma",
+    "name": "TODO Pirate gamma",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_epsilon_traffic_1",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_traffic_2",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_traffic_3",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_traffic_4",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_traffic_5",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_traffic_6",
+    "system": "sys_epsilon",
+    "name": "TODO Transport epsilon 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_epsilon_patrol",
+    "system": "sys_epsilon",
+    "name": "Госполиция · TODO epsilon",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_epsilon_pirate",
+    "system": "sys_epsilon",
+    "name": "TODO Pirate epsilon",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_zeta_traffic_1",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_traffic_2",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_traffic_3",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_traffic_4",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_traffic_5",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_traffic_6",
+    "system": "sys_zeta",
+    "name": "TODO Transport zeta 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_zeta_patrol",
+    "system": "sys_zeta",
+    "name": "Госполиция · TODO zeta",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_zeta_pirate",
+    "system": "sys_zeta",
+    "name": "TODO Pirate zeta",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_orion_traffic_1",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_traffic_2",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_traffic_3",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_traffic_4",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_traffic_5",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_traffic_6",
+    "system": "sys_orion",
+    "name": "TODO Transport orion 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_orion_patrol",
+    "system": "sys_orion",
+    "name": "Госполиция · TODO orion",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_orion_pirate",
+    "system": "sys_orion",
+    "name": "TODO Pirate orion",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_vega_traffic_1",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_traffic_2",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_traffic_3",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_traffic_4",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_traffic_5",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_traffic_6",
+    "system": "sys_vega",
+    "name": "TODO Transport vega 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_vega_patrol",
+    "system": "sys_vega",
+    "name": "Госполиция · TODO vega",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_vega_pirate",
+    "system": "sys_vega",
+    "name": "TODO Pirate vega",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  },
+  {
+    "id": "npc_frontier_traffic_1",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 1",
+    "pos": [
+      630,
+      1770
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 60,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_traffic_2",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 2",
+    "pos": [
+      2280,
+      1860
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 63,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_traffic_3",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 3",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 66,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_traffic_4",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 4",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 69,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_traffic_5",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 5",
+    "pos": [
+      780,
+      780
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 72,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_traffic_6",
+    "system": "sys_frontier",
+    "name": "TODO Transport frontier 6",
+    "pos": [
+      2220,
+      1380
+    ],
+    "waypoints": [
+      [
+        540,
+        1950
+      ],
+      [
+        2460,
+        1950
+      ],
+      [
+        2460,
+        540
+      ],
+      [
+        540,
+        540
+      ]
+    ],
+    "speed": 75,
+    "event": "event_traffic_test",
+    "role": "civilian"
+  },
+  {
+    "id": "npc_frontier_patrol",
+    "system": "sys_frontier",
+    "name": "Госполиция · TODO frontier",
+    "pos": [
+      390,
+      360
+    ],
+    "waypoints": [
+      [
+        420,
+        360
+      ],
+      [
+        2450,
+        360
+      ],
+      [
+        2500,
+        1860
+      ],
+      [
+        450,
+        1860
+      ]
+    ],
+    "speed": 255,
+    "event": "event_traffic_test",
+    "role": "patrol",
+    "policing": {
+      "trigger_radius": 280,
+      "lose_radius": 480,
+      "engage_radius": 48,
+      "resolve_seconds": 2,
+      "pirate_loss_chance": 0.8,
+      "cooldown": 16,
+      "respawn_seconds": 95
+    }
+  },
+  {
+    "id": "npc_frontier_pirate",
+    "system": "sys_frontier",
+    "name": "TODO Pirate frontier",
+    "pos": [
+      2550,
+      1050
+    ],
+    "waypoints": [
+      [
+        2550,
+        1050
+      ],
+      [
+        2550,
+        1800
+      ],
+      [
+        2100,
+        1800
+      ],
+      [
+        2100,
+        1050
+      ]
+    ],
+    "speed": 225,
+    "event": "event_piracy_test",
+    "role": "pirate",
+    "piracy": {
+      "trigger_radius": 200,
+      "lose_radius": 330,
+      "robbery_seconds": 2.5,
+      "destroy_chance": 0.4,
+      "cooldown": 22
+    },
+    "pairing": {
+      "chance": 0.45,
+      "radius": 220,
+      "duration": 22,
+      "spacing": 42,
+      "cooldown": 35
+    }
+  }
+]

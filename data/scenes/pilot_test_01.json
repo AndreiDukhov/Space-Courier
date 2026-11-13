@@ -1,0 +1,32 @@
+{
+  "id": "pilot_test_01",
+  "type": "ship",
+  "tags": [],
+  "location": "hub_kitchen",
+  "conditions": [{ "flag": "pilot_test_01_seen", "is": false }, { "time": ["morning", "evening"] }],
+  "lines": [
+    { "who": "pilot", "face": "neutral", "text": "TODO scene text" },
+    { "who": "hero", "text": "TODO scene text" }
+  ],
+  "choices": [
+    {
+      "id": "raise_mood",
+      "text": "TODO choice text (+mood, +attitude)",
+      "effects": [
+        { "stat": "pilot.mood", "add": 15 },
+        { "stat": "pilot.attitude", "add": 8 },
+        { "stat": "pilot.arousal", "add": 80 }
+      ]
+    },
+    {
+      "id": "lower_mood",
+      "text": "TODO choice text (-mood, -attitude)",
+      "effects": [
+        { "stat": "pilot.mood", "add": -35 },
+        { "stat": "pilot.attitude", "add": -8 }
+      ]
+    }
+  ],
+  "on_end": [{ "flag": "pilot_test_01_seen", "set": true }, { "advance_time": 1 }],
+  "next": ["pilot_test_02", "pilot_test_03"]
+}

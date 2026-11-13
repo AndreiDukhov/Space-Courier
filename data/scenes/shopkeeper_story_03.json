@@ -1,0 +1,42 @@
+{
+  "id": "shopkeeper_story_03",
+  "type": "hub",
+  "tags": [],
+  "location": "hub_shop",
+  "conditions": [
+    {
+      "flag": "shopkeeper_story_03_unlocked",
+      "is": true
+    },
+    {
+      "flag": "shopkeeper_story_03_seen",
+      "is": false
+    }
+  ],
+  "lines": [
+    {
+      "who": "shopkeeper",
+      "face": "neutral",
+      "text": "TODO scene text"
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "TODO choice text",
+      "effects": [
+        {
+          "flag": "privacy_test_enabled",
+          "set": true
+        }
+      ]
+    }
+  ],
+  "on_end": [
+    {
+      "flag": "shopkeeper_story_03_seen",
+      "set": true
+    }
+  ],
+  "next": []
+}

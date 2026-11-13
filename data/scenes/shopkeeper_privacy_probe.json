@@ -1,0 +1,14 @@
+{
+  "id": "shopkeeper_privacy_probe",
+  "type": "hub",
+  "tags": ["test"],
+  "location": "hub_shop",
+  "conditions": [{"flag": "privacy_test_enabled", "is": true}, {"flag": "slice_delivery_done", "is": false}],
+  "lines": [{"who": "shopkeeper", "text": "TODO scene text"}],
+  "choices": [
+    {"id": "prepare", "text": "TODO choice text (+80 отношения)", "effects": [{"stat": "shopkeeper.attitude", "add": 80}]},
+    {"id": "witness", "text": "TODO choice text (+100 подозрения)", "effects": [{"stat": "shopkeeper.suspicion", "add": 100}]}
+  ],
+  "on_end": [],
+  "next": []
+}

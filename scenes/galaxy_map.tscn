@@ -1,0 +1,166 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/galaxy_chart.gd" id="2"]
+
+[node name="GalaxyMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.02, 0.035, 0.06, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+
+[node name="Resources" type="Label" parent="Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+
+[node name="Close" type="Button" parent="Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="ChartColumn" type="VBoxContainer" parent="Margin/Column/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Current" type="Label" parent="Margin/Column/Body/ChartColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.95, 0.85, 1)
+
+[node name="MapSurface" type="Control" parent="Margin/Column/Body/ChartColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 230)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ChartScroll" type="ScrollContainer" parent="Margin/Column/Body/ChartColumn/MapSurface"]
+custom_minimum_size = Vector2(250, 230)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="Chart" type="Control" parent="Margin/Column/Body/ChartColumn/MapSurface/ChartScroll"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(680, 420)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+clip_contents = true
+script = ExtResource("2")
+
+[node name="Legend" type="Label" parent="Margin/Column/Body/ChartColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+
+[node name="SidebarScroll" type="ScrollContainer" parent="Margin/Column/Body"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Sidebar" type="VBoxContainer" parent="Margin/Column/Body/SidebarScroll"]
+custom_minimum_size = Vector2(302, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Plan" type="Label" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 17
+
+[node name="Warning" type="Label" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+theme_override_colors/font_color = Color(1, 0.7, 0.3, 1)
+
+[node name="Boost" type="CheckButton" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Jump" type="Button" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+
+[node name="Refuel" type="Button" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+
+[node name="Tow" type="Button" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Separator" type="HSeparator" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+layout_mode = 2
+
+[node name="Routes" type="VBoxContainer" parent="Margin/Column/Body/SidebarScroll/Sidebar"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SaveRow" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Save" type="Button" parent="Margin/Column/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Load" type="Button" parent="Margin/Column/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Notice" type="Label" parent="Margin/Column/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3

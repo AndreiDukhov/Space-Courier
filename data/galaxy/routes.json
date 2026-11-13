@@ -1,0 +1,418 @@
+[
+  {
+    "id": "r_earth_alpha",
+    "from": "sys_earth",
+    "to": "sys_alpha",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 6,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.1,
+    "known": false,
+    "public": true,
+    "map_value": 50
+  },
+  {
+    "id": "r_alpha_earth",
+    "from": "sys_alpha",
+    "to": "sys_earth",
+    "directed": true,
+    "fuel": {
+      "min": 4,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.1,
+    "known": false,
+    "public": false,
+    "map_value": 60
+  },
+  {
+    "id": "r_earth_beta",
+    "from": "sys_earth",
+    "to": "sys_beta",
+    "directed": true,
+    "fuel": {
+      "min": 4,
+      "max": 8,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 70
+  },
+  {
+    "id": "r_beta_earth",
+    "from": "sys_beta",
+    "to": "sys_earth",
+    "directed": true,
+    "fuel": {
+      "min": 7,
+      "max": 10,
+      "true": 8
+    },
+    "days": 2,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_alpha_colony",
+    "from": "sys_alpha",
+    "to": "sys_colony_3",
+    "directed": true,
+    "fuel": {
+      "min": 4,
+      "max": 9,
+      "true": 7
+    },
+    "days": 1,
+    "hazard": 0.3,
+    "known": false,
+    "public": false,
+    "map_value": 100
+  },
+  {
+    "id": "r_colony_alpha",
+    "from": "sys_colony_3",
+    "to": "sys_alpha",
+    "directed": true,
+    "fuel": {
+      "min": 6,
+      "max": 10,
+      "true": 8
+    },
+    "days": 1,
+    "hazard": 0.3,
+    "known": false,
+    "public": false,
+    "map_value": 100
+  },
+  {
+    "id": "r_beta_delta",
+    "from": "sys_beta",
+    "to": "sys_delta",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_delta_colony",
+    "from": "sys_delta",
+    "to": "sys_colony_3",
+    "directed": true,
+    "fuel": {
+      "min": 4,
+      "max": 8,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 90
+  },
+  {
+    "id": "r_alpha_far",
+    "from": "sys_alpha",
+    "to": "sys_far",
+    "directed": true,
+    "fuel": {
+      "min": 5,
+      "max": 14,
+      "true": 9
+    },
+    "days": 3,
+    "hazard": 0.5,
+    "known": false,
+    "public": false,
+    "map_value": 120
+  },
+  {
+    "id": "r_far_colony",
+    "from": "sys_far",
+    "to": "sys_colony_3",
+    "directed": true,
+    "fuel": {
+      "min": 10,
+      "max": 18,
+      "true": 15
+    },
+    "days": 4,
+    "hazard": 0.6,
+    "known": false,
+    "public": false,
+    "map_value": 160
+  },
+  {
+    "id": "r_delta_gamma",
+    "from": "sys_delta",
+    "to": "sys_gamma",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_gamma_delta",
+    "from": "sys_gamma",
+    "to": "sys_delta",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_colony_3_epsilon",
+    "from": "sys_colony_3",
+    "to": "sys_epsilon",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_epsilon_colony_3",
+    "from": "sys_epsilon",
+    "to": "sys_colony_3",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_far_zeta",
+    "from": "sys_far",
+    "to": "sys_zeta",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_zeta_far",
+    "from": "sys_zeta",
+    "to": "sys_far",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_gamma_orion",
+    "from": "sys_gamma",
+    "to": "sys_orion",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_orion_gamma",
+    "from": "sys_orion",
+    "to": "sys_gamma",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_epsilon_vega",
+    "from": "sys_epsilon",
+    "to": "sys_vega",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_vega_epsilon",
+    "from": "sys_vega",
+    "to": "sys_epsilon",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_vega_frontier",
+    "from": "sys_vega",
+    "to": "sys_frontier",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_frontier_vega",
+    "from": "sys_frontier",
+    "to": "sys_vega",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_frontier_zeta",
+    "from": "sys_frontier",
+    "to": "sys_zeta",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_zeta_frontier",
+    "from": "sys_zeta",
+    "to": "sys_frontier",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 6
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_orion_far",
+    "from": "sys_orion",
+    "to": "sys_far",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 4
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  },
+  {
+    "id": "r_far_orion",
+    "from": "sys_far",
+    "to": "sys_orion",
+    "directed": true,
+    "fuel": {
+      "min": 3,
+      "max": 7,
+      "true": 5
+    },
+    "days": 1,
+    "hazard": 0.2,
+    "known": false,
+    "public": false,
+    "map_value": 80
+  }
+]

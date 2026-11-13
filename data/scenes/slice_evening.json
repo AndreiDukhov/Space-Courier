@@ -1,0 +1,11 @@
+{
+  "id": "slice_evening",
+  "type": "hub",
+  "tags": ["test"],
+  "location": "hub_shop",
+  "conditions": [{"flag": "slice_delivery_done", "is": true}, {"flag": "slice_finished", "is": false}, {"time": ["evening"]}],
+  "lines": [{"who": "shopkeeper", "text": "TODO scene text"}, {"who": "hero", "text": "TODO scene text"}],
+  "choices": [{"id": "finish", "text": "TODO choice text", "effects": [{"stat": "shopkeeper.mood", "add": 8}, {"stat": "shopkeeper.attitude", "add": 3}]}],
+  "on_end": [{"flag": "slice_finished", "set": true}, {"advance_time": 1}],
+  "next": []
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "evasive_maneuver",
+    "owner": "pilot",
+    "name": "Манёвр уклонения",
+    "cost_ap": 2,
+    "cooldown": 3,
+    "effect": {
+      "self_evasion": 0.4,
+      "duration": 2
+    },
+    "mood_scale": {
+      "stat": "pilot.mood",
+      "min": 0.75,
+      "max": 1.25
+    }
+  },
+  {
+    "id": "emergency_burn",
+    "owner": "pilot",
+    "name": "Рывок",
+    "cost_ap": "all",
+    "cooldown": 3,
+    "effect": {
+      "move_points": 3,
+      "fuel": 1
+    },
+    "mood_scale": {
+      "stat": "pilot.mood",
+      "min": 0.75,
+      "max": 1.25
+    }
+  },
+  {
+    "id": "shield_reboot",
+    "owner": "pilot",
+    "name": "Перезагрузка щитов",
+    "cost_ap": "half",
+    "cooldown": 3,
+    "effect": {
+      "shield_restore": 10,
+      "delay": 1
+    },
+    "mood_scale": {
+      "stat": "pilot.mood",
+      "min": 1,
+      "max": 1
+    }
+  }
+]

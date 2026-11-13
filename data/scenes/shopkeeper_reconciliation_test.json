@@ -1,0 +1,11 @@
+{
+  "id": "shopkeeper_reconciliation_test",
+  "type": "hub",
+  "tags": ["reconciliation", "test"],
+  "location": "hub_shop",
+  "conditions": [{"contact_block": "shopkeeper", "is": true}, {"flag": "shopkeeper_disclosure_seen", "is": true}],
+  "lines": [{"who": "shopkeeper", "text": "TODO scene text"}],
+  "choices": [{"id": "reconcile", "text": "TODO choice text (примирение)", "effects": [{"stat": "shopkeeper.suspicion", "add": -100}, {"contact_block": "shopkeeper", "set": false}]}],
+  "on_end": [{"flag": "shopkeeper_reconciled", "set": true}, {"advance_time": 1}],
+  "next": []
+}

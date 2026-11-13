@@ -1,0 +1,28 @@
+{
+  "id": "pilot_test_02",
+  "type": "ship",
+  "tags": [],
+  "location": "hub_kitchen",
+  "conditions": [
+    { "flag": "pilot_test_01_seen", "is": true },
+    { "stat": "pilot.attitude", "op": ">=", "value": 30 },
+    { "stat": "pilot.mood", "op": ">=", "value": 50 },
+    { "others_absent": ["medic"] },
+    { "flag": "pilot_test_02_seen", "is": false }
+  ],
+  "lines": [{ "who": "pilot", "face": "happy", "text": "TODO scene text" }],
+  "choices": [
+    {
+      "id": "increase",
+      "text": "TODO choice text (+attitude, +mood)",
+      "effects": [{ "stat": "pilot.attitude", "add": 4 }, { "stat": "pilot.mood", "add": 5 }]
+    },
+    {
+      "id": "decrease",
+      "text": "TODO choice text (-attitude, -mood)",
+      "effects": [{ "stat": "pilot.attitude", "add": -4 }, { "stat": "pilot.mood", "add": -5 }]
+    }
+  ],
+  "on_end": [{ "flag": "pilot_test_02_seen", "set": true }, { "advance_time": 1 }],
+  "next": ["pilot_test_03"]
+}

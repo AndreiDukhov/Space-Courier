@@ -1,0 +1,14 @@
+[
+  {"id": "ui_journal_open", "text": "Задание"},
+  {"id": "ui_journal_title", "text": "Журнал заданий"},
+  {"id": "ui_journal_empty", "text": "Принятых заданий пока нет."},
+  {"id": "ui_journal_description", "text": "TODO scene text"},
+  {"id": "ui_journal_deadline", "text": "Осталось {days} дн. · до дня {day} включительно"},
+  {"id": "ui_journal_giver", "text": "Заказчица: {name}"},
+  {"id": "ui_journal_active", "text": "Выполняется"},
+  {"id": "ui_journal_completed", "text": "Выполнено"},
+  {"id": "ui_journal_failed", "text": "Провалено"},
+  {"id": "ui_journal_closed_deadline", "text": "Срок сдачи — до дня {day} включительно"},
+  {"id": "ui_journal_handover", "text": "Подлетите к планете назначения и нажмите «Сдать заказ» над ней."},
+  {"id": "ui_journal_reward", "text": "Награда по заказу — {amount} кредитов"}
+]

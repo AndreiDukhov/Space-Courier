@@ -1,0 +1,112 @@
+[
+  {
+    "id": "ui_refit_title",
+    "text": "Модификация корабля"
+  },
+  {
+    "id": "ui_refit_open",
+    "text": "Модифицировать корабль"
+  },
+  {
+    "id": "ui_refit_close",
+    "text": "Готово"
+  },
+  {
+    "id": "ui_refit_help",
+    "text": "Перетащи модуль из каталога в подходящую ячейку на схеме. Тестовая установка бесплатна."
+  },
+  {
+    "id": "ui_refit_catalog",
+    "text": "Доступные модули"
+  },
+  {
+    "id": "ui_refit_empty",
+    "text": "Свободная ячейка"
+  },
+  {
+    "id": "ui_refit_current",
+    "text": "Установлен"
+  },
+  {
+    "id": "ui_refit_failed",
+    "text": "Установка недоступна. Проверь условия модуля и состояние корпуса."
+  },
+  {
+    "id": "ui_refit_installed",
+    "text": "Установлен модуль «{name}»"
+  },
+  {
+    "id": "ui_refit_condition",
+    "text": "Корпус {current}/{max} · Щиты {shield} · ОП {move}"
+  },
+  {
+    "id": "ui_refit_weapon_detail",
+    "text": "Урон {min}–{max} · Дальность {range} · ОД {ap}"
+  },
+  {
+    "id": "ui_refit_speed",
+    "text": "Скорость"
+  },
+  {
+    "id": "ui_refit_maneuver",
+    "text": "Маневренность"
+  },
+  {
+    "id": "ui_refit_broadside",
+    "text": "Бортовое"
+  },
+  {
+    "id": "ui_refit_course",
+    "text": "Курсовое"
+  },
+  {
+    "id": "ui_refit_turret",
+    "text": "Башенное"
+  },
+  {
+    "id": "ui_refit_slot_engine",
+    "text": "Двигатель"
+  },
+  {
+    "id": "ui_refit_slot_maneuver_engine",
+    "text": "Маневровый двигатель"
+  },
+  {
+    "id": "ui_refit_slot_turret",
+    "text": "Башенное орудие"
+  },
+  {
+    "id": "ui_refit_slot_course",
+    "text": "Курсовое орудие"
+  },
+  {
+    "id": "ui_refit_slot_armor",
+    "text": "Броня корпуса"
+  },
+  {
+    "id": "ui_refit_slot_shield",
+    "text": "Генератор щитов"
+  },
+  {
+    "id": "ui_refit_slot_broadside",
+    "text": "Бортовые орудия · оба борта"
+  },
+  {
+    "id": "hub_ship_hotspot",
+    "location": "hub_tech",
+    "zones": {
+      "ship": {
+        "drop_rect": [
+          0.32,
+          0.02,
+          0.67,
+          0.34
+        ]
+      }
+    }
+  },
+  {
+    "id": "ui_refit_level",
+    "text": "Уровень {level}"
+  }
+]

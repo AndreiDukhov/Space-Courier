@@ -1,0 +1,11 @@
+{
+  "id": "shopkeeper_disclosure_test",
+  "type": "hub",
+  "tags": ["disclosure", "test"],
+  "location": "hub_shop",
+  "conditions": [{"contact_block": "shopkeeper", "is": true}],
+  "lines": [{"who": "shopkeeper", "text": "TODO scene text"}],
+  "choices": [{"id": "acknowledge", "text": "TODO choice text", "effects": []}],
+  "on_end": [{"flag": "shopkeeper_disclosure_seen", "set": true}],
+  "next": ["shopkeeper_reconciliation_test"]
+}

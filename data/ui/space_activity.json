@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ui_space_enter",
+    "text": "Войти"
+  },
+  {
+    "id": "ui_space_trade",
+    "text": "Торговля"
+  },
+  {
+    "id": "ui_space_dialogue",
+    "text": "Диалог"
+  },
+  {
+    "id": "ui_space_wallet",
+    "text": "На счету: {money} кр."
+  },
+  {
+    "id": "ui_space_unavailable",
+    "text": "Подлетите к заселённой планете."
+  },
+  {
+    "id": "ui_space_fuel",
+    "text": "Топливо {current}/{max} · {price} кр. за единицу"
+  },
+  {
+    "id": "ui_space_fuel_one",
+    "text": "Купить до 1 ед. топлива — {price} кр."
+  },
+  {
+    "id": "ui_space_fuel_full",
+    "text": "Заполнить бак — {price} кр."
+  },
+  {
+    "id": "ui_space_buy",
+    "text": "Купить: {name} — {price} кр."
+  },
+  {
+    "id": "ui_space_sell",
+    "text": "Продать: {name}"
+  },
+  {
+    "id": "ui_space_quests",
+    "text": "Сдача заданий"
+  },
+  {
+    "id": "ui_space_no_quests",
+    "text": "Нет активных доставок на эту планету."
+  },
+  {
+    "id": "ui_space_star_zone",
+    "text": "ОПАСНО: излучение звезды"
+  },
+  {
+    "id": "ui_space_star_damage",
+    "text": "ПЕРЕГРЕВ: корпус получает урон! Покиньте красную зону."
+  },
+  {
+    "id": "ui_space_chasing",
+    "text": "Преследование"
+  },
+  {
+    "id": "ui_space_hull",
+    "text": " · Корпус {hull}"
+  },
+  {
+    "id": "ui_space_pursuit_warning",
+    "text": "Пират преследует ваш корабль!"
+  },
+  {
+    "id": "ui_space_autopilot",
+    "text": "Автополёт: {name} · ЛКМ отменяет маршрут"
+  },
+  {
+    "id": "ui_space_paid",
+    "text": "{name}: корабль откупился и продолжает полёт."
+  },
+  {
+    "id": "ui_space_destroyed",
+    "text": "{name}: корабль уничтожен."
+  },
+  {
+    "id": "ui_space_delivery_hint",
+    "text": "Для сдачи подлетите к планете и нажмите «Диалог» над ней."
+  },
+  {
+    "id": "ui_space_close",
+    "text": "Закрыть"
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "ui_flight_launch",
+    "text": "Вылет в систему"
+  },
+  {
+    "id": "ui_flight_back",
+    "text": "Вернуться к полёту"
+  },
+  {
+    "id": "ui_flight_title",
+    "text": "Полёт: {name}"
+  },
+  {
+    "id": "ui_flight_help",
+    "text": "ЛКМ — курс · Зажать ЛКМ — за курсором · Близкий корабль — действия · Пробел — пауза · M — карта"
+  },
+  {
+    "id": "ui_flight_resources",
+    "text": "День {day} · Топливо {fuel}/{max} · Корпус {hull}\n{money} кредитов"
+  },
+  {
+    "id": "ui_flight_unknown_gate",
+    "text": "Неизвестная червоточина {number}"
+  },
+  {
+    "id": "ui_flight_known_gate",
+    "text": "Червоточина → {name}"
+  },
+  {
+    "id": "ui_flight_gate_hint",
+    "text": "Назначение неизвестно. Узнать его можно, пройдя через эту червоточину."
+  },
+  {
+    "id": "ui_flight_jump",
+    "text": "Войти в червоточину"
+  },
+  {
+    "id": "ui_flight_pause",
+    "text": "Пауза"
+  },
+  {
+    "id": "ui_flight_resume",
+    "text": "Продолжить полёт"
+  },
+  {
+    "id": "ui_flight_paused",
+    "text": "ПОЛЁТ ПРИОСТАНОВЛЕН"
+  },
+  {
+    "id": "ui_flight_marker",
+    "text": "TODO событие"
+  },
+  {
+    "id": "ui_encounter_title",
+    "text": "Встреча"
+  },
+  {
+    "id": "ui_encounter_body",
+    "text": "TODO scene text"
+  },
+  {
+    "id": "ui_npc_contact",
+    "text": "Связаться"
+  },
+  {
+    "id": "ui_npc_approach_hint",
+    "text": "Подлетите ближе для общения и торговли."
+  },
+  {
+    "id": "ui_npc_header",
+    "text": "Корабли в системе"
+  },
+  {
+    "id": "ui_flight_gate_range",
+    "text": "Топливо: {min}–{max} · {days} дн."
+  },
+  {
+    "id": "ui_flight_gate_exact",
+    "text": "Топливо: {fuel} · {days} дн."
+  },
+  {
+    "id": "ui_flight_dock",
+    "text": "Вернуться в здание хаба"
+  },
+  {
+    "id": "ui_flight_approach",
+    "text": "Подлететь"
+  },
+  {
+    "id": "ui_flight_map_info",
+    "text": "Нажмите известную систему для автополёта через изученные червоточины. Неизвестные переходы исследуются вручную. Встреча и опасность прерывают маршрут."
+  },
+  {
+    "id": "ui_enemy_ship_summary",
+    "text": "{name}\nКорпус: {hull} · Щит: {shield} · Движение: {movement}\n{description}"
+  },
+  {
+    "id": "ui_enemy_equipped",
+    "text": "Установленное вооружение:"
+  },
+  {
+    "id": "ui_enemy_possible",
+    "text": "Возможное вооружение:"
+  },
+  {
+    "id": "ui_enemy_weapon_summary",
+    "text": "{name}\nУрон {min}–{max} · Дальность {range} · {ap} ОД · Сектор {arc}°"
+  },
+  {
+    "id": "ui_enemy_one_shot",
+    "text": "Каждое орудие стреляет один раз за ход. Бортовые орудия поражают цели с двух флангов; курсовые — по линии носа."
+  },
+  {
+    "id": "ui_space_pair",
+    "text": "В паре"
+  }
+]

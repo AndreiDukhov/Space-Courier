@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <defs>
+    <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#3c5261"/><stop offset=".45" stop-color="#152a38"/><stop offset="1" stop-color="#233847"/></linearGradient>
+    <linearGradient id="stand" x2="0" y2="1"><stop stop-color="#415664"/><stop offset="1" stop-color="#152731"/></linearGradient>
+  </defs>
+  <path d="M48 18H1232L1260 46V672L1226 712H54L20 672V46Z" fill="#071018" stroke="#546b79" stroke-width="4"/>
+  <path d="M57 28H1223L1248 52V666L1217 699H63L32 666V52Z" fill="url(#metal)" stroke="#29414f" stroke-width="2"/>
+  <rect x="57" y="48" width="1166" height="608" rx="16" fill="#050d15" stroke="#6b8994" stroke-width="3"/>
+  <rect x="70" y="60" width="1140" height="584" rx="7" fill="#07131f" stroke="#49b9bd" stroke-width="2"/>
+  <g fill="none" stroke="#65e1d5" stroke-width="4" stroke-linecap="round">
+    <path d="M77 38H157M1123 38H1180M45 80V166M1235 80V166M45 556V642M1235 556V642"/>
+  </g>
+  <g fill="#081821" stroke="#476170" stroke-width="1.5">
+    <rect x="78" y="675" width="94" height="8" rx="3"/><rect x="184" y="675" width="94" height="8" rx="3"/>
+    <rect x="290" y="675" width="94" height="8" rx="3"/><rect x="884" y="675" width="94" height="8" rx="3"/>
+    <rect x="990" y="675" width="94" height="8" rx="3"/><rect x="1096" y="675" width="94" height="8" rx="3"/>
+  </g>
+  <path d="M568 711H712L731 759H549Z" fill="url(#stand)" stroke="#4a6572" stroke-width="2"/>
+  <path d="M467 759H813L850 786H430Z" fill="url(#stand)" stroke="#4a6572" stroke-width="2"/>
+  <g fill="#0d1c25" stroke="#70818a" stroke-width="2"><circle cx="48" cy="47" r="5"/><circle cx="1232" cy="47" r="5"/><circle cx="50" cy="674" r="5"/><circle cx="1230" cy="674" r="5"/></g>
+  <circle cx="640" cy="679" r="18" fill="#0a1b23" stroke="#40888b" stroke-width="2"/><path d="M610 679H589M670 679H691" stroke="#2f7780" stroke-width="3"/>
+</svg>

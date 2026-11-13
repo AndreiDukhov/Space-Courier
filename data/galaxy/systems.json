@@ -1,0 +1,1190 @@
+[
+  {
+    "id": "sys_earth",
+    "background": "res://art/backgrounds/space_blue.png",
+    "name": "TODO Солнечная",
+    "map_pos": [
+      120,
+      320
+    ],
+    "danger": 0,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 20,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "earth_1",
+        "name": "TODO Земля",
+        "pos": [
+          900,
+          660
+        ],
+        "color": "#3A83D4",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "earth_2",
+        "name": "TODO Солнечная-2",
+        "pos": [
+          1950,
+          1200
+        ],
+        "color": "#C77041",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "earth_3",
+        "name": "TODO Солнечная-3",
+        "pos": [
+          2160,
+          1920
+        ],
+        "color": "#74A78A",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_earth",
+        "name": "TODO Звезда: Солнечная",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFD36B",
+        "radius": 3.0,
+        "hazard": {
+          "radius": 90,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_earth_alpha",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_earth_beta",
+        "pos": [
+          2790,
+          1860
+        ]
+      },
+      {
+        "type": "event_marker",
+        "event": "event_signal_test",
+        "pos": [
+          780,
+          1650
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_alpha",
+    "background": "res://art/backgrounds/space_violet.png",
+    "name": "TODO Альфа",
+    "map_pos": [
+      370,
+      100
+    ],
+    "danger": 1,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 30,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "alpha_1",
+        "name": "TODO Альфа-1",
+        "pos": [
+          1080,
+          840
+        ],
+        "color": "#AB7AC8",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "alpha_2",
+        "name": "TODO Альфа-2",
+        "pos": [
+          2190,
+          1260
+        ],
+        "color": "#507BB0",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "alpha_3",
+        "name": "TODO Альфа-3",
+        "pos": [
+          870,
+          1890
+        ],
+        "color": "#B59365",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_alpha",
+        "name": "TODO Звезда: Альфа",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#C8E8FF",
+        "radius": 3.5,
+        "hazard": {
+          "radius": 100,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_alpha_earth",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_alpha_colony",
+        "pos": [
+          2790,
+          1860
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_alpha_far",
+        "pos": [
+          210,
+          390
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_beta",
+    "background": "res://art/backgrounds/space_amber.png",
+    "name": "TODO Бета",
+    "map_pos": [
+      370,
+      550
+    ],
+    "danger": 1,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 28,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "beta_1",
+        "name": "TODO Бета-1",
+        "pos": [
+          1860,
+          930
+        ],
+        "color": "#C9954D",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "beta_2",
+        "name": "TODO Бета-2",
+        "pos": [
+          780,
+          1320
+        ],
+        "color": "#537C95",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "beta_3",
+        "name": "TODO Бета-3",
+        "pos": [
+          2040,
+          1920
+        ],
+        "color": "#827CAB",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_beta",
+        "name": "TODO Звезда: Бета",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FF795C",
+        "radius": 2.5,
+        "hazard": {
+          "radius": 80,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_beta_earth",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_beta_delta",
+        "pos": [
+          2790,
+          1860
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_colony_3",
+    "background": "res://art/backgrounds/space_blue.png",
+    "name": "TODO Колония-3",
+    "map_pos": [
+      620,
+      320
+    ],
+    "danger": 2,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 40,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "colony_3_1",
+        "name": "TODO Планета-3",
+        "pos": [
+          1230,
+          750
+        ],
+        "color": "#60A28B",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "colony_3_2",
+        "name": "TODO Планета-4",
+        "pos": [
+          2100,
+          1320
+        ],
+        "color": "#A96752",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "colony_3_3",
+        "name": "TODO Колония-3-3",
+        "pos": [
+          570,
+          1560
+        ],
+        "color": "#788DAE",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_colony_3",
+        "name": "TODO Звезда: Колония-3",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFF1B0",
+        "radius": 3.2,
+        "hazard": {
+          "radius": 94,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_colony_alpha",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_colony_3_epsilon",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_delta",
+    "background": "res://art/backgrounds/space_violet.png",
+    "name": "TODO Дельта",
+    "map_pos": [
+      620,
+      550
+    ],
+    "danger": 2,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 35,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "delta_1",
+        "name": "TODO Дельта-1",
+        "pos": [
+          1830,
+          1350
+        ],
+        "color": "#8071B7",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "delta_2",
+        "name": "TODO Дельта-2",
+        "pos": [
+          930,
+          840
+        ],
+        "color": "#BD8A65",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "delta_3",
+        "name": "TODO Дельта-3",
+        "pos": [
+          2430,
+          870
+        ],
+        "color": "#5B9DAC",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_delta",
+        "name": "TODO Звезда: Дельта",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#9CBCFF",
+        "radius": 2.8,
+        "hazard": {
+          "radius": 86,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_delta_colony",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_delta_gamma",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_far",
+    "background": "res://art/backgrounds/space_amber.png",
+    "name": "TODO Дальний край",
+    "map_pos": [
+      120,
+      100
+    ],
+    "danger": 3,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 50,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "objects": [
+      {
+        "type": "planet",
+        "id": "far_1",
+        "name": "TODO Дальний край-1",
+        "pos": [
+          1920,
+          930
+        ],
+        "color": "#B3A290",
+        "radius": 1.5,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "far_2",
+        "name": "TODO Дальний край-2",
+        "pos": [
+          900,
+          1500
+        ],
+        "color": "#8975B1",
+        "radius": 1.1,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "far_3",
+        "name": "TODO Дальний край-3",
+        "pos": [
+          990,
+          330
+        ],
+        "color": "#5B8DA1",
+        "radius": 1.8,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_far",
+        "name": "TODO Звезда: Дальний край",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFB066",
+        "radius": 4.0,
+        "hazard": {
+          "radius": 110,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_far_colony",
+        "pos": [
+          2790,
+          450
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_far_zeta",
+        "pos": [
+          210,
+          1050
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_far_orion",
+        "pos": [
+          2790,
+          1140
+        ]
+      }
+    ],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    }
+  },
+  {
+    "id": "sys_gamma",
+    "background": "res://art/backgrounds/space_blue.png",
+    "name": "TODO Гамма",
+    "map_pos": [
+      870,
+      550
+    ],
+    "danger": 1,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 25,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "gamma_1",
+        "name": "TODO Гамма-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "gamma_2",
+        "name": "TODO Гамма-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "gamma_3",
+        "name": "TODO Гамма-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_gamma",
+        "name": "TODO Звезда: Гамма",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFB67A",
+        "radius": 2.6,
+        "hazard": {
+          "radius": 90,
+          "damage_per_second": 7
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_gamma_delta",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_gamma_orion",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sys_epsilon",
+    "background": "res://art/backgrounds/space_violet.png",
+    "name": "TODO Эпсилон",
+    "map_pos": [
+      870,
+      320
+    ],
+    "danger": 2,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 28,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "epsilon_1",
+        "name": "TODO Эпсилон-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "epsilon_2",
+        "name": "TODO Эпсилон-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "epsilon_3",
+        "name": "TODO Эпсилон-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_epsilon",
+        "name": "TODO Звезда: Эпсилон",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#BFE9FF",
+        "radius": 2.75,
+        "hazard": {
+          "radius": 93,
+          "damage_per_second": 8
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_epsilon_colony_3",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_epsilon_vega",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sys_zeta",
+    "background": "res://art/backgrounds/space_amber.png",
+    "name": "TODO Дзета",
+    "map_pos": [
+      120,
+      550
+    ],
+    "danger": 3,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 31,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "zeta_1",
+        "name": "TODO Дзета-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "zeta_2",
+        "name": "TODO Дзета-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "zeta_3",
+        "name": "TODO Дзета-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_zeta",
+        "name": "TODO Звезда: Дзета",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FF765D",
+        "radius": 2.9,
+        "hazard": {
+          "radius": 96,
+          "damage_per_second": 9
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_zeta_far",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_zeta_frontier",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sys_orion",
+    "background": "res://art/backgrounds/space_blue.png",
+    "name": "TODO Орион",
+    "map_pos": [
+      870,
+      100
+    ],
+    "danger": 1,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 34,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "orion_1",
+        "name": "TODO Орион-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "orion_2",
+        "name": "TODO Орион-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "orion_3",
+        "name": "TODO Орион-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_orion",
+        "name": "TODO Звезда: Орион",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFF1AE",
+        "radius": 3.05,
+        "hazard": {
+          "radius": 99,
+          "damage_per_second": 10
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_orion_gamma",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_orion_far",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sys_vega",
+    "background": "res://art/backgrounds/space_violet.png",
+    "name": "TODO Вега",
+    "map_pos": [
+      620,
+      100
+    ],
+    "danger": 2,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 37,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "vega_1",
+        "name": "TODO Вега-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "vega_2",
+        "name": "TODO Вега-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "vega_3",
+        "name": "TODO Вега-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_vega",
+        "name": "TODO Звезда: Вега",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#B1CFFF",
+        "radius": 3.2,
+        "hazard": {
+          "radius": 102,
+          "damage_per_second": 11
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_vega_epsilon",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_vega_frontier",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sys_frontier",
+    "background": "res://art/backgrounds/space_amber.png",
+    "name": "TODO Рубеж",
+    "map_pos": [
+      370,
+      320
+    ],
+    "danger": 3,
+    "refuel": {
+      "available": true,
+      "price_per_unit": 40,
+      "crime_discount_rep": "mafia"
+    },
+    "event_pool": [],
+    "traffic": {
+      "min_active": 2,
+      "max_active": 5,
+      "spawn_delay": [
+        12,
+        32
+      ]
+    },
+    "objects": [
+      {
+        "type": "planet",
+        "id": "frontier_1",
+        "name": "TODO Рубеж-1",
+        "pos": [
+          780,
+          780
+        ],
+        "color": "#608AB4",
+        "radius": 1.4,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "frontier_2",
+        "name": "TODO Рубеж-2",
+        "pos": [
+          2220,
+          1380
+        ],
+        "color": "#AE7862",
+        "radius": 1.8,
+        "inhabited": true,
+        "shop": "planet_market_test",
+        "dialogue": "event_planet_test"
+      },
+      {
+        "type": "planet",
+        "id": "frontier_3",
+        "name": "TODO Рубеж-3",
+        "pos": [
+          840,
+          1950
+        ],
+        "color": "#8A9D72",
+        "radius": 1.1,
+        "inhabited": false
+      },
+      {
+        "type": "star",
+        "id": "star_frontier",
+        "name": "TODO Звезда: Рубеж",
+        "pos": [
+          1500,
+          1140
+        ],
+        "color": "#FFCFA0",
+        "radius": 3.35,
+        "hazard": {
+          "radius": 105,
+          "damage_per_second": 12
+        }
+      },
+      {
+        "type": "gate",
+        "to_route": "r_frontier_vega",
+        "pos": [
+          210,
+          1950
+        ]
+      },
+      {
+        "type": "gate",
+        "to_route": "r_frontier_zeta",
+        "pos": [
+          210,
+          1050
+        ]
+      }
+    ]
+  }
+]

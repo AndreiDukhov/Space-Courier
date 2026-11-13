@@ -1,0 +1,77 @@
+[
+  {
+    "id": "hub_shop_stock",
+    "owner": "shopkeeper",
+    "open_slots": [
+      "day",
+      "evening"
+    ],
+    "items": [
+      {
+        "item": "carrot",
+        "price": 8
+      },
+      {
+        "item": "noodles",
+        "price": 12
+      },
+      {
+        "item": "hot_sauce",
+        "price": 18
+      },
+      {
+        "item": "space_spice",
+        "price": 30,
+        "min_attitude": 20
+      },
+      {
+        "item": "xeno_crystal",
+        "price": 40,
+        "min_attitude": 20
+      },
+      {
+        "item": "cookbook_xeno_spices",
+        "price": 250,
+        "min_attitude": 20
+      },
+      {
+        "item": "gift_flower",
+        "price": 60,
+        "min_attitude": 10
+      }
+    ],
+    "buys": [
+      "loot",
+      "ingredient"
+    ],
+    "sell_ratio": 0.5
+  },
+  {
+    "id": "planet_market_test",
+    "open_slots": [
+      "morning",
+      "day",
+      "evening",
+      "night"
+    ],
+    "items": [
+      {
+        "item": "carrot",
+        "price": 10
+      },
+      {
+        "item": "noodles",
+        "price": 15
+      },
+      {
+        "item": "hot_sauce",
+        "price": 22
+      }
+    ],
+    "buys": [
+      "ingredient",
+      "loot"
+    ],
+    "sell_ratio": 0.5
+  }
+]

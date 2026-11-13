@@ -1,0 +1,54 @@
+{
+  "id": "pilot",
+  "name": "TODO pilot name",
+  "age": 21,
+  "role": "pilot",
+  "food": {
+    "likes": [
+      "spicy"
+    ],
+    "dislikes": [
+      "sweet"
+    ]
+  },
+  "stats": {
+    "attitude": 20,
+    "mood": 60,
+    "arousal": 0
+  },
+  "thresholds": {
+    "talk": 0,
+    "touch": 30,
+    "kiss": 55,
+    "intimate": 75
+  },
+  "tag_weights": {
+    "smuggling": 3,
+    "risk": 2,
+    "law_abiding": -2,
+    "betrayal": -5
+  },
+  "polygamy": "tolerates",
+  "suspicion": 0,
+  "contact_block": false,
+  "aboard": true,
+  "schedule": "pilot",
+  "sprite": {
+    "bases": [
+      "uniform"
+    ],
+    "faces": [
+      "neutral",
+      "happy",
+      "sad",
+      "annoyed",
+      "shy"
+    ],
+    "blush_levels": 3
+  },
+  "abilities": [
+    "evasive_maneuver",
+    "emergency_burn",
+    "shield_reboot"
+  ]
+}

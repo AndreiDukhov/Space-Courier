@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ui_room_relationships",
+    "text": "Взаимоотношения"
+  },
+  {
+    "id": "ui_room_close",
+    "text": "Закрыть"
+  },
+  {
+    "id": "ui_room_attitude",
+    "text": "Отношение"
+  },
+  {
+    "id": "ui_room_mood",
+    "text": "Настроение"
+  },
+  {
+    "id": "ui_room_stat_value",
+    "text": "{value}/100"
+  },
+  {
+    "id": "ui_room_arousal",
+    "text": "Возбуждение"
+  },
+  {
+    "id": "ui_room_power",
+    "text": "Выключить монитор"
+  }
+]

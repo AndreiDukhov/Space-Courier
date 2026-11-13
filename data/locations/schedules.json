@@ -1,0 +1,113 @@
+[
+  {
+    "heroine": "pilot",
+    "slots": {
+      "morning": [
+        {
+          "loc": "hub_kitchen",
+          "weight": 1
+        }
+      ],
+      "day": [
+        {
+          "loc": "hub_tech",
+          "weight": 1
+        }
+      ],
+      "evening": [
+        {
+          "loc": "hub_kitchen",
+          "weight": 2
+        },
+        {
+          "loc": "hub_tech",
+          "weight": 1
+        }
+      ],
+      "night": [
+        {
+          "loc": "ship_bridge",
+          "weight": 1
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "if": [
+          {
+            "aboard": "pilot",
+            "is": true
+          }
+        ],
+        "slots": {
+          "day": [
+            {
+              "loc": "ship_bridge",
+              "weight": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "heroine": "medic",
+    "slots": {
+      "morning": [
+        {
+          "loc": "hub_kitchen",
+          "weight": 1
+        }
+      ],
+      "day": [
+        {
+          "loc": "hub_tech",
+          "weight": 1
+        }
+      ],
+      "evening": [
+        {
+          "loc": "hub_showers",
+          "weight": 1
+        }
+      ],
+      "night": [
+        {
+          "loc": "hub_corridor",
+          "weight": 1
+        }
+      ]
+    },
+    "overrides": []
+  },
+  {
+    "heroine": "security",
+    "slots": {
+      "morning": [
+        {
+          "loc": "ship_bridge",
+          "weight": 1
+        }
+      ],
+      "day": [
+        {
+          "loc": "ship_bridge",
+          "weight": 1
+        }
+      ],
+      "evening": [
+        {
+          "loc": "ship_bridge",
+          "weight": 1
+        }
+      ],
+      "night": [
+        {
+          "loc": "ship_bridge",
+          "weight": 1
+        }
+      ]
+    },
+    "overrides": []
+  }
+]

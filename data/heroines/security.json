@@ -1,0 +1,45 @@
+{
+  "id": "security",
+  "food": {
+    "likes": [
+      "hot"
+    ],
+    "dislikes": [
+      "sweet"
+    ]
+  },
+  "name": "TODO security name",
+  "age": 25,
+  "role": "security",
+  "stats": {
+    "attitude": 20,
+    "mood": 60,
+    "arousal": 0
+  },
+  "thresholds": {
+    "talk": 0,
+    "touch": 30,
+    "kiss": 55,
+    "intimate": 75
+  },
+  "tag_weights": {},
+  "polygamy": "tolerates",
+  "suspicion": 0,
+  "contact_block": false,
+  "aboard": true,
+  "schedule": "security",
+  "sprite": {
+    "bases": [
+      "uniform"
+    ],
+    "faces": [
+      "neutral",
+      "happy",
+      "sad",
+      "annoyed",
+      "shy"
+    ],
+    "blush_levels": 3
+  },
+  "abilities": []
+}

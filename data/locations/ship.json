@@ -1,0 +1,12 @@
+{
+  "id": "ship_bridge",
+  "area": "ship",
+  "name": "Мостик",
+  "backgrounds": {
+    "day": "res://art/backgrounds/ship_bridge.png",
+    "night": "res://art/backgrounds/ship_bridge.png"
+  },
+  "connects": [],
+  "access": [],
+  "actions": ["talk", "wait"]
+}
