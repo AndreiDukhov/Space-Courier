@@ -135,8 +135,8 @@ func _check_flight() -> void:
 	_check(view.find_child("SidebarScroll", true, false) == null and view.find_child("NPCList", true, false) == null, "The flight view has no right sidebar or contact list")
 	_check(view.get_node("%SpaceContainer").size.x > view.size.x * 0.9, "The map uses the freed horizontal space")
 	var indicators: Control = view.find_child("Indicators", true, false)
-	_check(indicators.get_child_count() == 4 and indicators.has_node("station_ui_test"), "Edge indicators include every planet and the station")
-	_check(not indicators.has_node("star_earth") and not indicators.has_node("npc_earth_courier") and not indicators.has_node("r_earth_alpha"), "Ships, stars and wormholes do not receive edge indicators")
+	_check(indicators.get_child_count() == objects.filter(func(object: Dictionary) -> bool: return object["type"] in ["planet", "station", "gate"]).size() and indicators.has_node("station_ui_test"), "Edge indicators include every planet, station and wormhole")
+	_check(not indicators.has_node("star_earth") and not indicators.has_node("npc_earth_courier") and indicators.has_node("r_earth_alpha"), "Ships and stars have no edge indicators while wormholes do")
 	for pointer: Control in indicators.get_children():
 		if pointer.visible:
 			_check(Rect2(Vector2.ZERO, indicators.size).encloses(pointer.get_rect()), "Visible edge labels remain inside the map")

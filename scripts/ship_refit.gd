@@ -11,8 +11,10 @@ const Style = preload("res://scripts/hub_widgets.gd")
 const Card = preload("res://scripts/refit_module_card.gd")
 const Icon = preload("res://scripts/combat_icon.gd")
 const Blueprint = preload("res://art/ui/ship_blueprint.svg")
-const POSITIONS: Dictionary = {"engine": Vector2(0.48, 0.88), "maneuver_engine": Vector2(0.16, 0.78), "turret": Vector2(0.48, 0.45), "course": Vector2(0.48, 0.12), "armor": Vector2(0.83, 0.32), "shield": Vector2(0.83, 0.77), "broadside": Vector2(0.16, 0.45)}
-const STATS: Dictionary = {"speed": "engine", "maneuver": "maneuver_engine", "broadside": "broadside", "course": "course", "turret": "turret"}
+const Details = preload("res://scripts/module_details.gd")
+const Storage = preload("res://scripts/module_storage.gd")
+const POSITIONS: Dictionary = {"engine": Vector2(0.48, 0.88), "maneuver_engine": Vector2(0.16, 0.78), "turret": Vector2(0.48, 0.45), "course": Vector2(0.48, 0.12), "armor": Vector2(0.83, 0.32), "shield": Vector2(0.83, 0.77), "broadside": Vector2(0.16, 0.45), "fuel_tank": Vector2(0.16, 0.12)}
+const STATS: Dictionary = {"speed": "engine", "maneuver": "maneuver_engine", "broadside": "broadside", "course": "course", "turret": "turret", "fuel": "fuel_tank"}
 const ICON_KINDS: Dictionary = {"engine": "burn", "maneuver_engine": "evasion", "armor": "armor"}
 
 var _selected: String = "engine"
@@ -130,6 +132,7 @@ func _ready() -> void:
 	_notice = Widgets.label("", 15)
 	column.add_child(_notice)
 	EffectApplier.ship_changed.connect(refresh)
+	EffectApplier.modules_changed.connect(refresh)
 	refresh()
 	_layout_slots.call_deferred()
 
@@ -153,9 +156,10 @@ func refresh() -> void:
 		_bars[stat]["bar"].value = value
 		_bars[stat]["value"].text = Text.get_text("ui_refit_level", {"level": int(value) - 1}) if stat == "maneuver" else String.num(value, 1)
 		_bars[stat]["bar"].tooltip_text = _module_hint(module)
-	_summary.text = Text.get_text("ui_refit_condition", {"current": String.num(float(ship["hull"]["current"]), 1), "max": ship["hull"]["max"], "shield": Loadout.shield_max(ship), "move": Math.movement_budget()})
+	_summary.text = Text.get_text("ui_refit_condition", {"current": String.num(float(ship["hull"]["current"]), 1), "max": ship["hull"]["max"], "shield": Loadout.shield_max(ship), "move": Math.movement_budget(), "fuel": String.num(float(ship["fuel"]["current"]), 1), "capacity": ship["fuel"]["max"]})
 	for card: Card in _module_cards.values():
 		card.refresh_status()
+		card.tooltip_text = _module_hint(DataLoader.get_record(card.module_id))
 
 
 func _build_catalog() -> void:
@@ -177,7 +181,7 @@ func _build_catalog() -> void:
 			var card: Card = Card.new()
 			card.name = str(module["id"])
 			card.module_id = str(module["id"])
-			card.kind = str(ICON_KINDS.get(slot, slot))
+			card.kind = Details.icon_kind(module)
 			card.tooltip_text = _module_hint(module)
 			card.pressed.connect(_select_slot.bind(slot))
 			grid.add_child(card)
@@ -197,13 +201,23 @@ func _stat_value(module: Dictionary, stat: String) -> float:
 		return float(module.get("speed", 0))
 	if stat == "maneuver":
 		return 1.0 + float(GameState.state["ship"]["movement"]["maneuver_level"]) + float(module.get("maneuver_level", 0))
+	if stat == "fuel":
+		return float(Loadout.replacement_fuel(GameState.state["ship"], module)["max"])
 	return Math.weapon_power(module) if not module.is_empty() else 0.0
 
 
 func _module_hint(module: Dictionary) -> String:
 	var hint: String = str(module.get("description", Text.get_text("ui_refit_empty")))
+	if not module.is_empty():
+		hint += "\n" + Details.stats(module)
+		if module["id"] not in GameState.state["ship"]["modules"]:
+			hint += "\n" + Text.get_text("ui_parts_stock", {"count": Storage.count(str(module["id"]))})
+			if Storage.count(str(module["id"])) == 0:
+				hint += "\n" + Text.get_text("ui_parts_missing")
 	if module.get("slot") == "weapon":
 		hint += "\n" + Text.get_text("ui_refit_weapon_detail", {"min": module["dmg"][0], "max": module["dmg"][1], "range": module["range"], "ap": module["ap_cost"]})
+	elif module.get("slot") == "fuel_tank":
+		hint += "\n" + Text.get_text("ui_refit_fuel_detail", {"bonus": module["fuel_bonus"], "capacity": Loadout.replacement_fuel(GameState.state["ship"], module)["max"]})
 	return hint
 
 

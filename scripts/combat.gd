@@ -11,6 +11,7 @@ const Movement = preload("res://scripts/combat_movement.gd")
 const Card = preload("res://scripts/combat_card.gd")
 const Vitals = preload("res://scripts/combat_vitals.gd")
 const Backdrop = preload("res://scripts/space_backdrop.gd")
+const Style = preload("res://scripts/hub_widgets.gd")
 
 var _board: Node3D
 var _camera: Camera3D
@@ -79,40 +80,10 @@ func _build_view() -> void:
 	var controls: HBoxContainer = HBoxContainer.new()
 	controls.add_theme_constant_override("separation", 10)
 	column.add_child(controls)
-	_button(controls, "Move", "ui_combat_move", _select_move).tooltip_text = Text.get_text("ui_combat_move_hint")
 	_button(controls, "Undo", "ui_combat_undo", _undo)
 	_button(controls, "EndTurn", "ui_combat_end_turn", _end_turn)
 	_button(controls, "Continue", "ui_combat_continue", _finish)
-	_actions = ScrollContainer.new()
-	_actions.custom_minimum_size.y = 130
-	_actions.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	column.add_child(_actions)
-	var cards: HBoxContainer = HBoxContainer.new()
-	cards.name = "ActionCards"
-	cards.alignment = BoxContainer.ALIGNMENT_CENTER
-	cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cards.add_theme_constant_override("separation", 10)
-	_actions.add_child(cards)
-	for weapon: Dictionary in Math.player_weapons():
-		var card: Card = Card.new()
-		card.name = "Weapon_" + str(weapon["id"])
-		card.title = str(weapon["name"])
-		card.kind = str(weapon["mount"])
-		card.pressed.connect(_select_weapon.bind(str(weapon["id"])))
-		cards.add_child(card)
-		_weapons[weapon["id"]] = card
-	for ability: Dictionary in DataLoader.get_records("abilities"):
-		var card: Card = Card.new()
-		card.name = str(ability["id"])
-		card.title = str(ability["name"])
-		card.kind = "evasion"
-		if ability["effect"].has("move_points"):
-			card.kind = "burn"
-		elif ability["effect"].has("shield_restore"):
-			card.kind = "shield"
-		card.pressed.connect(_use_ability.bind(str(ability["id"])))
-		cards.add_child(card)
-		_abilities[ability["id"]] = card
+	_build_actions(column)
 	var help: Label = _label(column, "Help", 12)
 	help.text = Text.get_text("ui_combat_help")
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -123,6 +94,78 @@ func _build_view() -> void:
 	_notice = _label(footer, "Notice", 13)
 	_notice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+func _build_actions(parent: Control) -> void:
+	_actions = ScrollContainer.new()
+	_actions.name = "CombatActions"
+	_actions.custom_minimum_size.y = 160
+	_actions.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	parent.add_child(_actions)
+	var cards: HBoxContainer = HBoxContainer.new()
+	cards.name = "ActionCards"
+	cards.alignment = BoxContainer.ALIGNMENT_CENTER
+	cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cards.add_theme_constant_override("separation", 16)
+	_actions.add_child(cards)
+	var movement: HBoxContainer = _action_section(cards, "MovementSection", "")
+	var move: Card = Card.new()
+	move.name = "Move"
+	move.title = Text.get_text("ui_combat_move")
+	move.kind = "movement"
+	move.tooltip_text = Text.get_text("ui_combat_move_hint")
+	move.pressed.connect(_select_move)
+	movement.add_child(move)
+	_buttons["Move"] = move
+	var weapons: HBoxContainer = _action_section(cards, "WeaponsSection", "ui_combat_weapons")
+	for weapon: Dictionary in Math.player_weapons():
+		var card: Card = Card.new()
+		card.name = "Weapon_" + str(weapon["id"])
+		card.title = str(weapon["name"])
+		card.kind = str(weapon["mount"])
+		card.pressed.connect(_select_weapon.bind(str(weapon["id"])))
+		weapons.add_child(card)
+		_weapons[weapon["id"]] = card
+	var abilities: HBoxContainer = _action_section(cards, "AbilitiesSection", "ui_combat_abilities")
+	for ability: Dictionary in DataLoader.get_records("abilities"):
+		if ability["effect"].has("self_evasion"):
+			continue
+		var card: Card = Card.new()
+		card.name = str(ability["id"])
+		card.title = str(ability["name"])
+		card.kind = "evasion"
+		if ability["effect"].has("move_points"):
+			card.kind = "burn"
+		elif ability["effect"].has("shield_restore"):
+			card.kind = "shield"
+		card.pressed.connect(_use_ability.bind(str(ability["id"])))
+		abilities.add_child(card)
+		_abilities[ability["id"]] = card
+
+
+func _action_section(parent: HBoxContainer, node_name: String, text_id: String) -> HBoxContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.name = node_name
+	panel.add_theme_stylebox_override("panel", Style.box(Color(0.025, 0.045, 0.065), 12, Color(0.18, 0.3, 0.38), 1))
+	if text_id.is_empty():
+		panel.size_flags_vertical = Control.SIZE_SHRINK_END
+	parent.add_child(panel)
+	var margin: MarginContainer = MarginContainer.new()
+	for edge: String in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + edge, 8)
+	panel.add_child(margin)
+	var column: VBoxContainer = VBoxContainer.new()
+	column.add_theme_constant_override("separation", 6)
+	margin.add_child(column)
+	if not text_id.is_empty():
+		var heading: Label = _label(column, "Heading", 14)
+		heading.text = Text.get_text(text_id)
+		heading.add_theme_color_override("font_color", Color(0.65, 0.85, 0.9))
+	var row: HBoxContainer = HBoxContainer.new()
+	row.name = "Cards"
+	row.add_theme_constant_override("separation", 10)
+	column.add_child(row)
+	return row
 
 
 func _build_space(parent: Control) -> void:
@@ -160,6 +203,8 @@ func _build_space(parent: Control) -> void:
 	_board.name = "Board"
 	_board.set_script(Board)
 	_viewport.add_child(_board)
+	_camera.target = _board.get_node("PlayerShip")
+	_camera.center_on_player()
 	var vitals: Vitals = Vitals.new()
 	vitals.name = "Vitals"
 	vitals.camera = _camera
@@ -198,7 +243,7 @@ func refresh() -> void:
 	_buttons["Continue"].visible = Conditions.can_finish_combat()
 	_buttons["Continue"].disabled = busy
 	_buttons["Load"].disabled = not FileAccess.file_exists(GameState.SAVE_PATH)
-	_buttons["Move"].modulate = Color(0.5, 1, 0.85) if _moving else Color.WHITE
+	_buttons["Move"].set_selected(_moving)
 	for ability_id: String in _abilities:
 		var ability: Dictionary = DataLoader.get_record(ability_id)
 		_abilities[ability_id].disabled = busy or not Conditions.can_use_combat_ability(ability_id)

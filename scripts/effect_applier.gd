@@ -10,6 +10,7 @@ signal relationships_changed
 signal scenes_changed
 signal traffic_changed
 signal ship_changed
+signal modules_changed
 signal space_effect(kind: String, position: Vector2, npc_id: String)
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
@@ -24,6 +25,9 @@ const TrafficSimulation = preload("res://scripts/traffic_simulation.gd")
 const SpaceGeometry = preload("res://scripts/space_geometry.gd")
 const Navigation = preload("res://scripts/galaxy_navigation.gd")
 const CombatMath = preload("res://scripts/combat_math.gd")
+const CombatRoster = preload("res://scripts/combat_roster.gd")
+const AmbientBattles = preload("res://scripts/ambient_battles.gd")
+const BattleState = preload("res://scripts/ambient_battle_state.gd")
 const CombatState = preload("res://scripts/combat_state.gd")
 const CombatMovement = preload("res://scripts/combat_movement.gd")
 const CombatRoutes = preload("res://scripts/combat_routes.gd")
@@ -236,14 +240,52 @@ func install_module(module_id: String, target_slot: String = "") -> Error:
 	var module: Dictionary = DataLoader.get_record(module_id)
 	var slot: String = ShipLoadout.slot_for(module)
 	var previous: Dictionary = ShipLoadout.installed(ship, slot)
+	var storage: Dictionary = GameState.state["module_storage"]
+	storage[module_id] = int(storage[module_id]) - 1
+	if storage[module_id] == 0:
+		storage.erase(module_id)
+	if not previous.is_empty():
+		storage[previous["id"]] = int(storage.get(previous["id"], 0)) + 1
 	if slot == "armor":
 		ship["hull"] = ShipLoadout.replacement_hull(ship, module)
+	if slot == "fuel_tank":
+		ship["fuel"] = ShipLoadout.replacement_fuel(ship, module)
 	if not previous.is_empty():
 		ship["modules"][ship["modules"].find(previous["id"])] = module_id
 	else:
 		ship["modules"].append(module_id)
 	ship_changed.emit()
+	modules_changed.emit()
 	return OK
+
+
+func buy_module(shop_id: String, module_id: String) -> Error:
+	if not Conditions.can_buy_module(shop_id, module_id):
+		return ERR_UNAVAILABLE
+	var delay: int = int(DataLoader.get_record(shop_id)["delivery_days"])
+	GameState.state["money"] = int(GameState.state["money"]) - int(DataLoader.get_record(module_id)["cost"])
+	if delay > 0:
+		GameState.state["module_deliveries"].append({"module": module_id, "count": 1, "arrival_day": Clock.current_day() + delay})
+	else:
+		var storage: Dictionary = GameState.state["module_storage"]
+		storage[module_id] = int(storage.get(module_id, 0)) + 1
+	modules_changed.emit()
+	return OK
+
+
+func receive_module_deliveries() -> void:
+	var remaining: Array = []
+	var changed: bool = false
+	for entry: Dictionary in GameState.state.get("module_deliveries", []):
+		if Conditions.module_delivery_due(entry):
+			var storage: Dictionary = GameState.state["module_storage"]
+			storage[entry["module"]] = int(storage.get(entry["module"], 0)) + int(entry["count"])
+			changed = true
+		else:
+			remaining.append(entry)
+	if changed:
+		GameState.state["module_deliveries"] = remaining
+		modules_changed.emit()
 
 
 func visit_ship() -> Error:
@@ -318,6 +360,7 @@ func _tick_flight(delta: float, boost: bool) -> void:
 		return
 	var simulation: Dictionary = TrafficSimulation.step(delta)
 	flight["npcs"] = simulation["npcs"]
+	flight["battles"] = simulation["battles"]
 	for event: Dictionary in simulation["events"]:
 		if event["kind"] == "pursuit" and flight["npcs"][event["npc"]]["target"] == "player" and not flight["autopilot"].is_empty():
 			stop_autopilot()
@@ -681,6 +724,16 @@ func _begin_combat(enemy_id: String) -> void:
 	combat_changed.emit()
 
 
+func join_battle(battle_id: String, side: int) -> Error:
+	if not Conditions.can_join_battle(battle_id, side):
+		return ERR_UNAVAILABLE
+	var battle: Dictionary = BattleState.find(battle_id, GameState.state["flight"]["battles"])
+	stop_autopilot()
+	GameState.state["combat"] = CombatState.intervention(battle, side)
+	combat_changed.emit()
+	return OK
+
+
 func move_combat(target: Vector2i) -> Error:
 	var route: Array[Vector2i] = Conditions.combat_move_path(target)
 	if route.is_empty():
@@ -718,12 +771,26 @@ func shoot_combat(weapon_id: String, target: Vector2i) -> Error:
 	combat["ap"] = int(combat["ap"]) - int(weapon["ap_cost"])
 	combat["shots"] = []
 	_fire_combat(weapon, true, target)
-	if combat["opponent"]["hull"] <= 0:
-		combat["result"] = "victory"
-		var loot: Dictionary = DataLoader.get_record(str(combat["enemy"]))["loot"]
-		combat["loot"] = {"money": randi_range(int(loot["money"][0]), int(loot["money"][1])), "fuel": randi_range(int(loot["fuel"][0]), int(loot["fuel"][1]))}
+	_resolve_combat_result()
 	combat_changed.emit()
 	return OK
+
+
+func _resolve_combat_result() -> bool:
+	var combat: Dictionary = GameState.state["combat"]
+	if GameState.state["ship"]["hull"]["current"] <= 0:
+		combat["result"] = "defeat"
+		combat["shield_recharge"] = {}
+		return true
+	if not CombatRoster.living(combat).is_empty():
+		return false
+	combat["result"] = "victory"
+	combat["loot"] = {"money": 0, "fuel": 0}
+	for opponent: Dictionary in combat["opponents"]:
+		var loot: Dictionary = DataLoader.get_record(str(opponent["enemy"]))["loot"]
+		for field: String in ["money", "fuel"]:
+			combat["loot"][field] += randi_range(int(loot[field][0]), int(loot[field][1]))
+	return true
 
 
 func shield_combat() -> Error:
@@ -754,36 +821,16 @@ func end_combat_turn() -> Error:
 	if not Conditions.can_act_combat():
 		return ERR_UNAVAILABLE
 	var combat: Dictionary = GameState.state["combat"]
-	var enemy: Dictionary = DataLoader.get_record(str(combat["enemy"]))
-	var opponent: Dictionary = combat["opponent"]
-	var weapons: Array[Dictionary] = CombatMath.enemy_weapons()
-	var movement: int = int(enemy["speed"])
-	var turn: Dictionary = CombatState.new_turn(opponent)
-	combat["movement"]["opponent"] = turn
-	combat["fired"]["opponent"] = []
 	combat["shots"] = []
-	var path: Array[Vector2i] = CombatAI.plan(opponent, turn, movement, enemy["movement"], combat["player"], weapons)
-	for next: Vector2i in path:
-		var origin: Vector2i = CombatMath.cell(opponent["pos"])
-		var route: Array[Vector2i] = Conditions.vessel_move_path(opponent, next, turn, movement, enemy["movement"], CombatMath.cell(combat["player"]["pos"]))
-		if route.is_empty():
+	for opponent: Dictionary in CombatRoster.ships(combat):
+		combat["movement"][opponent["id"]] = CombatState.new_turn(opponent)
+		combat["fired"][opponent["id"]] = []
+	for opponent: Dictionary in CombatRoster.ships(combat):
+		if GameState.state["ship"]["hull"]["current"] <= 0 or CombatRoster.living(combat).is_empty():
 			break
-		turn["history"].append({"pos": opponent["pos"].duplicate(), "move_points": movement, "facing": int(opponent["facing"])})
-		movement -= CombatMovement.cost(origin, next)
-		opponent["facing"] = CombatRoutes.arrival_facing(route)
-		opponent["pos"] = CombatMath.coordinates(next)
-	var enemy_ap: int = CombatMath.ACTION_POINTS
-	for weapon: Dictionary in CombatAI.firing_order(opponent, combat["player"], weapons, enemy_ap):
-		if float(GameState.state["ship"]["hull"]["current"]) <= 0:
-			break
-		if not Conditions.can_fire_weapon(opponent, combat["player"], weapon, enemy_ap, combat["fired"]["opponent"]):
-			continue
-		_fire_combat(weapon, false, CombatMath.cell(combat["player"]["pos"]))
-		enemy_ap -= int(weapon["ap_cost"])
-	if float(GameState.state["ship"]["hull"]["current"]) <= 0:
-		combat["result"] = "defeat"
-		combat["shield_recharge"] = {}
-	else:
+		if opponent["hull"] > 0:
+			_enemy_combat_turn(opponent)
+	if not _resolve_combat_result():
 		combat["round"] = int(combat["round"]) + 1
 		if not combat["shield_recharge"].is_empty() and int(combat["shield_recharge"]["round"]) <= int(combat["round"]):
 			combat["player"]["shield"] = minf(CombatMath.player_shield_max(), float(combat["player"]["shield"]) + float(combat["shield_recharge"]["amount"]))
@@ -801,35 +848,75 @@ func end_combat_turn() -> Error:
 	return OK
 
 
-func _fire_combat(weapon: Dictionary, player_fires: bool, target_cell: Vector2i) -> void:
+func _enemy_combat_turn(opponent: Dictionary) -> void:
 	var combat: Dictionary = GameState.state["combat"]
-	var attacker: Dictionary = combat["player"] if player_fires else combat["opponent"]
-	var target: Dictionary = combat["opponent"] if player_fires else combat["player"]
-	var shot: Dictionary = {"shooter": "player" if player_fires else "opponent", "weapon": str(weapon["id"]), "target": CombatMath.coordinates(target_cell), "result": "miss", "damage": 0.0}
+	var actor_id: String = str(opponent["id"])
+	var enemy: Dictionary = DataLoader.get_record(str(opponent["enemy"]))
+	var weapons: Array[Dictionary] = CombatMath.enemy_weapons(actor_id)
+	var movement: int = int(enemy["speed"])
+	var turn: Dictionary = combat["movement"][actor_id]
+	var candidates: Array[Dictionary] = []
+	for target_id: String in CombatRoster.target_ids(actor_id, combat):
+		candidates.append(CombatRoster.actor(target_id, combat))
+	var target: Dictionary = CombatAI.choose_target(opponent, candidates, weapons)
+	if target.is_empty():
+		return
+	var blocked: Array[Vector2i] = CombatRoster.blocked(actor_id, combat)
+	var path: Array[Vector2i] = CombatAI.plan(opponent, turn, movement, enemy["movement"], target, weapons, CombatMath.ACTION_POINTS, [], blocked)
+	for next: Vector2i in path:
+		var origin: Vector2i = CombatMath.cell(opponent["pos"])
+		var route: Array[Vector2i] = Conditions.vessel_move_path(opponent, next, turn, movement, enemy["movement"], blocked)
+		if route.is_empty():
+			break
+		turn["history"].append({"pos": opponent["pos"].duplicate(), "move_points": movement, "facing": int(opponent["facing"])})
+		movement -= CombatMovement.cost(origin, next)
+		opponent["facing"] = CombatRoutes.arrival_facing(route)
+		opponent["pos"] = CombatMath.coordinates(next)
+	var enemy_ap: int = CombatMath.ACTION_POINTS
+	for weapon: Dictionary in CombatMath.strongest_first(weapons):
+		if GameState.state["ship"]["hull"]["current"] <= 0:
+			break
+		candidates.clear()
+		for target_id: String in CombatRoster.target_ids(actor_id, combat):
+			candidates.append(CombatRoster.actor(target_id, combat))
+		var single_weapon: Array[Dictionary] = [weapon]
+		target = CombatAI.choose_target(opponent, candidates, single_weapon)
+		if target.is_empty() or not Conditions.can_fire_weapon(opponent, target, weapon, enemy_ap, combat["fired"][actor_id]):
+			continue
+		_fire_combat(weapon, false, CombatMath.cell(target["pos"]), actor_id)
+		enemy_ap -= int(weapon["ap_cost"])
+
+
+func _fire_combat(weapon: Dictionary, player_fires: bool, target_cell: Vector2i, actor_id: String = "opponent") -> void:
+	var combat: Dictionary = GameState.state["combat"]
+	var attacker: Dictionary = combat["player"] if player_fires else CombatRoster.actor(actor_id, combat)
+	var target_id: String = CombatRoster.target_at("player" if player_fires else actor_id, target_cell, combat)
+	var target: Dictionary = CombatRoster.actor(target_id, combat)
+	var shot: Dictionary = {"shooter": "player" if player_fires else actor_id, "weapon": str(weapon["id"]), "target": CombatMath.coordinates(target_cell), "result": "miss", "damage": 0.0}
 	combat["last_shot"] = shot
 	combat["fired"][shot["shooter"]].append(str(weapon["id"]))
 	var visual: Dictionary = shot.duplicate(true)
 	visual["origin"] = attacker["pos"].duplicate()
 	combat["shots"].append(visual)
 	var chance: float = CombatMath.shot_chance(attacker, target_cell, weapon, player_fires)
-	if randf() >= chance or target_cell != CombatMath.cell(target["pos"]):
+	if randf() >= chance or target.is_empty() or target_cell != CombatMath.cell(target["pos"]):
 		return
 	var amount: float = float(randi_range(int(weapon["dmg"][0]), int(weapon["dmg"][1])))
 	shot["result"] = "hit"
 	if randf() < float(weapon["critical"]["chance"]):
 		shot["result"] = "critical"
 		amount *= float(weapon["critical"]["multiplier"])
-	var hull: float = float(target["hull"]) if player_fires else float(GameState.state["ship"]["hull"]["current"])
+	var hull: float = float(GameState.state["ship"]["hull"]["current"]) if target_id == "player" else float(target["hull"])
 	var shield: float = float(target["shield"])
 	var damage: Dictionary = CombatMath.damage(hull, shield, amount, str(weapon["type"]))
 	shot["damage"] = hull + shield - float(damage["hull"]) - float(damage["shield"])
 	visual["result"] = shot["result"]
 	visual["damage"] = shot["damage"]
 	target["shield"] = damage["shield"]
-	if player_fires:
-		target["hull"] = damage["hull"]
-	else:
+	if target_id == "player":
 		GameState.state["ship"]["hull"]["current"] = damage["hull"]
+	else:
+		target["hull"] = damage["hull"]
 
 
 func finish_combat() -> Error:
@@ -839,16 +926,19 @@ func finish_combat() -> Error:
 	GameState.state["combat"] = {}
 	GameState.state["flight"]["target"] = GameState.state["flight"]["pos"].duplicate()
 	GameState.state["flight"]["paused"] = false
+	GameState.state["flight"]["battles"] = AmbientBattles.finish_player(combat, GameState.state["flight"]["npcs"], GameState.state["flight"]["battles"])
 	if combat["result"] == "victory":
 		apply_effects([{"money": int(combat["loot"]["money"])}, {"fuel": int(combat["loot"]["fuel"])}])
-		if not str(combat["source_npc"]).is_empty():
-			GameState.state["flight"]["defeated_npcs"].append(str(combat["source_npc"]))
-			TrafficSimulation.cleanup(DataLoader.get_records("npcs"), GameState.state["flight"]["npcs"])
 	else:
 		GameState.state["ship"]["hull"]["current"] = float(GameState.state["ship"]["hull"]["max"])
 		_visit_system(Galaxy.INITIAL_SYSTEM)
 		GameState.state["location"] = "hub_office"
 		apply_effects([{"money": -TOW_FEE}, {"fuel": int(GameState.state["ship"]["fuel"]["max"])}, {"advance_time": TOW_DAYS * Clock.TIME_SLOTS.size()}])
+	for opponent: Dictionary in CombatRoster.ships(combat):
+		if opponent["hull"] <= 0 and not str(opponent["source_npc"]).is_empty() and opponent["source_npc"] not in GameState.state["flight"]["defeated_npcs"]:
+			GameState.state["flight"]["defeated_npcs"].append(str(opponent["source_npc"]))
+			GameState.state["flight"]["npcs"][opponent["source_npc"]].merge({"status": "destroyed", "target": "", "destination": "", "timer": 0.0, "cooldown": 0.0}, true)
+	TrafficSimulation.cleanup(DataLoader.get_records("npcs"), GameState.state["flight"]["npcs"])
 	combat_changed.emit()
 	flight_changed.emit()
 	galaxy_changed.emit()
@@ -876,6 +966,7 @@ func _apply_stat(stat_path: String, amount: float) -> void:
 
 
 func _on_time_changed(_day: int, _time_slot: String) -> void:
+	receive_module_deliveries()
 	for heroine_id: String in GameState.state.get("meal_invites", {}).keys():
 		if Conditions.meal_has_expired(heroine_id):
 			GameState.state["meal_invites"].erase(heroine_id)

@@ -3,6 +3,7 @@ extends RefCounted
 const Motion = preload("res://scripts/flight_motion.gd")
 const Rules = preload("res://scripts/order_rules.gd")
 const Loadouts = preload("res://scripts/enemy_loadout.gd")
+const Battles = preload("res://scripts/ambient_battle_state.gd")
 const Traffic = preload("res://scripts/traffic_state.gd")
 
 
@@ -14,7 +15,7 @@ static func initial(previous_npcs: Dictionary = {}) -> Dictionary:
 		else:
 			npcs[npc["id"]] = {"pos": Motion.coordinates(Motion.point(npc["pos"])), "waypoint": 0, "weapons": Loadouts.roll(Loadouts.enemy_for_npc(str(npc["id"])))}
 			npcs[npc["id"]].merge(Traffic.initial(npc))
-	return {"pos": Motion.coordinates(Motion.SPAWN), "target": Motion.coordinates(Motion.SPAWN), "paused": false, "npcs": npcs, "encounter": "", "defeated_npcs": [], "autopilot": {}, "map_scale": Motion.MAP_SCALE}
+	return {"pos": Motion.coordinates(Motion.SPAWN), "target": Motion.coordinates(Motion.SPAWN), "paused": false, "npcs": npcs, "encounter": "", "defeated_npcs": [], "autopilot": {}, "map_scale": Motion.MAP_SCALE, "battles": []}
 
 
 static func migrate(value: Dictionary) -> Dictionary:
@@ -51,6 +52,7 @@ static func reset_player(previous: Dictionary, position: Vector2 = Motion.SPAWN)
 	result["pos"] = Motion.coordinates(Motion.bounded(position))
 	result["target"] = result["pos"].duplicate()
 	result["defeated_npcs"] = previous.get("defeated_npcs", []).duplicate()
+	result["battles"] = previous.get("battles", []).duplicate(true)
 	return result
 
 
@@ -81,8 +83,25 @@ static func upgrade_traffic(value: Dictionary) -> Dictionary:
 	return result
 
 
+static func upgrade_battles(value: Dictionary) -> Dictionary:
+	if value.size() != 8 or not value.has_all(["pos", "target", "paused", "npcs", "encounter", "defeated_npcs", "autopilot", "map_scale"]):
+		return value
+	var result: Dictionary = value.duplicate(true)
+	result["battles"] = []
+	if result["npcs"] is Dictionary:
+		for npc_id: Variant in result["npcs"]:
+			var entry: Variant = result["npcs"][npc_id]
+			if npc_id is String and entry is Dictionary and entry.get("weapons") is Array and DataLoader.get_record(npc_id).get("role") in ["civilian", "patrol"]:
+				var profile: String = Loadouts.enemy_for_npc(npc_id)
+				if not Loadouts.valid(profile, entry["weapons"]):
+					entry["weapons"] = Loadouts.roll(profile)
+	return result
+
+
 static func normalize_numbers(value: Dictionary) -> void:
 	value["map_scale"] = int(value["map_scale"])
+	for battle: Dictionary in value["battles"]:
+		battle["remaining"] = float(Vector2(float(battle["remaining"]), 0).x)
 	for field: String in ["pos", "target"]:
 		value[field] = Motion.coordinates(Motion.point(value[field]))
 	for npc: Dictionary in value["npcs"].values():
@@ -99,7 +118,7 @@ static func valid_point(value: Variant) -> bool:
 
 
 static func valid_save(value: Variant, system_id: String) -> bool:
-	if not value is Dictionary or value.size() != 8 or not value.has_all(["pos", "target", "paused", "npcs", "encounter", "defeated_npcs", "autopilot", "map_scale"]):
+	if not value is Dictionary or value.size() != 9 or not value.has_all(["pos", "target", "paused", "npcs", "encounter", "defeated_npcs", "autopilot", "map_scale", "battles"]):
 		return false
 	if not Rules.whole_number(value["map_scale"]) or value["map_scale"] != Motion.MAP_SCALE:
 		return false
@@ -129,6 +148,8 @@ static func valid_save(value: Variant, system_id: String) -> bool:
 			return false
 		if entry["waypoint"] < 0 or entry["waypoint"] >= DataLoader.get_record(npc_id)["waypoints"].size():
 			return false
+	if not Battles.valid(value["battles"], npcs, value["defeated_npcs"]):
+		return false
 	if not _valid_autopilot(value["autopilot"], system_id):
 		return false
 	var event_id: Variant = value["encounter"]
@@ -139,7 +160,7 @@ static func valid_save(value: Variant, system_id: String) -> bool:
 	if not DataLoader.record_sources.has("events/" + str(event_id)):
 		return false
 	for npc: Dictionary in DataLoader.get_records("npcs"):
-		if npc["system"] == system_id and npc["event"] == event_id and npc["id"] not in value["defeated_npcs"] and npcs[npc["id"]]["status"] not in ["landed", "destroyed"]:
+		if npc["system"] == system_id and npc["event"] == event_id and npc["id"] not in value["defeated_npcs"] and npcs[npc["id"]]["status"] not in ["landed", "destroyed", "battle"]:
 			return true
 	var system: Dictionary = DataLoader.get_record(system_id)
 	for object: Dictionary in system.get("objects", []):

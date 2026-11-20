@@ -1,5 +1,7 @@
 extends Node
 
+const Roster = preload("res://scripts/combat_roster.gd")
+
 const AI = preload("res://scripts/combat_ai.gd")
 const Math = preload("res://scripts/combat_math.gd")
 const Movement = preload("res://scripts/combat_movement.gd")
@@ -132,9 +134,9 @@ func _start() -> void:
 
 func _place(actor: String, cell: Vector2i, facing: int) -> void:
 	var combat: Dictionary = GameState.state["combat"]
-	combat[actor]["pos"] = Math.coordinates(cell)
-	combat[actor]["facing"] = facing
-	combat["movement"][actor] = State.new_turn(combat[actor])
+	Roster.actor(actor, combat)["pos"] = Math.coordinates(cell)
+	Roster.actor(actor, combat)["facing"] = facing
+	combat["movement"][actor] = State.new_turn(Roster.actor(actor, combat))
 
 
 func _check_edge_state() -> void:
@@ -211,14 +213,14 @@ func _check_loop_animation() -> void:
 	var turn: Dictionary = combat["movement"]["opponent"]
 	var next: Vector2i = origin + Vector2i.RIGHT
 	var settings: Dictionary = DataLoader.get_record("pirate_light")["movement"]
-	_check(Conditions.can_move_vessel(combat["opponent"], next, turn, 5, settings, Math.cell(combat["player"]["pos"])), "The first leg of an edge loop is a legal maneuver")
-	turn["history"].append({"pos": Math.coordinates(origin), "move_points": 5, "facing": int(combat["opponent"]["facing"])})
-	combat["opponent"]["facing"] = Movement.next_facing(origin, next, 1, settings)
-	combat["opponent"]["pos"] = Math.coordinates(next)
-	_check(Conditions.can_move_vessel(combat["opponent"], origin, turn, 4, settings, Math.cell(combat["player"]["pos"])), "The returning leg uses the boundary steering allowance")
-	turn["history"].append({"pos": Math.coordinates(next), "move_points": 4, "facing": int(combat["opponent"]["facing"])})
-	combat["opponent"]["facing"] = Movement.next_facing(next, origin, int(combat["opponent"]["facing"]), settings)
-	combat["opponent"]["pos"] = Math.coordinates(origin)
+	_check(Conditions.can_move_vessel(combat["opponents"][0], next, turn, 5, settings, Math.cell(combat["player"]["pos"])), "The first leg of an edge loop is a legal maneuver")
+	turn["history"].append({"pos": Math.coordinates(origin), "move_points": 5, "facing": int(combat["opponents"][0]["facing"])})
+	combat["opponents"][0]["facing"] = Movement.next_facing(origin, next, 1, settings)
+	combat["opponents"][0]["pos"] = Math.coordinates(next)
+	_check(Conditions.can_move_vessel(combat["opponents"][0], origin, turn, 4, settings, Math.cell(combat["player"]["pos"])), "The returning leg uses the boundary steering allowance")
+	turn["history"].append({"pos": Math.coordinates(next), "move_points": 4, "facing": int(combat["opponents"][0]["facing"])})
+	combat["opponents"][0]["facing"] = Movement.next_facing(next, origin, int(combat["opponents"][0]["facing"]), settings)
+	combat["opponents"][0]["pos"] = Math.coordinates(origin)
 	EffectApplier.combat_changed.emit()
 	_check(view.find_child("Board", true, false).is_animating(), "A legal enemy loop is animated even when its final cell is unchanged")
 	await _idle(view)

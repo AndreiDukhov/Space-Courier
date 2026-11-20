@@ -32,6 +32,8 @@ func _run() -> void:
 
 func _workshop() -> void:
 	GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
+	for module: Dictionary in DataLoader.get_records("modules"):
+		GameState.state["module_storage"][module["id"]] = 1
 	_check(not Conditions.can_modify_ship() and EffectApplier.install_module("engine_mk2") == ERR_UNAVAILABLE, "Installation is unavailable outside the workshop")
 	EffectApplier.move_player("hub_tech")
 
@@ -46,7 +48,7 @@ func _check_installation() -> void:
 	_workshop()
 	var ship: Dictionary = GameState.state["ship"]
 	var initial: Dictionary = GameState.serialize()
-	_check(Loadout.valid(ship) and ship["modules"].size() == 7, "A new ship has one module in each named slot")
+	_check(Loadout.valid(ship) and ship["modules"].size() == Loadout.SLOTS.size(), "A new ship has one module in each named slot")
 	_check(EffectApplier.install_module("missing") == ERR_UNAVAILABLE and EffectApplier.install_module("engine_mk1") == ERR_UNAVAILABLE and GameState.serialize() == initial, "Unknown and already installed modules preserve state")
 	_check(EffectApplier.install_module("engine_mk2", "turret") == ERR_UNAVAILABLE and GameState.serialize() == initial, "The effect rejects a module aimed at an incompatible slot")
 	var engine: Dictionary = DataLoader.records["engine_mk2"]
@@ -55,7 +57,7 @@ func _check_installation() -> void:
 	engine["requires"] = []
 	for module_id: String in ["engine_mk2", "maneuver_mk2", "turret_mk2", "course_mk2", "broadside_mk4", "shield_mk2"]:
 		_check(EffectApplier.install_module(module_id) == OK and Loadout.valid(ship), "Installing " + module_id + " preserves slot capacity")
-	_check(ship["modules"].size() == 7 and GameState.state["money"] == initial["money"] and Clock.current_slot() == initial["time_slot"], "Free replacements spend no money or time and preserve seven occupied slots")
+	_check(ship["modules"].size() == Loadout.SLOTS.size() and GameState.state["money"] == initial["money"] and Clock.current_slot() == initial["time_slot"], "Free replacements spend no money or time and preserve eight occupied slots")
 	_check(Loadout.speed(ship) == 210.0 and Math.movement_budget() == 8 and Math.movement_settings(true)["maneuver_level"] == 1 and Math.player_shield_max() == 20.0, "Installed engines and shield generator affect their actual gameplay stats")
 	_check(Math.player_weapons().map(func(weapon: Dictionary) -> String: return str(weapon["id"])) == ["turret_mk2", "course_mk2", "broadside_mk4"], "Weapon replacements preserve mount order and become the combat loadout")
 	ship["hull"]["current"] = 60.0
@@ -87,8 +89,8 @@ func _check_persistence() -> void:
 	combat = State.initial("pirate_light", "")
 	GameState.state["combat"] = combat
 	combat["player"]["shield"] = 4.0
-	combat["opponent"]["pos"] = [0, 0]
-	combat["movement"]["opponent"] = State.new_turn(combat["opponent"])
+	combat["opponents"][0]["pos"] = [0, 0]
+	combat["movement"]["opponent"] = State.new_turn(combat["opponents"][0])
 	_check(EffectApplier.use_combat_ability("shield_reboot") == OK, "The shield ability recognizes the upgraded capacity")
 	EffectApplier.end_combat_turn()
 	_check(combat["player"]["shield"] == 14.0, "Delayed recharge can restore above the previous ten-point shield limit")
@@ -98,7 +100,7 @@ func _check_persistence() -> void:
 	for module_id: String in Loadout.LEGACY_DEFAULTS:
 		legacy["ship"]["modules"].erase(module_id)
 	legacy["ship"]["hull"]["current"] = 67.0
-	_check(GameState.restore(legacy) == OK and Loadout.valid(GameState.state["ship"]), "A previous save gains seven named slots and baseline equipment")
+	_check(GameState.restore(legacy) == OK and Loadout.valid(GameState.state["ship"]), "A previous save gains eight named slots and baseline equipment")
 	_check(GameState.state["ship"]["hull"]["current"] == 67.0 and Math.player_shield_max() == 10.0 and Math.movement_budget() == 6, "Migration preserves damage and baseline combat characteristics")
 	_quiet_flight()
 	GameState.state["combat"] = State.initial("pirate_light", "")
@@ -121,7 +123,7 @@ func _check_persistence() -> void:
 
 
 func _check_validation() -> void:
-	for field: String in ["speed", "maneuver_level", "hull_bonus", "shield"]:
+	for field: String in ["speed", "maneuver_level", "hull_bonus", "shield", "fuel_bonus"]:
 		var groups: Dictionary = DataLoader.records_by_group.duplicate(true)
 		for module: Dictionary in groups["modules"]:
 			if module.has(field):
@@ -144,7 +146,7 @@ func _check_ui() -> void:
 		hub.queue_free()
 		return
 	var refit: Control = hub.get_node("ShipRefit")
-	_check(refit._slots.size() == 7 and refit._bars.size() == 5 and refit._catalog.get_child_count() == 7, "The refit screen has seven slots, five bars and seven catalog categories")
+	_check(refit._slots.size() == Loadout.SLOTS.size() and refit._bars.size() == 6 and refit._catalog.get_child_count() == Loadout.SLOTS.size(), "The refit screen has eight slots, six bars and eight catalog categories")
 	_check(refit._module_cards.size() == DataLoader.get_records("modules").size(), "Every available module appears in the same catalog")
 	for module: Dictionary in DataLoader.get_records("modules"):
 		var card: Control = refit._module_cards[module["id"]]
@@ -180,9 +182,14 @@ func _check_ui() -> void:
 	await _drag(refit._module_cards["broadside_mk4"], refit._slots["broadside"]["button"])
 	_check(Loadout.installed(GameState.state["ship"], "broadside")["id"] == "broadside_mk4", "A dragged module replaces the shared weapons of both broadsides")
 	await _click(refit._slots["course"]["button"])
-	_check(refit._module_cards.size() == DataLoader.get_records("modules").size() and refit._catalog.get_child_count() == 7, "Selecting another socket keeps all catalog categories available")
+	_check(refit._module_cards.size() == DataLoader.get_records("modules").size() and refit._catalog.get_child_count() == Loadout.SLOTS.size(), "Selecting another socket keeps all catalog categories available")
 	await _capture("broadside")
-	await _click(refit.find_child("Close", true, false))
+	for pressed: bool in [true, false]:
+		var escape: InputEventKey = InputEventKey.new()
+		escape.keycode = KEY_ESCAPE
+		escape.pressed = pressed
+		get_viewport().push_input(escape, true)
+	await _frames()
 	_check(not hub.has_node("ShipRefit") and GameState.state["location"] == "hub_tech", "Closing modifications returns to the workshop")
 	_quiet_flight()
 	hub.queue_free()

@@ -17,12 +17,12 @@ func _ready() -> void:
 func _run() -> void:
 	_check(DataLoader.load_errors.is_empty(), "All order data loads without errors")
 	var delivery_orders: Array[Dictionary] = DataLoader.get_records("orders").filter(func(order: Dictionary) -> bool: return order.get("source") != "shop" and order.get("id") != "ord_slice_test")
-	_check(delivery_orders.size() == 6, "Six delivery order templates are loaded")
+	_check(delivery_orders.size() == 12, "Twelve delivery templates include faction access contracts")
 	var counts: Dictionary = {"private": 0, "state": 0, "crime": 0}
 	for order: Dictionary in delivery_orders:
 		counts[order["source"]] += 1
 		_check(DataLoader.record_sources.has("systems/" + str(order["from"])) and DataLoader.record_sources.has("systems/" + str(order["to"])), "Order system references resolve")
-	_check(counts == {"private": 2, "state": 2, "crime": 2}, "Every source has two templates")
+	_check(counts == {"private": 2, "state": 5, "crime": 5}, "Faction contracts support the reputation progression")
 	_check_reputation()
 	_check_lifecycle()
 	_check_capacity()
@@ -243,7 +243,7 @@ func _check_view() -> void:
 	_check(view.get_node("%Terminal").visible, "The PC opens its terminal overlay")
 	_check(not view.get_node("%LocationPanel").visible, "The terminal hides room controls behind its overlay")
 	var terminal: Control = view.get_node("%TerminalContent").get_child(0)
-	_check(terminal.get_node("%Orders").get_child_count() == 7, "The original six offers and the vertical-slice delivery are shown")
+	_check(terminal.get_node("%Orders").get_child_count() == 13, "The original offers, faction progression and test delivery are shown")
 	_check(not _button(terminal, "ord_private_01", "Accept").disabled and _button(terminal, "ord_private_02", "Accept").disabled, "Reputation gates affect the accept controls")
 	_check(_button(terminal, "ord_private_01", "Complete") == null, "The office no longer offers instant delivery")
 	var old_accept: Button = _button(terminal, "ord_private_01", "Accept")

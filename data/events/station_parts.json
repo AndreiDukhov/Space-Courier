@@ -1,0 +1,15 @@
+[
+  {
+    "id": "event_station_parts",
+    "trigger": "approach",
+    "conditions": [],
+    "chance": 1,
+    "options": [
+      {
+        "text": "TODO scene text",
+        "effects": [],
+        "tags": []
+      }
+    ]
+  }
+]

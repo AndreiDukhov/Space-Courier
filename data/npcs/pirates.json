@@ -36,12 +36,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_earth_raider_3",
@@ -80,12 +81,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_alpha_raider_2",
@@ -124,12 +126,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_alpha_raider_3",
@@ -168,12 +171,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_beta_raider_2",
@@ -212,12 +216,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_beta_raider_3",
@@ -256,12 +261,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_colony_3_raider_2",
@@ -300,12 +306,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_colony_3_raider_3",
@@ -344,12 +351,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_delta_raider_2",
@@ -388,12 +396,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_delta_raider_3",
@@ -432,12 +441,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_far_raider_2",
@@ -476,12 +486,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_far_raider_3",
@@ -520,12 +531,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_gamma_raider_2",
@@ -564,12 +576,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_gamma_raider_3",
@@ -608,12 +621,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_epsilon_raider_2",
@@ -652,12 +666,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_epsilon_raider_3",
@@ -696,12 +711,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_zeta_raider_2",
@@ -740,12 +756,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_zeta_raider_3",
@@ -784,12 +801,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_orion_raider_2",
@@ -828,12 +846,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_orion_raider_3",
@@ -872,12 +891,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_vega_raider_2",
@@ -916,12 +936,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_vega_raider_3",
@@ -960,12 +981,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_frontier_raider_2",
@@ -1004,12 +1026,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_frontier_raider_3",
@@ -1048,11 +1071,12 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   }
 ]

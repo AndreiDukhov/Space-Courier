@@ -95,7 +95,7 @@ static func validate_links(groups: Dictionary) -> Array[String]:
 		if not objects is Array:
 			continue
 		for object: Variant in objects:
-			if object is Dictionary and object.get("type") == "planet" and object.get("inhabited", false) and events.has(object.get("dialogue")) and events[object["dialogue"]].get("trigger") != "approach":
+			if object is Dictionary and ((object.get("type") == "planet" and object.get("inhabited", false)) or object.get("type") == "station") and events.has(object.get("dialogue")) and events[object["dialogue"]].get("trigger") != "approach":
 				errors.append(str(object.get("id", "")) + ": planet dialogue requires the approach trigger")
 			if object is Dictionary and object.get("type") == "event_marker":
 				if events.has(object.get("event")) and events[object["event"]].get("trigger") != "approach":

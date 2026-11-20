@@ -97,6 +97,8 @@ func _check_computers(hub: Control) -> void:
 	var orders: Control = hub.get_node("%TerminalContent").get_child(0)
 	_check(monitor.get_node("Artwork").get_global_rect().encloses(hub.get_node("%TerminalContent").get_global_rect()), "Office controls fit inside the monitor")
 	await _capture("office-monitor")
+	orders.find_child("Scroll", true, false).ensure_control_visible(orders.get_node("%Orders/ord_private_01"))
+	await _frames()
 	await _click(orders.get_node("%Orders/ord_private_01").find_child("Accept", true, false))
 	_check(OrderManager.status("ord_private_01") == "active", "An order can be accepted inside the monitor")
 	await _click(hub.get_node("%CloseTerminal"))

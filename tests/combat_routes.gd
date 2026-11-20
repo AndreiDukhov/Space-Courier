@@ -1,5 +1,7 @@
 extends Node
 
+const Roster = preload("res://scripts/combat_roster.gd")
+
 const Math = preload("res://scripts/combat_math.gd")
 const Movement = preload("res://scripts/combat_movement.gd")
 const Routes = preload("res://scripts/combat_routes.gd")
@@ -40,10 +42,10 @@ func _battle() -> void:
 	var combat: Dictionary = GameState.state["combat"]
 	combat["player"]["pos"] = [8, 12]
 	combat["player"]["facing"] = 2
-	combat["opponent"]["pos"] = [22, 12]
-	combat["opponent"]["facing"] = 6
+	combat["opponents"][0]["pos"] = [22, 12]
+	combat["opponents"][0]["facing"] = 6
 	for actor: String in ["player", "opponent"]:
-		combat["movement"][actor] = State.new_turn(combat[actor])
+		combat["movement"][actor] = State.new_turn(Roster.actor(actor, combat))
 
 
 func _check_geometry() -> void:
@@ -81,7 +83,7 @@ func _verify_path(path: Array[Vector2i], vessel: Dictionary, turn: Dictionary, b
 		var delta: Vector2i = path[index] - path[index - 1]
 		_check(maxi(absi(delta.x), absi(delta.y)) == 1, "Each route leg connects adjacent cells")
 		_check(Conditions.can_move_vessel(vessel, path[index], turn, budget, settings, occupied), "Every intermediate waypoint is an available highlighted destination")
-		_check(Movement.clear_segment(path[index - 1], path[index], blocked), "A route leg cannot clip an occupied cell or its corner")
+		_check(Movement.clear_segment(path[index - 1], path[index], blocked), "A route leg cannot enter an occupied cell interior")
 
 
 func _check_player_motion() -> void:
@@ -122,7 +124,7 @@ func _check_player_motion() -> void:
 	_check(bow.dot(Movement.heading(arrival_facing)) > 0.9999, "The model keeps its bow pointed along the end of the route")
 	await _capture("facing-arrival")
 	var combat: Dictionary = GameState.state["combat"]
-	_check(Conditions.can_move_vessel(combat["player"], target + Vector2i(1, 1), combat["movement"]["player"], 2, Math.movement_settings(true), Math.cell(combat["opponent"]["pos"])) and not Conditions.can_move_vessel(combat["player"], target + Vector2i.RIGHT, combat["movement"]["player"], 2, Math.movement_settings(true), Math.cell(combat["opponent"]["pos"])), "The next movement cone follows the actual arrival heading")
+	_check(Conditions.can_move_vessel(combat["player"], target + Vector2i(1, 1), combat["movement"]["player"], 2, Math.movement_settings(true), Math.cell(combat["opponents"][0]["pos"])) and not Conditions.can_move_vessel(combat["player"], target + Vector2i.RIGHT, combat["movement"]["player"], 2, Math.movement_settings(true), Math.cell(combat["opponents"][0]["pos"])), "The next movement cone follows the actual arrival heading")
 	var course: Dictionary = DataLoader.get_record("course_cannon")
 	_check(Conditions.can_fire_weapon(combat["player"], {"pos": Math.coordinates(target + Vector2i(2, 2))}, course, 6) and not Conditions.can_fire_weapon(combat["player"], {"pos": Math.coordinates(target + Vector2i(2, 0))}, course, 6), "Course weapons use the same final direction as the visible bow")
 	var snapshot: Dictionary = GameState.serialize()
@@ -148,19 +150,19 @@ func _check_enemy_motion() -> void:
 	var combat: Dictionary = GameState.state["combat"]
 	combat["player"]["pos"] = [14, 12]
 	combat["player"]["facing"] = 6
-	combat["opponent"]["pos"] = [8, 12]
-	combat["opponent"]["facing"] = 2
+	combat["opponents"][0]["pos"] = [8, 12]
+	combat["opponents"][0]["facing"] = 2
 	for actor: String in ["player", "opponent"]:
-		combat["movement"][actor] = State.new_turn(combat[actor])
+		combat["movement"][actor] = State.new_turn(Roster.actor(actor, combat))
 	var view: Control = CombatScene.instantiate()
 	add_child(view)
 	await _frames()
 	var turn: Dictionary = combat["movement"]["opponent"]
 	var target: Vector2i = Vector2i(12, 13)
-	var path: Array[Vector2i] = Routes.path(combat["opponent"], target, turn, 5, settings, Vector2i(14, 12))
+	var path: Array[Vector2i] = Routes.path(combat["opponents"][0], target, turn, 5, settings, Vector2i(14, 12))
 	turn["history"].append({"pos": [8, 12], "move_points": 5, "facing": 2})
-	combat["opponent"]["facing"] = Routes.arrival_facing(path)
-	combat["opponent"]["pos"] = Math.coordinates(target)
+	combat["opponents"][0]["facing"] = Routes.arrival_facing(path)
+	combat["opponents"][0]["pos"] = Math.coordinates(target)
 	EffectApplier.combat_changed.emit()
 	var board: Node3D = view.find_child("Board", true, false)
 	_check(board.is_animating() and not path.is_empty(), "An enemy maneuver uses the shared cell route")
@@ -204,8 +206,8 @@ func _check_legacy_undo() -> void:
 	combat["movement"]["player"]["history"].append({"pos": [8, 12], "move_points": 6})
 	combat["player"]["pos"] = [13, 13]
 	combat["move_points"] = 0
-	combat["opponent"]["pos"] = [13, 12]
-	combat["movement"]["opponent"] = State.new_turn(combat["opponent"])
+	combat["opponents"][0]["pos"] = [9, 12]
+	combat["movement"]["opponent"] = State.new_turn(combat["opponents"][0])
 	_check(GameState.restore(GameState.serialize()) == OK, "A legacy straight-line maneuver remains loadable")
 	var view: Control = CombatScene.instantiate()
 	add_child(view)

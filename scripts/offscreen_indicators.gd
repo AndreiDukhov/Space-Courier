@@ -3,6 +3,7 @@ extends Control
 const Motion = preload("res://scripts/flight_motion.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
+const Navigation = preload("res://scripts/galaxy_navigation.gd")
 const MARGIN: float = 8.0
 const GAP: float = 6.0
 const QUEST_COLOR: Color = Color(0.25, 0.95, 0.45)
@@ -13,6 +14,7 @@ var reserved_rect: Rect2 = Rect2()
 var _objects: Dictionary = {}
 var _rows: Dictionary = {}
 var _directions: Dictionary = {}
+var _gate_numbers: Dictionary = {}
 
 
 func _ready() -> void:
@@ -28,10 +30,13 @@ func rebuild() -> void:
 	_objects.clear()
 	_rows.clear()
 	_directions.clear()
+	_gate_numbers.clear()
 	for object: Dictionary in DataLoader.get_record(str(GameState.state.get("current_system", ""))).get("objects", []):
-		if object.get("type") not in ["planet", "station"]:
+		if object.get("type") not in ["planet", "station", "gate"]:
 			continue
-		var object_id: String = str(object["id"])
+		var object_id: String = str(object["to_route"] if object["type"] == "gate" else object["id"])
+		if object["type"] == "gate":
+			_gate_numbers[object_id] = _gate_numbers.size() + 1
 		_objects[object_id] = object
 		var row: PanelContainer = PanelContainer.new()
 		row.name = object_id
@@ -52,7 +57,7 @@ func rebuild() -> void:
 		contents.add_child(arrow)
 		var label: Label = Label.new()
 		label.name = "Name"
-		label.text = str(object["name"])
+		label.text = _object_name(object_id)
 		label.custom_minimum_size.x = 126
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.max_lines_visible = 2
@@ -70,6 +75,7 @@ func sync() -> void:
 	var center: Vector2 = size * 0.5
 	for object_id: String in _rows:
 		var row: PanelContainer = _rows[object_id]
+		row.get_node("Content/Name").text = _object_name(object_id)
 		var projected: Vector2 = camera.unproject_position(Motion.world_position(_objects[object_id]["pos"], 0.3))
 		row.visible = not Rect2(Vector2.ZERO, size).has_point(projected)
 		if not row.visible:
@@ -86,20 +92,36 @@ func sync() -> void:
 			edge = 2 if direction.y < 0 else 3
 		edges[edge].append(row)
 		row.get_node("Content/Arrow").queue_redraw()
-	for edge: int in range(edges.size()):
+	for edge: int in [2, 3]:
 		_arrange_edge(edges[edge], edge)
+	var top: float = MARGIN
+	var bottom: float = size.y - MARGIN
+	for row: Control in edges[2]:
+		top = maxf(top, row.position.y + row.size.y + GAP)
+	for row: Control in edges[3]:
+		bottom = minf(bottom, row.position.y - GAP)
+	for edge: int in [0, 1]:
+		_arrange_edge(edges[edge], edge, top, bottom)
 
 
-func _arrange_edge(rows: Array, edge: int) -> void:
+func _object_name(object_id: String) -> String:
+	if _gate_numbers.has(object_id):
+		return Navigation.gate_name(object_id, int(_gate_numbers[object_id]))
+	return str(_objects[object_id]["name"])
+
+
+func _arrange_edge(rows: Array, edge: int, lower: float = MARGIN, upper: float = -1.0) -> void:
 	var axis: int = 1 if edge < 2 else 0
+	if upper < 0.0:
+		upper = size[axis] - MARGIN
 	rows.sort_custom(func(a: Control, b: Control) -> bool: return a.position[axis] < b.position[axis])
-	var next: float = MARGIN
+	var next: float = lower
 	if reserved_rect.has_area() and edge == 1:
 		next = maxf(next, reserved_rect.end.y + GAP)
 	for row: Control in rows:
 		row.position[axis] = maxf(row.position[axis], next)
 		next = row.position[axis] + row.size[axis] + GAP
-	next = size[axis] - MARGIN
+	next = upper
 	if reserved_rect.has_area() and edge == 2:
 		next = minf(next, reserved_rect.position.x - GAP)
 	for index: int in range(rows.size() - 1, -1, -1):

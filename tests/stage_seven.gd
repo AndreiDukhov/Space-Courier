@@ -1,5 +1,7 @@
 extends Node
 
+const Roster = preload("res://scripts/combat_roster.gd")
+
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Motion = preload("res://scripts/flight_motion.gd")
 const Math = preload("res://scripts/combat_math.gd")
@@ -48,9 +50,9 @@ func _start() -> void:
 	GameState.state["flight"]["target"] = GameState.state["flight"]["pos"].duplicate()
 	_check(EffectApplier.start_flight_event("event_pirate_test") == OK and EffectApplier.choose_flight_event("event_pirate_test", 0) == OK, "A JSON encounter starts the revised battle")
 	GameState.state["combat"]["player"]["pos"] = [13, 12]
-	GameState.state["combat"]["opponent"]["pos"] = [19, 12]
+	GameState.state["combat"]["opponents"][0]["pos"] = [19, 12]
 	for actor: String in ["player", "opponent"]:
-		GameState.state["combat"]["movement"][actor] = State.new_turn(GameState.state["combat"][actor])
+		GameState.state["combat"]["movement"][actor] = State.new_turn(Roster.actor(actor))
 
 
 func _cone_cells(origin: Vector2i, turn_origin: Vector2i, facing: int, points: int, settings: Dictionary) -> Array[Vector2i]:
@@ -86,7 +88,7 @@ func _check_movement() -> void:
 	_start()
 	var combat: Dictionary = GameState.state["combat"]
 	_check(Math.WIDTH == 32 and Math.HEIGHT == 24 and combat["ap"] == 6 and combat["move_points"] == 6, "The board doubles in both dimensions and retains separate AP and movement")
-	_check(combat["player"]["facing"] == 2 and combat["opponent"]["facing"] == 6, "Eight-direction spawn headings reflect the encounter sides")
+	_check(combat["player"]["facing"] == 2 and combat["opponents"][0]["facing"] == 6, "Eight-direction spawn headings reflect the encounter sides")
 	var before: Dictionary = GameState.serialize()
 	EffectApplier.advance_flight(5.0)
 	_check(GameState.serialize() == before and not Conditions.can_open_flight_map() and not Conditions.can_dock(), "Battle still freezes flight and blocks world navigation")
@@ -155,18 +157,18 @@ func _check_shots() -> void:
 	_start()
 	var original: Dictionary = _force_weapon("course_cannon", 1.0, 0.0, 10)
 	var combat: Dictionary = GameState.state["combat"]
-	var target: Vector2i = Math.cell(combat["opponent"]["pos"])
-	_check(EffectApplier.shoot_combat("course_cannon", target) == OK and combat["last_shot"]["result"] == "hit" and combat["opponent"]["shield"] == 5 and combat["opponent"]["hull"] == 30 and combat["ap"] == 4, "The chosen weapon hits the chosen cell and applies shield damage")
+	var target: Vector2i = Math.cell(combat["opponents"][0]["pos"])
+	_check(EffectApplier.shoot_combat("course_cannon", target) == OK and combat["last_shot"]["result"] == "hit" and combat["opponents"][0]["shield"] == 5 and combat["opponents"][0]["hull"] == 30 and combat["ap"] == 4, "The chosen weapon hits the chosen cell and applies shield damage")
 	var after_shot: Dictionary = GameState.serialize()
 	_check(EffectApplier.shoot_combat("course_cannon", target) == ERR_UNAVAILABLE and GameState.serialize() == after_shot, "A weapon cannot fire twice in the same turn")
 	EffectApplier.end_combat_turn()
-	EffectApplier.shoot_combat("course_cannon", Math.cell(combat["opponent"]["pos"]))
+	EffectApplier.shoot_combat("course_cannon", Math.cell(combat["opponents"][0]["pos"]))
 	EffectApplier.end_combat_turn()
-	_check(EffectApplier.shoot_combat("course_cannon", Math.cell(combat["opponent"]["pos"])) == OK and combat["opponent"]["hull"] == 20, "Shots across separate turns reach hull after depleting shields")
+	_check(EffectApplier.shoot_combat("course_cannon", Math.cell(combat["opponents"][0]["pos"])) == OK and combat["opponents"][0]["hull"] == 20, "Shots across separate turns reach hull after depleting shields")
 	DataLoader.records["course_cannon"] = original.duplicate(true)
 	_start()
 	original = _force_weapon("course_cannon", 1.0, 1.0, 10)
-	GameState.state["combat"]["opponent"]["shield"] = 0.0
+	GameState.state["combat"]["opponents"][0]["shield"] = 0.0
 	_check(EffectApplier.shoot_combat("course_cannon", Vector2i(19, 12)) == OK and GameState.state["combat"]["last_shot"]["result"] == "critical" and GameState.state["combat"]["last_shot"]["damage"] == 20, "A critical hit multiplies damage and is recorded distinctly")
 	DataLoader.records["course_cannon"] = original.duplicate(true)
 	_start()
@@ -175,26 +177,30 @@ func _check_shots() -> void:
 	DataLoader.records["course_cannon"] = original.duplicate(true)
 	_start()
 	original = _force_weapon("course_cannon", 1.0, 0.0, 10)
-	var before_target: Dictionary = GameState.state["combat"]["opponent"].duplicate(true)
-	_check(EffectApplier.shoot_combat("course_cannon", Vector2i(14, 12)) == OK and GameState.state["combat"]["opponent"] == before_target and GameState.state["combat"]["last_shot"]["result"] == "miss", "A legal shot at an empty cell spends AP and cannot auto-target the enemy")
+	var before_target: Dictionary = GameState.state["combat"]["opponents"][0].duplicate(true)
+	_check(EffectApplier.shoot_combat("course_cannon", Vector2i(14, 12)) == OK and GameState.state["combat"]["opponents"][0] == before_target and GameState.state["combat"]["last_shot"]["result"] == "miss", "A legal shot at an empty cell spends AP and cannot auto-target the enemy")
 	_check(Math.shot_chance(GameState.state["combat"]["player"], Vector2i(14, 12), DataLoader.get_record("course_cannon"), true) == 0.0, "The hit preview for an empty cell is zero")
 	DataLoader.records["course_cannon"] = original.duplicate(true)
 	var before: Dictionary = GameState.serialize()
 	_check(EffectApplier.shoot_combat("missing", Vector2i(19, 12)) == ERR_UNAVAILABLE and EffectApplier.shoot_combat("course_cannon", Vector2i(-1, 8)) == ERR_UNAVAILABLE and GameState.serialize() == before, "Missing weapons and invalid target cells cannot consume AP")
 	_check(Math.damage(30, 2, 10, "laser") == {"hull": 24.0, "shield": 0.0}, "Laser damage still applies its hull multiplier after shield spillover")
 	_start()
-	GameState.state["combat"]["opponent"]["pos"] = [13, 15]
-	GameState.state["combat"]["movement"]["opponent"] = State.new_turn(GameState.state["combat"]["opponent"])
+	GameState.state["combat"]["opponents"][0]["pos"] = [13, 15]
+	GameState.state["combat"]["movement"]["opponent"] = State.new_turn(GameState.state["combat"]["opponents"][0])
 	original = _force_weapon("broadside_plasma", 1.0, 0.0, 10)
-	_check(EffectApplier.shoot_combat("broadside_plasma", Vector2i(13, 15)) == OK and GameState.state["combat"]["last_shot"]["weapon"] == "broadside_plasma" and GameState.state["combat"]["opponent"]["shield"] == 0, "The broadside weapon fires at an actual flank target")
+	_check(EffectApplier.shoot_combat("broadside_plasma", Vector2i(13, 15)) == OK and GameState.state["combat"]["last_shot"]["weapon"] == "broadside_plasma" and GameState.state["combat"]["opponents"][0]["shield"] == 0, "The broadside weapon fires at an actual flank target")
 	DataLoader.records["broadside_plasma"] = original.duplicate(true)
 
 
 func _win() -> void:
 	var original: Dictionary = _force_weapon("cannon_s", 1.0, 0.0, 200)
+	var original_course: Dictionary = _force_weapon("course_cannon", 1.0, 0.0, 200)
 	DataLoader.records["cannon_s"]["arc_degrees"] = 360
-	EffectApplier.shoot_combat("cannon_s", Math.cell(GameState.state["combat"]["opponent"]["pos"]))
+	DataLoader.records["course_cannon"]["arc_degrees"] = 360
+	for index: int in range(GameState.state["combat"]["opponents"].size()):
+		EffectApplier.shoot_combat("cannon_s" if index == 0 else "course_cannon", Math.cell(GameState.state["combat"]["opponents"][index]["pos"]))
 	DataLoader.records["cannon_s"] = original.duplicate(true)
+	DataLoader.records["course_cannon"] = original_course.duplicate(true)
 
 
 func _lose() -> void:
@@ -253,7 +259,7 @@ func _check_default_battle() -> void:
 			break
 		if Conditions.can_use_combat_ability("evasive_maneuver"):
 			EffectApplier.use_combat_ability("evasive_maneuver")
-		var target: Vector2i = Math.cell(GameState.state["combat"]["opponent"]["pos"])
+		var target: Vector2i = Math.cell(GameState.state["combat"]["opponents"][0]["pos"])
 		while Conditions.can_shoot_combat("course_cannon", target):
 			EffectApplier.shoot_combat("course_cannon", target)
 		if Conditions.can_act_combat():
@@ -275,9 +281,9 @@ func _check_persistence() -> void:
 	for field: String in ["enemy", "position", "overlap", "ap", "heading", "mp", "history", "origin", "history_cost", "history_limit", "shot", "shot_owner", "movement_parameters", "source", "defeated", "modules", "orders", "missing_movement"]:
 		var invalid: Dictionary = snapshot.duplicate(true)
 		match field:
-			"enemy": invalid["combat"]["enemy"] = "missing"
+			"enemy": invalid["combat"]["opponents"][0]["enemy"] = "missing"
 			"position": invalid["combat"]["player"]["pos"] = [Math.WIDTH, 0]
-			"overlap": invalid["combat"]["player"]["pos"] = invalid["combat"]["opponent"]["pos"].duplicate()
+			"overlap": invalid["combat"]["player"]["pos"] = invalid["combat"]["opponents"][0]["pos"].duplicate()
 			"ap": invalid["combat"]["ap"] = 7
 			"heading": invalid["combat"]["player"]["facing"] = 8
 			"mp": invalid["combat"]["move_points"] = -1
@@ -288,7 +294,7 @@ func _check_persistence() -> void:
 			"shot": invalid["combat"]["last_shot"] = {"shooter": "player", "weapon": "missing", "target": [1, 1], "result": "hit", "damage": 1}
 			"shot_owner": invalid["combat"]["last_shot"] = {"shooter": "opponent", "weapon": "course_cannon", "target": [1, 1], "result": "hit", "damage": 1}
 			"movement_parameters": invalid["ship"]["movement"]["cone_slope_max"] = NAN
-			"source": invalid["combat"]["source_npc"] = "npc_earth_courier"
+			"source": invalid["combat"]["opponents"][0]["source_npc"] = "npc_earth_courier"
 			"defeated": invalid["flight"]["defeated_npcs"] = ["missing"]
 			"modules": invalid["ship"]["modules"] = ["missing"]
 			"orders": invalid["orders"] = []
@@ -385,7 +391,7 @@ func _check_view() -> void:
 	space.gui_input.emit(motion)
 	drag.pressed = false
 	space.gui_input.emit(drag)
-	_check(camera.position != previous_camera and GameState.serialize() == before, "RTS drag pans the camera without moving ships or spending resources")
+	_check(camera.position == previous_camera and GameState.serialize() == before, "Dragging cannot detach the tactical camera from the player")
 	var old_zoom: float = camera.size
 	var wheel: InputEventMouseButton = InputEventMouseButton.new()
 	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
@@ -406,13 +412,13 @@ func _check_view() -> void:
 	space.gui_input.emit(motion)
 	previous_camera = camera.position
 	camera._process(0.25)
-	_check(camera.position.x < previous_camera.x, "Moving the pointer to the field edge scrolls the RTS camera")
-	camera.pan(Vector2(1000, 1000))
-	_check(camera.position.x <= Math.WIDTH / 2.0 and camera.position.z <= Math.HEIGHT / 2.0 + 13.0 and GameState.serialize() == before, "Camera panning is clamped and never mutates battle state")
-	camera.size = 13.0
-	camera.pan(Vector2(-camera.position.x, 13.0 - camera.position.z))
+	_check(camera.position == previous_camera, "The field edge cannot scroll the locked camera")
+	_check((camera.position - board.get_node("PlayerShip").position).is_equal_approx(Vector3(0, 16.85, 13)) and GameState.serialize() == before, "The locked camera preserves its offset without mutating the battle")
+	camera.size = 24.0
 	camera.stop_tracking()
-	view.find_child("evasive_maneuver", true, false).pressed.emit()
+	var selection_state: Dictionary = GameState.serialize()
+	view.find_child("Move", true, false).pressed.emit()
+	_check(view._moving and view._weapon_id.is_empty() and GameState.serialize() == selection_state and view.find_child("evasive_maneuver", true, false) == null, "The movement card replaces evasion and changes mode without spending resources")
 	if "--probe-combat-user-save" in OS.get_cmdline_user_args() and not FileAccess.file_exists(GameState.SAVE_PATH):
 		var snapshot: Dictionary = GameState.serialize()
 		view.find_child("Save", true, false).pressed.emit()

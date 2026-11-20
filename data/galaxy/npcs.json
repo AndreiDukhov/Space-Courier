@@ -27,7 +27,8 @@
     ],
     "speed": 35,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_transport",
@@ -58,7 +59,8 @@
     ],
     "speed": 25,
     "event": "event_transport_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_alpha_courier",
@@ -88,7 +90,8 @@
     ],
     "speed": 40,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_beta_courier",
@@ -118,7 +121,8 @@
     ],
     "speed": 30,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_colony_courier",
@@ -148,7 +152,8 @@
     ],
     "speed": 35,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_delta_courier",
@@ -178,7 +183,8 @@
     ],
     "speed": 45,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_far_courier",
@@ -208,7 +214,8 @@
     ],
     "speed": 30,
     "event": "event_courier_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_pirate",
@@ -247,12 +254,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_earth_traffic_1",
@@ -282,7 +290,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_traffic_2",
@@ -312,7 +321,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_traffic_3",
@@ -342,7 +352,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_traffic_4",
@@ -372,7 +383,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_earth_patrol",
@@ -411,7 +423,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_alpha_traffic_1",
@@ -441,7 +454,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_alpha_traffic_2",
@@ -471,7 +485,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_alpha_traffic_3",
@@ -501,7 +516,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_alpha_traffic_4",
@@ -531,7 +547,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_alpha_patrol",
@@ -570,7 +587,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_alpha_pirate",
@@ -609,12 +627,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_beta_traffic_1",
@@ -644,7 +663,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_beta_traffic_2",
@@ -674,7 +694,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_beta_traffic_3",
@@ -704,7 +725,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_beta_traffic_4",
@@ -734,7 +756,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_beta_patrol",
@@ -773,7 +796,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_beta_pirate",
@@ -812,12 +836,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_colony_3_traffic_1",
@@ -847,7 +872,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_colony_3_traffic_2",
@@ -877,7 +903,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_colony_3_traffic_3",
@@ -907,7 +934,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_colony_3_traffic_4",
@@ -937,7 +965,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_colony_3_patrol",
@@ -976,7 +1005,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_colony_3_pirate",
@@ -1015,12 +1045,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_delta_traffic_1",
@@ -1050,7 +1081,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_delta_traffic_2",
@@ -1080,7 +1112,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_delta_traffic_3",
@@ -1110,7 +1143,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_delta_traffic_4",
@@ -1140,7 +1174,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_delta_patrol",
@@ -1179,7 +1214,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_delta_pirate",
@@ -1218,12 +1254,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_far_traffic_1",
@@ -1253,7 +1290,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_far_traffic_2",
@@ -1283,7 +1321,8 @@
     ],
     "speed": 64,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_far_traffic_3",
@@ -1313,7 +1352,8 @@
     ],
     "speed": 68,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_far_traffic_4",
@@ -1343,7 +1383,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_far_patrol",
@@ -1382,7 +1423,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_far_pirate",
@@ -1421,12 +1463,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_gamma_traffic_1",
@@ -1456,7 +1499,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_traffic_2",
@@ -1486,7 +1530,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_traffic_3",
@@ -1516,7 +1561,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_traffic_4",
@@ -1546,7 +1592,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_traffic_5",
@@ -1576,7 +1623,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_traffic_6",
@@ -1606,7 +1654,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_gamma_patrol",
@@ -1645,7 +1694,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_gamma_pirate",
@@ -1684,12 +1734,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_epsilon_traffic_1",
@@ -1719,7 +1770,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_traffic_2",
@@ -1749,7 +1801,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_traffic_3",
@@ -1779,7 +1832,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_traffic_4",
@@ -1809,7 +1863,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_traffic_5",
@@ -1839,7 +1894,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_traffic_6",
@@ -1869,7 +1925,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_epsilon_patrol",
@@ -1908,7 +1965,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_epsilon_pirate",
@@ -1947,12 +2005,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_zeta_traffic_1",
@@ -1982,7 +2041,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_traffic_2",
@@ -2012,7 +2072,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_traffic_3",
@@ -2042,7 +2103,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_traffic_4",
@@ -2072,7 +2134,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_traffic_5",
@@ -2102,7 +2165,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_traffic_6",
@@ -2132,7 +2196,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_zeta_patrol",
@@ -2171,7 +2236,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_zeta_pirate",
@@ -2210,12 +2276,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_orion_traffic_1",
@@ -2245,7 +2312,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_traffic_2",
@@ -2275,7 +2343,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_traffic_3",
@@ -2305,7 +2374,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_traffic_4",
@@ -2335,7 +2405,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_traffic_5",
@@ -2365,7 +2436,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_traffic_6",
@@ -2395,7 +2467,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_orion_patrol",
@@ -2434,7 +2507,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_orion_pirate",
@@ -2473,12 +2547,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_vega_traffic_1",
@@ -2508,7 +2583,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_traffic_2",
@@ -2538,7 +2614,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_traffic_3",
@@ -2568,7 +2645,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_traffic_4",
@@ -2598,7 +2676,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_traffic_5",
@@ -2628,7 +2707,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_traffic_6",
@@ -2658,7 +2738,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_vega_patrol",
@@ -2697,7 +2778,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_vega_pirate",
@@ -2736,12 +2818,13 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   },
   {
     "id": "npc_frontier_traffic_1",
@@ -2771,7 +2854,8 @@
     ],
     "speed": 60,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_traffic_2",
@@ -2801,7 +2885,8 @@
     ],
     "speed": 63,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_traffic_3",
@@ -2831,7 +2916,8 @@
     ],
     "speed": 66,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_traffic_4",
@@ -2861,7 +2947,8 @@
     ],
     "speed": 69,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_traffic_5",
@@ -2891,7 +2978,8 @@
     ],
     "speed": 72,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_traffic_6",
@@ -2921,7 +3009,8 @@
     ],
     "speed": 75,
     "event": "event_traffic_test",
-    "role": "civilian"
+    "role": "civilian",
+    "combat_profile": "civilian_ship"
   },
   {
     "id": "npc_frontier_patrol",
@@ -2960,7 +3049,8 @@
       "pirate_loss_chance": 0.8,
       "cooldown": 16,
       "respawn_seconds": 95
-    }
+    },
+    "combat_profile": "patrol_ship"
   },
   {
     "id": "npc_frontier_pirate",
@@ -2999,11 +3089,12 @@
       "cooldown": 22
     },
     "pairing": {
-      "chance": 0.45,
+      "chance": 0.65,
       "radius": 220,
-      "duration": 22,
+      "duration": 28,
       "spacing": 42,
-      "cooldown": 35
-    }
+      "cooldown": 25
+    },
+    "combat_profile": "pirate_light"
   }
 ]

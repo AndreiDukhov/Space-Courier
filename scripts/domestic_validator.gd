@@ -65,6 +65,21 @@ static func validate_record(record: Dictionary, group: String) -> Array[String]:
 			if record.get("type") == "cookbook" and (not record.get("teaches") is Array or record.get("teaches", []).is_empty()):
 				errors.append("Cookbooks must teach at least one recipe")
 		"shops":
+			if record.has("modules"):
+				if not record["modules"] is Array or record["modules"].is_empty():
+					errors.append("Module shop requires module ids")
+				else:
+					var module_ids: Dictionary = {}
+					for module_id: Variant in record["modules"]:
+						if not module_id is String or module_ids.has(module_id):
+							errors.append("Module shop ids must be unique strings")
+						module_ids[module_id] = true
+				if not Numbers.whole_number(record.get("delivery_days")) or record["delivery_days"] < 0:
+					errors.append("Module shop requires nonnegative delivery_days")
+				if not record.get("requires") is Array:
+					errors.append("Module shop requires conditions")
+				else:
+					errors.append_array(Conditions.validate(record["requires"]))
 			if record.has("owner") and not record["owner"] is String:
 				errors.append("Shop requires an owner")
 			if not record.get("open_slots") is Array or record.get("open_slots", []).is_empty():
@@ -81,7 +96,7 @@ static func validate_record(record: Dictionary, group: String) -> Array[String]:
 				for item_type: Variant in record["buys"]:
 					if item_type not in ITEM_TYPES:
 						errors.append("Unknown type in shop buys")
-			if not record.get("items") is Array or record.get("items", []).is_empty():
+			if not record.get("items") is Array or (record.get("items", []).is_empty() and not record.has("modules")):
 				errors.append("Shop requires stock")
 			else:
 				var seen: Dictionary = {}
@@ -182,13 +197,13 @@ static func validate_links(groups: Dictionary) -> Array[String]:
 		if not available:
 			errors.append(str(item["id"]) + ": cookbook has no shop, salvage or reward source")
 	for shop: Dictionary in groups.get("shops", []):
-		if not shop.has("owner"):
+		if not shop.has("owner") and not shop.has("location"):
 			var linked: bool = false
 			for system: Dictionary in groups.get("systems", []):
 				for object: Dictionary in system.get("objects", []):
-					linked = linked or (object.get("type") == "planet" and object.get("inhabited", false) and object.get("shop") == shop["id"])
+					linked = linked or ((object.get("type") == "station" or (object.get("type") == "planet" and object.get("inhabited", false))) and object.get("shop") == shop["id"])
 			if not linked:
-				errors.append(str(shop["id"]) + ": ownerless shop requires an inhabited planet")
+				errors.append(str(shop["id"]) + ": ownerless shop requires an inhabited planet or station")
 		var owner: Dictionary = {}
 		for heroine: Dictionary in groups.get("heroines", []):
 			if heroine["id"] == shop.get("owner"):

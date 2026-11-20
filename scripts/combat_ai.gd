@@ -6,10 +6,26 @@ const Routes = preload("res://scripts/combat_routes.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 
 
-static func plan(vessel: Dictionary, turn: Dictionary, remaining: int, settings: Dictionary, target: Dictionary, weapons: Array[Dictionary], ap: int = Math.ACTION_POINTS, fired: Array = []) -> Array[Vector2i]:
+static func choose_target(vessel: Dictionary, targets: Array[Dictionary], weapons: Array[Dictionary]) -> Dictionary:
+	var result: Dictionary = {}
+	var best: Array[float] = []
+	var nearest: float = INF
+	for target: Dictionary in targets:
+		var score: Array[float] = _score(vessel, target, Math.strongest_first(weapons), Math.ACTION_POINTS, [], 0)
+		var distance: float = Math.distance(Math.cell(vessel["pos"]), Math.cell(target["pos"]))
+		if result.is_empty() or _better(score, best) or (not _better(best, score) and distance < nearest):
+			result = target
+			best = score
+			nearest = distance
+	return result
+
+
+static func plan(vessel: Dictionary, turn: Dictionary, remaining: int, settings: Dictionary, target: Dictionary, weapons: Array[Dictionary], ap: int = Math.ACTION_POINTS, fired: Array = [], occupied: Variant = null) -> Array[Vector2i]:
 	var ordered: Array[Dictionary] = Math.strongest_first(weapons)
 	var origin: Vector2i = Math.cell(vessel["pos"])
 	var target_cell: Vector2i = Math.cell(target["pos"])
+	if occupied == null:
+		occupied = target_cell
 	var states: Array[Dictionary] = [{"pos": origin, "facing": int(vessel["facing"]), "previous": -1, "spent": 0}]
 	var buckets: Array = []
 	for _cost: int in range(remaining + 1):
@@ -49,7 +65,7 @@ static func plan(vessel: Dictionary, turn: Dictionary, remaining: int, settings:
 			for z: int in range(maxi(0, position.y - budget), mini(Math.HEIGHT, position.y + budget + 1)):
 				for x: int in range(maxi(0, position.x - budget), mini(Math.WIDTH, position.x + budget + 1)):
 					var cell: Vector2i = Vector2i(x, z)
-					var route: Array[Vector2i] = Conditions.vessel_move_path(current, cell, turn, budget, settings, target_cell)
+					var route: Array[Vector2i] = Conditions.vessel_move_path(current, cell, turn, budget, settings, occupied)
 					if route.is_empty():
 						continue
 					var facing: int = Routes.arrival_facing(route)

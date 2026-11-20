@@ -1,5 +1,7 @@
 extends Node
 
+const Roster = preload("res://scripts/combat_roster.gd")
+
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Math = preload("res://scripts/combat_math.gd")
 const Movement = preload("res://scripts/combat_movement.gd")
@@ -49,9 +51,9 @@ func _start(profile: Array = ["cannon_s", "course_cannon", "broadside_plasma"]) 
 	GameState.state["flight"]["npcs"]["npc_earth_pirate"]["weapons"] = profile.duplicate()
 	_check(EffectApplier.start_flight_event("event_pirate_test") == OK and EffectApplier.choose_flight_event("event_pirate_test", 0) == OK, "The encounter starts with the stored enemy loadout")
 	GameState.state["combat"]["player"]["pos"] = [13, 12]
-	GameState.state["combat"]["opponent"]["pos"] = [19, 12]
+	GameState.state["combat"]["opponents"][0]["pos"] = [19, 12]
 	for actor: String in ["player", "opponent"]:
-		GameState.state["combat"]["movement"][actor] = State.new_turn(GameState.state["combat"][actor])
+		GameState.state["combat"]["movement"][actor] = State.new_turn(Roster.actor(actor))
 
 
 func _check_loadouts() -> void:
@@ -63,13 +65,13 @@ func _check_loadouts() -> void:
 		seen[JSON.stringify(ids)] = true
 	_check(seen.size() == 3, "Random selection can produce turret-only, broadside-only and all-weapons profiles")
 	_fresh()
-	_check(GameState.state["flight"]["npcs"]["npc_earth_courier"]["weapons"].is_empty(), "A noncombat NPC has no accidental enemy loadout")
+	_check(Loadouts.valid(Loadouts.enemy_for_npc("npc_earth_courier"), GameState.state["flight"]["npcs"]["npc_earth_courier"]["weapons"]), "Civilian ships carry the combat profile needed for intervention")
 	var profile: Array = GameState.state["flight"]["npcs"]["npc_earth_pirate"]["weapons"].duplicate()
 	_check(GameState.save_game(SAVE_PATH) == OK, "A pre-encounter enemy loadout can be saved")
 	EffectApplier.advance_flight(0.2)
 	_check(GameState.state["flight"]["npcs"]["npc_earth_pirate"]["weapons"] == profile, "Patrol movement preserves equipment")
 	_check(GameState.load_game(SAVE_PATH) == OK and GameState.state["flight"]["npcs"]["npc_earth_pirate"]["weapons"] == profile, "Loading does not reroll enemy equipment")
-	_check(EffectApplier.start_flight_event("event_pirate_test") == OK and EffectApplier.choose_flight_event("event_pirate_test", 0) == OK and GameState.state["combat"]["opponent"]["weapons"] == profile, "Combat uses exactly the loadout assigned before approach")
+	_check(EffectApplier.start_flight_event("event_pirate_test") == OK and EffectApplier.choose_flight_event("event_pirate_test", 0) == OK and GameState.state["combat"]["opponents"][0]["weapons"] == profile, "Combat uses exactly the loadout assigned before approach")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
 
 
@@ -154,8 +156,8 @@ func _check_save_contract() -> void:
 		var invalid: Dictionary = snapshot.duplicate(true)
 		match field:
 			"empty_loadout": invalid["flight"]["npcs"]["npc_earth_pirate"]["weapons"] = []
-			"unknown_loadout": invalid["combat"]["opponent"]["weapons"] = ["missing"]
-			"changed_loadout": invalid["combat"]["opponent"]["weapons"] = ["cannon_s"]
+			"unknown_loadout": invalid["combat"]["opponents"][0]["weapons"] = ["missing"]
+			"changed_loadout": invalid["combat"]["opponents"][0]["weapons"] = ["cannon_s"]
 			"duplicate_fired": invalid["combat"]["fired"]["player"] = ["cannon_s", "cannon_s"]
 			"foreign_fired": invalid["combat"]["fired"]["player"] = ["engine_mk1"]
 			"shot_origin": invalid["combat"]["shots"][0]["origin"] = [-1, 0]
@@ -218,14 +220,14 @@ func _check_fx() -> void:
 	for result: String in ["miss", "hit", "critical"]:
 		var original: Dictionary = _force_weapon("course_cannon", 0.0 if result == "miss" else 1.0, 1.0 if result == "critical" else 0.0)
 		var before: int = _explosions
-		EffectApplier.shoot_combat("course_cannon", Math.cell(GameState.state["combat"]["opponent"]["pos"]))
+		EffectApplier.shoot_combat("course_cannon", Math.cell(GameState.state["combat"]["opponents"][0]["pos"]))
 		_check(board.is_animating() and fx.active and fx.has_node("ShotBeam"), "A shot immediately starts a visible beam and locks combat input")
 		_check(view.find_child("Weapon_course_cannon", true, false).disabled and GameState.state["combat"]["fired"]["player"] == ["course_cannon"], "The used gun is disabled while its shot is consumed")
 		await get_tree().create_timer(0.08).timeout
 		var beam: Node3D = fx.get_node("ShotBeam")
 		var beam_mesh: MeshInstance3D = beam.get_child(0)
 		var ray: Vector3 = -beam.global_basis.z.normalized() * beam_mesh.mesh.height
-		var actual_target: Vector3 = Math.world_position(GameState.state["combat"]["opponent"]["pos"]) + Vector3(0, 0.33, 0)
+		var actual_target: Vector3 = Math.world_position(GameState.state["combat"]["opponents"][0]["pos"]) + Vector3(0, 0.33, 0)
 		var separation: float = (actual_target - beam.global_position).cross(ray).length() / ray.length()
 		_check(separation > 0.45 if result == "miss" else separation < 0.001, "A miss beam passes beside the target while a hit beam reaches its center")
 		await _capture("beam-" + result)
@@ -246,7 +248,7 @@ func _check_fx() -> void:
 	_check(_shown_shots == before and GameState.serialize() == snapshot, "Loading an old volley does not replay beams or alter damage")
 	var original: Dictionary = _force_weapon("course_cannon", 1.0)
 	var previous_explosions: int = _explosions
-	EffectApplier.shoot_combat("course_cannon", Math.cell(GameState.state["combat"]["opponent"]["pos"]))
+	EffectApplier.shoot_combat("course_cannon", Math.cell(GameState.state["combat"]["opponents"][0]["pos"]))
 	snapshot = GameState.serialize()
 	_check(GameState.save_game(SAVE_PATH) == OK and GameState.load_game(SAVE_PATH) == OK and not board.is_animating(), "Loading during a beam cancels the visual and preserves the resolved shot")
 	await get_tree().create_timer(0.65).timeout

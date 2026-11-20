@@ -1,0 +1,110 @@
+[
+  {
+    "id": "hub_module_parts",
+    "open_slots": [
+      "morning",
+      "day",
+      "evening",
+      "night"
+    ],
+    "items": [],
+    "buys": [],
+    "sell_ratio": 0.5,
+    "modules": [
+      "engine_mk1",
+      "cannon_s",
+      "course_cannon",
+      "broadside_plasma",
+      "maneuver_mk1",
+      "armor_mk1",
+      "shield_mk1",
+      "engine_mk2",
+      "maneuver_mk2",
+      "armor_mk2",
+      "shield_mk2",
+      "turret_mk2",
+      "course_mk2",
+      "broadside_mk4",
+      "fuel_tank_mk1",
+      "fuel_tank_mk2",
+      "turret_sweep",
+      "turret_heavy",
+      "turret_array",
+      "course_spread",
+      "course_lance",
+      "course_assault",
+      "broadside_fan",
+      "broadside_siege",
+      "broadside_array",
+      "engine_cruise",
+      "engine_tug",
+      "maneuver_vector",
+      "armor_heavy",
+      "shield_capacitor",
+      "fuel_tank_large"
+    ],
+    "requires": [],
+    "delivery_days": 1,
+    "location": "hub_tech"
+  },
+  {
+    "id": "mafia_module_parts",
+    "open_slots": [
+      "morning",
+      "day",
+      "evening",
+      "night"
+    ],
+    "items": [],
+    "buys": [],
+    "sell_ratio": 0.5,
+    "modules": [
+      "mafia_turret",
+      "mafia_course",
+      "mafia_broadside",
+      "mafia_engine",
+      "mafia_maneuver",
+      "mafia_armor",
+      "mafia_shield",
+      "mafia_tank"
+    ],
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 30
+      }
+    ],
+    "delivery_days": 0
+  },
+  {
+    "id": "police_module_parts",
+    "open_slots": [
+      "morning",
+      "day",
+      "evening",
+      "night"
+    ],
+    "items": [],
+    "buys": [],
+    "sell_ratio": 0.5,
+    "modules": [
+      "police_turret",
+      "police_course",
+      "police_broadside",
+      "police_engine",
+      "police_maneuver",
+      "police_armor",
+      "police_shield",
+      "police_tank"
+    ],
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 30
+      }
+    ],
+    "delivery_days": 0
+  }
+]

@@ -99,6 +99,7 @@ func _check_clock() -> void:
 func _check_persistence() -> void:
 	_check(GameState.SAVE_PATH == "user://save.json", "Production saves use the required user path")
 	var expected_fields: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes"]
+	expected_fields.append_array(["module_storage", "module_deliveries"])
 	_check(GameState.serialize().size() == expected_fields.size() and GameState.serialize().has_all(expected_fields), "Only the agreed state fields are serialized")
 	GameState.state["flags"]["stage_one_check"] = true
 	var snapshot: Dictionary = GameState.serialize()

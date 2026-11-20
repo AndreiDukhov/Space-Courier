@@ -4,6 +4,7 @@ signal finished
 signal shot_started(shot: Dictionary)
 signal explosion_created
 
+const Roster = preload("res://scripts/combat_roster.gd")
 const Math = preload("res://scripts/combat_math.gd")
 
 var active: bool = false
@@ -30,7 +31,7 @@ func play(shots: Array) -> void:
 		if not hit:
 			var direction: Vector3 = (target - origin).normalized()
 			target += Vector3(-direction.z, 0, direction.x) * 1.1 + direction * 0.9
-		var color: Color = Color(0.2, 0.9, 1.0) if shot["shooter"] == "player" else Color(1.0, 0.35, 0.12)
+		var color: Color = Color(0.2, 0.9, 1.0) if Roster.friendly(str(shot["shooter"])) else Color(1.0, 0.35, 0.12)
 		var beam: Node3D = _beam(origin, target, color)
 		await get_tree().create_timer(0.18).timeout
 		if generation != _generation:

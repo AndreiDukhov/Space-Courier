@@ -1,0 +1,284 @@
+[
+  {
+    "id": "ord_state_03",
+    "source": "state",
+    "title": "TODO state parts contract 03",
+    "cargo": {
+      "type": "food",
+      "mass": 3,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 5
+      }
+    ],
+    "reward": [
+      {
+        "money": 1800
+      },
+      {
+        "rep": "state",
+        "add": 5
+      }
+    ],
+    "failure": [
+      {
+        "rep": "state",
+        "add": -4
+      }
+    ],
+    "action_tags": [
+      "law_abiding",
+      "help_civilians"
+    ],
+    "risk_tags": [],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_state_04",
+    "source": "state",
+    "title": "TODO state parts contract 04",
+    "cargo": {
+      "type": "food",
+      "mass": 2,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 10
+      }
+    ],
+    "reward": [
+      {
+        "money": 2600
+      },
+      {
+        "rep": "state",
+        "add": 8
+      }
+    ],
+    "failure": [
+      {
+        "rep": "state",
+        "add": -4
+      }
+    ],
+    "action_tags": [
+      "law_abiding",
+      "help_civilians"
+    ],
+    "risk_tags": [],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_state_05",
+    "source": "state",
+    "title": "TODO state parts contract 05",
+    "cargo": {
+      "type": "food",
+      "mass": 3,
+      "tags": [
+        "legal"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "state",
+        "op": ">=",
+        "value": 18
+      }
+    ],
+    "reward": [
+      {
+        "money": 4000
+      },
+      {
+        "rep": "state",
+        "add": 12
+      }
+    ],
+    "failure": [
+      {
+        "rep": "state",
+        "add": -4
+      }
+    ],
+    "action_tags": [
+      "law_abiding",
+      "help_civilians"
+    ],
+    "risk_tags": [],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_crime_03",
+    "source": "crime",
+    "title": "TODO crime parts contract 03",
+    "cargo": {
+      "type": "contraband",
+      "mass": 3,
+      "tags": [
+        "contraband"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 5
+      }
+    ],
+    "reward": [
+      {
+        "money": 2200
+      },
+      {
+        "rep": "mafia",
+        "add": 5
+      }
+    ],
+    "failure": [
+      {
+        "rep": "mafia",
+        "add": -4
+      },
+      {
+        "flag": "mafia_hunt",
+        "set": true
+      }
+    ],
+    "action_tags": [
+      "smuggling",
+      "risk"
+    ],
+    "risk_tags": [
+      "illegal_cargo"
+    ],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_crime_04",
+    "source": "crime",
+    "title": "TODO crime parts contract 04",
+    "cargo": {
+      "type": "contraband",
+      "mass": 2,
+      "tags": [
+        "contraband"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 10
+      }
+    ],
+    "reward": [
+      {
+        "money": 3200
+      },
+      {
+        "rep": "mafia",
+        "add": 8
+      }
+    ],
+    "failure": [
+      {
+        "rep": "mafia",
+        "add": -4
+      },
+      {
+        "flag": "mafia_hunt",
+        "set": true
+      }
+    ],
+    "action_tags": [
+      "smuggling",
+      "risk"
+    ],
+    "risk_tags": [
+      "illegal_cargo"
+    ],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  },
+  {
+    "id": "ord_crime_05",
+    "source": "crime",
+    "title": "TODO crime parts contract 05",
+    "cargo": {
+      "type": "contraband",
+      "mass": 3,
+      "tags": [
+        "contraband"
+      ]
+    },
+    "from": "sys_earth",
+    "to": "sys_colony_3",
+    "deadline_days": 8,
+    "requires": [
+      {
+        "rep": "mafia",
+        "op": ">=",
+        "value": 18
+      }
+    ],
+    "reward": [
+      {
+        "money": 4500
+      },
+      {
+        "rep": "mafia",
+        "add": 12
+      }
+    ],
+    "failure": [
+      {
+        "rep": "mafia",
+        "add": -4
+      },
+      {
+        "flag": "mafia_hunt",
+        "set": true
+      }
+    ],
+    "action_tags": [
+      "smuggling",
+      "risk"
+    ],
+    "risk_tags": [
+      "illegal_cargo"
+    ],
+    "description": "TODO scene text",
+    "to_planet": "colony_3_1"
+  }
+]

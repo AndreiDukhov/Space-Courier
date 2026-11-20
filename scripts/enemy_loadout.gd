@@ -10,7 +10,8 @@ static func enemy_for_event(event_id: String) -> String:
 
 
 static func enemy_for_npc(npc_id: String) -> String:
-	return enemy_for_event(str(DataLoader.get_record(npc_id).get("event", "")))
+	var npc: Dictionary = DataLoader.get_record(npc_id)
+	return str(npc["combat_profile"]) if npc.has("combat_profile") else enemy_for_event(str(npc.get("event", "")))
 
 
 static func roll(enemy_id: String) -> Array[String]:

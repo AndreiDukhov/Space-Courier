@@ -2,7 +2,7 @@
   {
     "id": "engine_mk1",
     "slot": "engine",
-    "cost": 0,
+    "cost": 400,
     "thrust": 6,
     "effects": [],
     "requires": [],
@@ -34,7 +34,7 @@
       "multiplier": 1.5
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 600,
     "effects": [],
     "requires": [],
     "description": "Тестовая башня. Обстрел почти по кругу, кроме кормы."
@@ -63,7 +63,7 @@
       "multiplier": 1.75
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 650,
     "effects": [],
     "requires": [],
     "description": "Тестовое курсовое орудие. Стреляет прямо по носу."
@@ -92,7 +92,7 @@
       "multiplier": 1.5
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 900,
     "effects": [],
     "requires": [],
     "description": "Тестовый комплект для обоих бортов. Стреляет в боковых секторах."
@@ -102,7 +102,7 @@
     "slot": "maneuver_engine",
     "name": "Маневровый МК1",
     "description": "Тестовый базовый маневровый двигатель. Уровень 0.",
-    "cost": 0,
+    "cost": 300,
     "effects": [],
     "requires": [],
     "maneuver_level": 0
@@ -112,7 +112,7 @@
     "slot": "armor",
     "name": "Обшивка МК1",
     "description": "Тестовая базовая броня корпуса. Дополнительный корпус 0.",
-    "cost": 0,
+    "cost": 250,
     "effects": [],
     "requires": [],
     "hull_bonus": 0
@@ -122,7 +122,7 @@
     "slot": "shield",
     "name": "Генератор МК1",
     "description": "Тестовый генератор. Максимальный запас щитов 10.",
-    "cost": 0,
+    "cost": 300,
     "effects": [],
     "requires": [],
     "shield": 10
@@ -130,7 +130,7 @@
   {
     "id": "engine_mk2",
     "slot": "engine",
-    "cost": 0,
+    "cost": 1800,
     "thrust": 8,
     "effects": [],
     "requires": [],
@@ -143,7 +143,7 @@
     "slot": "maneuver_engine",
     "name": "Маневровый МК2",
     "description": "Тестовый маневровый двигатель. Уровень +1 расширяет конус и уменьшает инерцию.",
-    "cost": 0,
+    "cost": 1100,
     "effects": [],
     "requires": [],
     "maneuver_level": 1
@@ -153,7 +153,7 @@
     "slot": "armor",
     "name": "Бронеплиты МК2",
     "description": "Тестовые бронеплиты. Дополнительный корпус +25. Полученные повреждения сохраняются.",
-    "cost": 0,
+    "cost": 1000,
     "effects": [],
     "requires": [],
     "hull_bonus": 25
@@ -163,7 +163,7 @@
     "slot": "shield",
     "name": "Генератор МК2",
     "description": "Тестовый генератор. Максимальный запас щитов 20.",
-    "cost": 0,
+    "cost": 1000,
     "effects": [],
     "requires": [],
     "shield": 20
@@ -192,7 +192,7 @@
       "multiplier": 1.5
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 950,
     "effects": [],
     "requires": [],
     "description": "Тестовая башня. Урон 6–10, дальность 5, сектор 300°."
@@ -221,7 +221,7 @@
       "multiplier": 1.75
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 900,
     "effects": [],
     "requires": [],
     "description": "Тестовое курсовое орудие. Урон 10–16, дальность 9, стрельба прямо по носу."
@@ -250,9 +250,628 @@
       "multiplier": 1.5
     },
     "slot": "weapon",
-    "cost": 0,
+    "cost": 1400,
     "effects": [],
     "requires": [],
     "description": "Тестовый комплект обоих бортов. Урон 9–13, дальность 7, боковые сектора."
+  },
+  {
+    "id": "fuel_tank_mk1",
+    "name": "Топливный бак МК1",
+    "slot": "fuel_tank",
+    "fuel_bonus": 0,
+    "cost": 200,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый топливный бак. Дополнительная ёмкость +0."
+  },
+  {
+    "id": "fuel_tank_mk2",
+    "name": "Увеличенный бак МК2",
+    "slot": "fuel_tank",
+    "fuel_bonus": 30,
+    "cost": 950,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый топливный бак. Дополнительная ёмкость +30."
+  },
+  {
+    "id": "turret_sweep",
+    "name": "Башня «Обзор»",
+    "mount": "turret",
+    "type": "laser",
+    "dmg": [
+      4,
+      6
+    ],
+    "range": 5,
+    "ap_cost": 2,
+    "arc": "turret",
+    "arc_degrees": 330,
+    "accuracy": {
+      "close": 0.9,
+      "far": 0.55,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.12,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 600,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 4–6, дальность 5, сектор 330°."
+  },
+  {
+    "id": "turret_heavy",
+    "name": "Башня «Молот»",
+    "mount": "turret",
+    "type": "laser",
+    "dmg": [
+      10,
+      15
+    ],
+    "range": 4,
+    "ap_cost": 2,
+    "arc": "turret",
+    "arc_degrees": 240,
+    "accuracy": {
+      "close": 0.9,
+      "far": 0.55,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.12,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 1250,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 10–15, дальность 4, сектор 240°."
+  },
+  {
+    "id": "turret_array",
+    "name": "Башня «Спектр»",
+    "mount": "turret",
+    "type": "laser",
+    "dmg": [
+      9,
+      13
+    ],
+    "range": 6,
+    "ap_cost": 2,
+    "arc": "turret",
+    "arc_degrees": 320,
+    "accuracy": {
+      "close": 0.9,
+      "far": 0.55,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.12,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 1450,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 9–13, дальность 6, сектор 320°."
+  },
+  {
+    "id": "course_spread",
+    "name": "Курсовая пушка «Веер»",
+    "mount": "course",
+    "type": "kinetic",
+    "dmg": [
+      7,
+      11
+    ],
+    "range": 7,
+    "ap_cost": 2,
+    "arc": "front",
+    "arc_degrees": 30,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.5,
+      "hull_penalty": 0.25,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.1,
+      "multiplier": 1.75
+    },
+    "slot": "weapon",
+    "cost": 750,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 7–11, дальность 7, сектор 30°."
+  },
+  {
+    "id": "course_lance",
+    "name": "Курсовая пушка «Копьё»",
+    "mount": "course",
+    "type": "kinetic",
+    "dmg": [
+      16,
+      24
+    ],
+    "range": 11,
+    "ap_cost": 2,
+    "arc": "front",
+    "arc_degrees": 0,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.5,
+      "hull_penalty": 0.25,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.1,
+      "multiplier": 1.75
+    },
+    "slot": "weapon",
+    "cost": 1550,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 16–24, дальность 11, сектор 0°."
+  },
+  {
+    "id": "course_assault",
+    "name": "Курсовая пушка «Штурм»",
+    "mount": "course",
+    "type": "kinetic",
+    "dmg": [
+      14,
+      20
+    ],
+    "range": 10,
+    "ap_cost": 2,
+    "arc": "front",
+    "arc_degrees": 20,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.5,
+      "hull_penalty": 0.25,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.1,
+      "multiplier": 1.75
+    },
+    "slot": "weapon",
+    "cost": 1650,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 14–20, дальность 10, сектор 20°."
+  },
+  {
+    "id": "broadside_fan",
+    "name": "Бортовой комплект «Заслон»",
+    "mount": "broadside",
+    "type": "laser",
+    "dmg": [
+      6,
+      10
+    ],
+    "range": 6,
+    "ap_cost": 2,
+    "arc": "broadside",
+    "arc_degrees": 140,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.6,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.2
+    },
+    "critical": {
+      "chance": 0.15,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 1050,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 6–10, дальность 6, сектор 140°."
+  },
+  {
+    "id": "broadside_siege",
+    "name": "Бортовой комплект «Осада»",
+    "mount": "broadside",
+    "type": "laser",
+    "dmg": [
+      16,
+      22
+    ],
+    "range": 8,
+    "ap_cost": 2,
+    "arc": "broadside",
+    "arc_degrees": 60,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.6,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.2
+    },
+    "critical": {
+      "chance": 0.15,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 2350,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 16–22, дальность 8, сектор 60°."
+  },
+  {
+    "id": "broadside_array",
+    "name": "Бортовой комплект «Бастион»",
+    "mount": "broadside",
+    "type": "laser",
+    "dmg": [
+      13,
+      18
+    ],
+    "range": 8,
+    "ap_cost": 2,
+    "arc": "broadside",
+    "arc_degrees": 120,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.6,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.2
+    },
+    "critical": {
+      "chance": 0.15,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 2250,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 13–18, дальность 8, сектор 120°."
+  },
+  {
+    "id": "engine_cruise",
+    "slot": "engine",
+    "cost": 1950,
+    "thrust": 8,
+    "effects": [],
+    "requires": [],
+    "name": "Маршевый двигатель",
+    "description": "Тестовый модуль: скорость 220, тяга ОП 8.",
+    "speed": 220
+  },
+  {
+    "id": "engine_tug",
+    "slot": "engine",
+    "cost": 2500,
+    "thrust": 11,
+    "effects": [],
+    "requires": [],
+    "name": "Тяговый двигатель",
+    "description": "Тестовый модуль: скорость 180, тяга ОП 11.",
+    "speed": 180
+  },
+  {
+    "id": "maneuver_vector",
+    "slot": "maneuver_engine",
+    "name": "Векторные двигатели",
+    "description": "Тестовый модуль: маневренность + 2.",
+    "cost": 1900,
+    "effects": [],
+    "requires": [],
+    "maneuver_level": 2
+  },
+  {
+    "id": "armor_heavy",
+    "slot": "armor",
+    "name": "Тяжёлая броня",
+    "description": "Тестовый модуль: корпус + 75.",
+    "cost": 2500,
+    "effects": [],
+    "requires": [],
+    "hull_bonus": 75
+  },
+  {
+    "id": "shield_capacitor",
+    "slot": "shield",
+    "name": "Ёмкостный генератор",
+    "description": "Тестовый модуль: щит 40.",
+    "cost": 2400,
+    "effects": [],
+    "requires": [],
+    "shield": 40
+  },
+  {
+    "id": "fuel_tank_large",
+    "name": "Дальний топливный бак",
+    "slot": "fuel_tank",
+    "fuel_bonus": 60,
+    "cost": 1700,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль: бак + 60."
+  },
+  {
+    "id": "mafia_turret",
+    "name": "Башня «Корсар»",
+    "mount": "turret",
+    "type": "laser",
+    "dmg": [
+      20,
+      28
+    ],
+    "range": 8,
+    "ap_cost": 2,
+    "arc": "turret",
+    "arc_degrees": 345,
+    "accuracy": {
+      "close": 0.9,
+      "far": 0.55,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 7100,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 20–28, дальность 8, сектор 345°. Уникальная серия станции."
+  },
+  {
+    "id": "mafia_course",
+    "name": "Курсовая пушка «Корсар»",
+    "mount": "course",
+    "type": "kinetic",
+    "dmg": [
+      26,
+      38
+    ],
+    "range": 12,
+    "ap_cost": 2,
+    "arc": "front",
+    "arc_degrees": 25,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.5,
+      "hull_penalty": 0.25,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.75
+    },
+    "slot": "weapon",
+    "cost": 6700,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 26–38, дальность 12, сектор 25°. Уникальная серия станции."
+  },
+  {
+    "id": "mafia_broadside",
+    "name": "Бортовой комплект «Корсар»",
+    "mount": "broadside",
+    "type": "laser",
+    "dmg": [
+      24,
+      34
+    ],
+    "range": 10,
+    "ap_cost": 2,
+    "arc": "broadside",
+    "arc_degrees": 160,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.6,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.2
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 9350,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 24–34, дальность 10, сектор 160°. Уникальная серия станции."
+  },
+  {
+    "id": "mafia_engine",
+    "slot": "engine",
+    "cost": 7250,
+    "thrust": 14,
+    "effects": [],
+    "requires": [],
+    "name": "Двигатель «Корсар»",
+    "description": "Тестовый модуль: скорость 220, тяга ОП 14.",
+    "speed": 220
+  },
+  {
+    "id": "mafia_maneuver",
+    "slot": "maneuver_engine",
+    "name": "Маневровый блок «Корсар»",
+    "description": "Тестовый модуль: маневренность + 4.",
+    "cost": 6300,
+    "effects": [],
+    "requires": [],
+    "maneuver_level": 4
+  },
+  {
+    "id": "mafia_armor",
+    "slot": "armor",
+    "name": "Броня «Корсар»",
+    "description": "Тестовый модуль: корпус + 150.",
+    "cost": 8550,
+    "effects": [],
+    "requires": [],
+    "hull_bonus": 150
+  },
+  {
+    "id": "mafia_shield",
+    "slot": "shield",
+    "name": "Генератор «Корсар»",
+    "description": "Тестовый модуль: щит 70.",
+    "cost": 8100,
+    "effects": [],
+    "requires": [],
+    "shield": 70
+  },
+  {
+    "id": "mafia_tank",
+    "name": "Топливный бак «Корсар»",
+    "slot": "fuel_tank",
+    "fuel_bonus": 120,
+    "cost": 5750,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль: бак + 120."
+  },
+  {
+    "id": "police_turret",
+    "name": "Башня «Страж»",
+    "mount": "turret",
+    "type": "laser",
+    "dmg": [
+      17,
+      24
+    ],
+    "range": 10,
+    "ap_cost": 2,
+    "arc": "turret",
+    "arc_degrees": 350,
+    "accuracy": {
+      "close": 0.9,
+      "far": 0.55,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 6800,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 17–24, дальность 10, сектор 350°. Уникальная серия станции."
+  },
+  {
+    "id": "police_course",
+    "name": "Курсовая пушка «Страж»",
+    "mount": "course",
+    "type": "kinetic",
+    "dmg": [
+      24,
+      34
+    ],
+    "range": 14,
+    "ap_cost": 2,
+    "arc": "front",
+    "arc_degrees": 35,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.5,
+      "hull_penalty": 0.25,
+      "crew_mood_bonus": 0.15
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.75
+    },
+    "slot": "weapon",
+    "cost": 6900,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 24–34, дальность 14, сектор 35°. Уникальная серия станции."
+  },
+  {
+    "id": "police_broadside",
+    "name": "Бортовой комплект «Страж»",
+    "mount": "broadside",
+    "type": "laser",
+    "dmg": [
+      22,
+      30
+    ],
+    "range": 12,
+    "ap_cost": 2,
+    "arc": "broadside",
+    "arc_degrees": 150,
+    "accuracy": {
+      "close": 0.85,
+      "far": 0.6,
+      "hull_penalty": 0.3,
+      "crew_mood_bonus": 0.2
+    },
+    "critical": {
+      "chance": 0.2,
+      "multiplier": 1.5
+    },
+    "slot": "weapon",
+    "cost": 9050,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль. Урон 22–30, дальность 12, сектор 150°. Уникальная серия станции."
+  },
+  {
+    "id": "police_engine",
+    "slot": "engine",
+    "cost": 6550,
+    "thrust": 13,
+    "effects": [],
+    "requires": [],
+    "name": "Двигатель «Страж»",
+    "description": "Тестовый модуль: скорость 215, тяга ОП 13.",
+    "speed": 215
+  },
+  {
+    "id": "police_maneuver",
+    "slot": "maneuver_engine",
+    "name": "Маневровый блок «Страж»",
+    "description": "Тестовый модуль: маневренность + 5.",
+    "cost": 7750,
+    "effects": [],
+    "requires": [],
+    "maneuver_level": 5
+  },
+  {
+    "id": "police_armor",
+    "slot": "armor",
+    "name": "Броня «Страж»",
+    "description": "Тестовый модуль: корпус + 180.",
+    "cost": 10150,
+    "effects": [],
+    "requires": [],
+    "hull_bonus": 180
+  },
+  {
+    "id": "police_shield",
+    "slot": "shield",
+    "name": "Генератор «Страж»",
+    "description": "Тестовый модуль: щит 90.",
+    "cost": 10600,
+    "effects": [],
+    "requires": [],
+    "shield": 90
+  },
+  {
+    "id": "police_tank",
+    "name": "Топливный бак «Страж»",
+    "slot": "fuel_tank",
+    "fuel_bonus": 150,
+    "cost": 7100,
+    "effects": [],
+    "requires": [],
+    "description": "Тестовый модуль: бак + 150."
   }
 ]

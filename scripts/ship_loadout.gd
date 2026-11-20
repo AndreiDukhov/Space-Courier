@@ -1,8 +1,8 @@
 extends RefCounted
 
 const Rules = preload("res://scripts/order_rules.gd")
-const SLOTS: Array[String] = ["engine", "maneuver_engine", "turret", "course", "armor", "shield", "broadside"]
-const LEGACY_DEFAULTS: Array[String] = ["maneuver_mk1", "armor_mk1", "shield_mk1"]
+const SLOTS: Array[String] = ["engine", "maneuver_engine", "turret", "course", "armor", "shield", "broadside", "fuel_tank"]
+const LEGACY_DEFAULTS: Array[String] = ["maneuver_mk1", "armor_mk1", "shield_mk1", "fuel_tank_mk1"]
 
 
 static func slot_for(module: Dictionary) -> String:
@@ -48,18 +48,32 @@ static func replacement_hull(ship: Dictionary, module: Dictionary) -> Dictionary
 	return hull
 
 
+static func replacement_fuel(ship: Dictionary, module: Dictionary) -> Dictionary:
+	var fuel: Dictionary = ship["fuel"].duplicate()
+	fuel["max"] = int(fuel["max"]) - int(installed(ship, "fuel_tank").get("fuel_bonus", 0)) + int(module.get("fuel_bonus", 0))
+	return fuel
+
+
 static func migrate(save: Dictionary) -> Dictionary:
 	var ship: Variant = save.get("ship")
 	if not ship is Dictionary or not ship.get("slots") is Dictionary or not ship.get("modules") is Array:
 		return save
 	var slots: Dictionary = ship["slots"]
-	if slots.size() != 3 or not slots.has_all(["engine", "weapon", "utility"]) or slots["engine"] != 1 or slots["weapon"] not in [2, 3] or slots["utility"] != 2:
+	var general_slots: bool = slots.size() == 3 and slots.has_all(["engine", "weapon", "utility"]) and slots["engine"] == 1 and slots["weapon"] in [2, 3] and slots["utility"] == 2
+	var named_slots: bool = slots.size() == SLOTS.size() - 1 and not slots.has("fuel_tank")
+	for slot: String in SLOTS:
+		if slot != "fuel_tank" and (not Rules.whole_number(slots.get(slot)) or slots[slot] != 1):
+			named_slots = false
+	if not general_slots and not named_slots:
 		return save
 	var result: Dictionary = save.duplicate(true)
 	result["ship"]["slots"] = {}
 	for slot: String in SLOTS:
 		result["ship"]["slots"][slot] = 1
-	for module_id: String in LEGACY_DEFAULTS:
+	var defaults: Array[String] = ["fuel_tank_mk1"]
+	if general_slots:
+		defaults = LEGACY_DEFAULTS
+	for module_id: String in defaults:
 		if module_id not in result["ship"]["modules"]:
 			result["ship"]["modules"].append(module_id)
 	return result
@@ -82,3 +96,8 @@ static func valid(ship: Dictionary) -> bool:
 			return false
 		occupied[slot] = true
 	return true
+
+
+static func normalize_numbers(ship: Dictionary) -> void:
+	for slot: String in ship["slots"]:
+		ship["slots"][slot] = int(ship["slots"][slot])

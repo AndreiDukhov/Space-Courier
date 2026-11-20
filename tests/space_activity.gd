@@ -122,6 +122,8 @@ func _check_piracy() -> void:
 	EffectApplier.advance_flight(2.0)
 	_check(GameState.state["flight"]["encounter"] == "event_pirate_test" and not Conditions.can_tick_flight(), "A pursuing pirate automatically opens its encounter when it reaches the player")
 	_check(EffectApplier.choose_flight_event("event_pirate_test", 1) == OK and GameState.state["money"] == 800 and GameState.state["flight"]["npcs"]["npc_earth_pirate"]["target"] == "", "Paying the player bribe releases pursuit and charges once")
+	var battle_duration: float = float(DataLoader.records["ambient_battle_rules"]["duration"])
+	DataLoader.records["ambient_battle_rules"]["duration"] = 0.25
 	for destroyed: bool in [true, false]:
 		_launch(false)
 		_place(Vector2(30, 710))
@@ -135,6 +137,7 @@ func _check_piracy() -> void:
 		_check(Conditions.npc_is_active("npc_earth_courier") != destroyed, "Only destroyed robbery victims disappear")
 		_check(GameState.state["flight"]["npcs"]["npc_earth_pirate"]["target"] == "", "The pirate releases its victim after resolving robbery")
 		DataLoader.records["npc_earth_pirate"]["piracy"]["destroy_chance"] = saved_chance
+	DataLoader.records["ambient_battle_rules"]["duration"] = battle_duration
 
 
 func _check_navigation() -> void:

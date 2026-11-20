@@ -36,6 +36,9 @@ static func validate_weapon(record: Dictionary) -> Array[String]:
 static func validate_record(record: Dictionary, group: String) -> Array[String]:
 	var errors: Array[String] = []
 	match group:
+		"battle_rules":
+			if not Rules.finite_number(record.get("duration")) or record["duration"] <= 0:
+				errors.append("Ambient battles require a positive duration")
 		"enemies":
 			errors.append_array(validate_movement(record.get("movement")))
 			if not record.get("description") is String:
@@ -85,11 +88,15 @@ static func validate_record(record: Dictionary, group: String) -> Array[String]:
 			else:
 				errors.append("Unsupported combat ability effect")
 		"modules":
-			if record.get("slot") not in ["engine", "weapon", "maneuver_engine", "armor", "shield"]:
+			if not Rules.whole_number(record.get("cost")) or record["cost"] < 0:
+				errors.append("Module requires a nonnegative price")
+			if not record.get("requires") is Array:
+				errors.append("Module requires conditions")
+			if record.get("slot") not in ["engine", "weapon", "maneuver_engine", "armor", "shield", "fuel_tank"]:
 				errors.append("Unsupported prototype module slot")
 			if not record.get("name") is String or not record.get("description") is String:
 				errors.append("Module requires a name and description")
-			for field: String in {"engine": ["speed"], "maneuver_engine": ["maneuver_level"], "armor": ["hull_bonus"], "shield": ["shield"]}.get(str(record.get("slot")), []):
+			for field: String in {"engine": ["speed"], "maneuver_engine": ["maneuver_level"], "armor": ["hull_bonus"], "shield": ["shield"], "fuel_tank": ["fuel_bonus"]}.get(str(record.get("slot")), []):
 				if not Rules.whole_number(record.get(field)) or record[field] < (1 if field in ["speed", "shield"] else 0):
 					errors.append("Invalid module parameter: " + field)
 			if record.get("slot") == "maneuver_engine" and Rules.whole_number(record.get("maneuver_level")) and record["maneuver_level"] > 100:
@@ -101,7 +108,7 @@ static func validate_record(record: Dictionary, group: String) -> Array[String]:
 		"ship":
 			errors.append_array(validate_movement(record.get("movement")))
 			if not ShipLoadout.valid(record):
-				errors.append("Ship requires seven single module slots and one module per occupied slot")
+				errors.append("Ship requires eight single module slots and one module per occupied slot")
 	return errors
 
 

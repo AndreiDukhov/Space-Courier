@@ -12,6 +12,9 @@ const PlanetPanel = preload("res://scripts/planet_panel.gd")
 const SpaceEffects = preload("res://scripts/space_effects.gd")
 const QuestButton = preload("res://scripts/quest_button.gd")
 const Backdrop = preload("res://scripts/space_backdrop.gd")
+const BattlePanel = preload("res://scripts/battle_panel.gd")
+const BattleView = preload("res://scripts/ambient_battle_view.gd")
+const Navigation = preload("res://scripts/galaxy_navigation.gd")
 
 @onready var space: Node3D = %Space
 @onready var camera: Camera3D = %Camera
@@ -19,6 +22,7 @@ const Backdrop = preload("res://scripts/space_backdrop.gd")
 
 var _player: Node3D = Node3D.new()
 var _map: Control = null
+var _battle_panel: BattlePanel = null
 var _boost: bool = false
 var _following_mouse: bool = false
 var _leaving: bool = false
@@ -49,6 +53,7 @@ func _ready() -> void:
 	_player.add_child(marker_view)
 	space.add_child(_player)
 	space.add_child(SpaceEffects.new())
+	space.add_child(BattleView.new())
 	_interactions = Interactions.new()
 	_interactions.name = "ObjectInteractions"
 	_interactions.camera = camera
@@ -56,6 +61,7 @@ func _ready() -> void:
 	_interactions.gate_requested.connect(_jump)
 	_interactions.npc_requested.connect(_interact_npc)
 	_interactions.delivery_requested.connect(_deliver_order)
+	_interactions.battle_requested.connect(_open_battle)
 	%SpaceContainer.add_child(_interactions)
 	_interactions.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_indicators = Indicators.new()
@@ -107,7 +113,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not _leaving and _map == null and _planet_panel == null and (_journal == null or not _journal.is_open()):
+	if not _leaving and _map == null and _battle_panel == null and _planet_panel == null and (_journal == null or not _journal.is_open()):
 		EffectApplier.advance_flight(delta, _boost)
 
 
@@ -131,10 +137,7 @@ func _refresh_world() -> void:
 
 
 func gate_name(route_id: String, number: int) -> String:
-	if Conditions.is_destination_known(route_id):
-		var route: Dictionary = DataLoader.get_record(route_id)
-		return Text.get_text("ui_flight_known_gate", {"name": DataLoader.get_record(str(route["to"]))["name"]})
-	return Text.get_text("ui_flight_unknown_gate", {"number": number})
+	return Navigation.gate_name(route_id, number)
 
 
 func _sync_flight() -> void:
@@ -232,7 +235,7 @@ func _target_at_cursor(position: Vector2) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		_following_mouse = false
-	if event is InputEventKey and event.pressed and not event.echo and _map == null and _planet_panel == null and not _journal.is_open() and GameState.state["flight"]["encounter"].is_empty():
+	if event is InputEventKey and event.pressed and not event.echo and _map == null and _battle_panel == null and _planet_panel == null and not _journal.is_open() and GameState.state["flight"]["encounter"].is_empty():
 		if event.keycode == KEY_SPACE:
 			_pause()
 			get_viewport().set_input_as_handled()
@@ -252,7 +255,7 @@ func _pause() -> void:
 
 
 func _visit_ship() -> void:
-	if _leaving or _map != null or _planet_panel != null or _journal.is_open():
+	if _leaving or _map != null or _battle_panel != null or _planet_panel != null or _journal.is_open():
 		return
 	_following_mouse = false
 	EffectApplier.visit_ship()
@@ -316,6 +319,7 @@ func _close_map() -> void:
 
 
 func _on_restored() -> void:
+	_close_battle()
 	_close_planet()
 	if Conditions.has_combat():
 		_on_combat_changed()
@@ -341,6 +345,27 @@ func _load() -> void:
 	if GameState.load_game() != OK:
 		%Notice.text = Text.get_text("ui_map_save_error")
 	_sync_flight()
+
+
+func _open_battle(battle_id: String) -> void:
+	if _battle_panel != null or not Conditions.can_join_battle(battle_id, 0):
+		return
+	_battle_panel = BattlePanel.new()
+	_battle_panel.battle_id = battle_id
+	_battle_panel.closed.connect(_close_battle)
+	_battle_panel.side_chosen.connect(_join_battle)
+	add_child(_battle_panel)
+
+
+func _close_battle() -> void:
+	if _battle_panel != null:
+		_battle_panel.queue_free()
+		_battle_panel = null
+
+
+func _join_battle(side: int) -> void:
+	if _battle_panel != null and EffectApplier.join_battle(_battle_panel.battle_id, side) == OK:
+		_close_battle()
 
 
 func _open_planet(planet_id: String, trading: bool) -> void:

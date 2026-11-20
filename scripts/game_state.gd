@@ -9,12 +9,13 @@ const Combat = preload("res://scripts/combat_state.gd")
 const Domestic = preload("res://scripts/domestic_state.gd")
 const SceneQueue = preload("res://scripts/scene_queue.gd")
 const Loadout = preload("res://scripts/ship_loadout.gd")
+const ModuleStorage = preload("res://scripts/module_storage.gd")
 const SAVE_PATH: String = "user://save.json"
 const INITIAL_MONEY: int = 1000
 const INITIAL_LOCATION: String = "hub_kitchen"
 const SHIP_INTERIOR_FLAG: String = "ship_interior_open"
 const HEROINE_STAT_FIELDS: Array[String] = ["attitude", "mood", "arousal"]
-const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes"]
+const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes", "module_storage", "module_deliveries"]
 
 var state: Dictionary = {}
 
@@ -59,7 +60,9 @@ func start_new_game(heroine_records: Array[Dictionary], ship_record: Dictionary)
 		"orders": {}
 	}
 	state.merge({"inventory": [], "known_recipes": Domestic.initial_recipes(), "cooking_skill": 0, "buffs": {}, "served_days": {}, "kitchen": {}, "meal_invites": {}, "pending_scenes": []})
+	state.merge({"module_storage": {}, "module_deliveries": []})
 	_normalize_fuel()
+	Loadout.normalize_numbers(state["ship"])
 	if ScheduleManager.assign_locations() != OK:
 		push_error("GameState: could not initialize schedules")
 
@@ -69,6 +72,7 @@ func serialize() -> Dictionary:
 
 
 func restore(save_data: Dictionary) -> Error:
+	save_data = ModuleStorage.migrate(save_data, SAVE_FIELDS)
 	var previous_fields: Array[String] = SAVE_FIELDS.duplicate()
 	previous_fields.erase("pending_scenes")
 	if save_data.size() == previous_fields.size() and save_data.has_all(previous_fields):
@@ -90,6 +94,7 @@ func restore(save_data: Dictionary) -> Error:
 		save_data = save_data.duplicate(true)
 		save_data["flight"] = Flight.expand_population(save_data["flight"])
 		save_data["flight"] = Flight.upgrade_traffic(save_data["flight"])
+		save_data["flight"] = Flight.upgrade_battles(save_data["flight"])
 	save_data = Domestic.migrate(save_data)
 	save_data = Loadout.migrate(save_data)
 	save_data = Combat.migrate(save_data)
@@ -99,9 +104,11 @@ func restore(save_data: Dictionary) -> Error:
 	state["day"] = int(state["day"])
 	state["money"] = int(state["money"])
 	_normalize_fuel()
+	Loadout.normalize_numbers(state["ship"])
 	Flight.normalize_numbers(state["flight"])
 	Combat.normalize_numbers(state["combat"])
 	Domestic.normalize(state)
+	ModuleStorage.normalize(state)
 	state["ship"]["hull"]["current"] = float(state["ship"]["hull"]["current"])
 	for reputation_id: String in Orders.REPUTATIONS:
 		state["reputation"][reputation_id] = int(state["reputation"][reputation_id])
@@ -161,6 +168,8 @@ func _is_valid_state(save_data: Dictionary) -> bool:
 		if not is_finite(float(number)) or floor(float(number)) != float(number):
 			return false
 	if save_data["day"] < 1:
+		return false
+	if not ModuleStorage.valid(save_data):
 		return false
 	if not save_data["time_slot"] is String or save_data["time_slot"] not in Clock.TIME_SLOTS:
 		return false

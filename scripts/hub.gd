@@ -17,6 +17,7 @@ const Lighting = preload("res://scripts/hub_lighting.gd")
 const ComputerMenu = preload("res://scripts/computer_menu.gd")
 const Refit = preload("res://scripts/ship_refit.gd")
 const RelationshipsPanel = preload("res://scripts/relationships_panel.gd")
+const ModuleMarket = preload("res://scripts/module_market.gd")
 
 @onready var background: TextureRect = %Background
 @onready var backdrop: ColorRect = %Backdrop
@@ -204,7 +205,22 @@ func open_flight_terminal() -> bool:
 	menu.name = "ComputerMenu"
 	menu.map_requested.connect(open_galaxy_map)
 	menu.flight_requested.connect(_launch_flight)
+	menu.parts_requested.connect(open_module_market)
 	terminal_content.add_child(menu)
+	terminal.show()
+	%LocationPanel.hide()
+	return true
+
+
+func open_module_market() -> bool:
+	if not Conditions.can_use_shop("hub_module_parts"):
+		return false
+	_close_terminal()
+	_terminal_kind = "parts"
+	var market: ModuleMarket = ModuleMarket.new()
+	market.name = "ModuleMarket"
+	market.back_requested.connect(open_flight_terminal)
+	terminal_content.add_child(market)
 	terminal.show()
 	%LocationPanel.hide()
 	return true

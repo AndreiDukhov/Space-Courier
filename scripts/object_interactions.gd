@@ -4,6 +4,7 @@ signal planet_requested(planet_id: String, trading: bool)
 signal gate_requested(route_id: String)
 signal npc_requested(npc_id: String, trading: bool)
 signal delivery_requested(order_id: String)
+signal battle_requested(battle_id: String)
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Motion = preload("res://scripts/flight_motion.gd")
@@ -39,7 +40,7 @@ func rebuild() -> void:
 	_delivery_buttons.clear()
 	selected_npc = ""
 	for object: Dictionary in DataLoader.get_record(str(GameState.state.get("current_system", ""))).get("objects", []):
-		if object.get("type") not in ["gate", "planet"]:
+		if object.get("type") not in ["gate", "planet", "station"]:
 			continue
 		var object_id: String = str(object.get("id", object.get("to_route", "")))
 		var row: Container = HBoxContainer.new() if object["type"] == "gate" else HFlowContainer.new()
@@ -55,7 +56,7 @@ func rebuild() -> void:
 		_objects[object_id] = object
 		if object["type"] == "gate":
 			_add_button(row, "Enter", "ui_space_enter", gate_requested.emit.bind(object_id))
-		elif object.get("inhabited", false):
+		elif object.get("inhabited", false) or (object["type"] == "station" and object.has("shop")):
 			_add_button(row, "Trade", "ui_space_trade", planet_requested.emit.bind(object_id, true))
 			_add_button(row, "Dialogue", "ui_space_dialogue", planet_requested.emit.bind(object_id, false))
 		if object["type"] == "planet":
@@ -81,6 +82,7 @@ func rebuild() -> void:
 		add_child(row)
 		_npcs[npc_id] = row
 		_add_button(row, "Dialogue", "ui_space_dialogue", npc_requested.emit.bind(npc_id, false))
+		_add_button(row, "Battle", "ui_battle_join", _request_battle.bind(npc_id))
 		if npc.has("shop"):
 			_add_button(row, "Trade", "ui_space_trade", npc_requested.emit.bind(npc_id, true))
 	sync.call_deferred()
@@ -97,7 +99,7 @@ func sync() -> void:
 		if object["type"] == "gate":
 			row.get_node("Enter").disabled = not Conditions.can_jump(object_id, boost)
 			row.get_node("Enter").tooltip_text = _gate_tooltip(object_id)
-		elif object.get("inhabited", false):
+		elif object.get("inhabited", false) or (object["type"] == "station" and object.has("shop")):
 			var available: bool = Conditions.can_interact_planet(object_id)
 			row.get_node("Trade").disabled = not available
 			row.get_node("Dialogue").disabled = not available
@@ -106,14 +108,26 @@ func sync() -> void:
 	for npc_id: String in _npcs:
 		var row: HBoxContainer = _npcs[npc_id]
 		var selected: bool = selected_npc == npc_id and GameState.state["flight"]["paused"] and Conditions.can_interact_npc(npc_id)
-		_position_row(row, GameState.state["flight"]["npcs"][npc_id]["pos"], 6.0, selected)
+		var battle: Dictionary = Conditions.battle_for_npc(npc_id)
+		var height: float = 6.0 + (battle["sides"][0].size() + battle["sides"][1].size()) * 4.0 if not battle.is_empty() else 6.0
+		_position_row(row, GameState.state["flight"]["npcs"][npc_id]["pos"], height, selected)
 		row.get_node("Dialogue").disabled = not Conditions.can_contact_npc(npc_id)
+		row.get_node("Dialogue").visible = battle.is_empty()
+		row.get_node("Battle").visible = not battle.is_empty()
+		row.get_node("Battle").disabled = battle.is_empty() or not Conditions.can_join_battle(str(battle.get("id", "")), 0)
 		if row.has_node("Trade"):
+			row.get_node("Trade").visible = battle.is_empty()
 			row.get_node("Trade").disabled = not Conditions.can_trade_npc(npc_id)
 		for button: Button in row.get_children():
 			button.tooltip_text = str(DataLoader.get_record(npc_id)["name"])
 			if not Conditions.can_interact_npc(npc_id):
 				button.tooltip_text += "\n" + Text.get_text("ui_npc_approach_hint")
+
+
+func _request_battle(npc_id: String) -> void:
+	var battle: Dictionary = Conditions.battle_for_npc(npc_id)
+	if not battle.is_empty() and Conditions.can_join_battle(str(battle["id"]), 0):
+		battle_requested.emit(str(battle["id"]))
 
 
 func pick_npc(point: Vector2) -> String:

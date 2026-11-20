@@ -12,6 +12,9 @@ const Domestic = preload("res://scripts/domestic_state.gd")
 const Meals = preload("res://scripts/meal_schedule.gd")
 const Scenes = preload("res://scripts/scene_queue.gd")
 const ShipLoadout = preload("res://scripts/ship_loadout.gd")
+const Roster = preload("res://scripts/combat_roster.gd")
+const Battles = preload("res://scripts/ambient_battle_state.gd")
+const ModuleStorage = preload("res://scripts/module_storage.gd")
 const STAT_NAMES: Array[String] = ["attitude", "mood", "arousal"]
 const OPERATORS: Array[String] = ["==", "!=", ">", ">=", "<", "<="]
 const CONDITION_FIELDS: Dictionary = {
@@ -208,7 +211,7 @@ static func can_pause_flight() -> bool:
 
 
 static func can_contact_npc(npc_id: String) -> bool:
-	if not can_interact_npc(npc_id):
+	if not can_interact_npc(npc_id) or GameState.state["flight"]["npcs"][npc_id]["status"] == "battle":
 		return false
 	var npc: Dictionary = DataLoader.get_record(npc_id)
 	var entry: Dictionary = GameState.state.get("flight", {}).get("npcs", {}).get(npc_id, {})
@@ -235,7 +238,7 @@ static func can_interact_npc(npc_id: String) -> bool:
 
 
 static func can_trade_npc(npc_id: String) -> bool:
-	return can_interact_npc(npc_id) and DataLoader.get_record(npc_id).has("shop") and can_use_shop(str(DataLoader.get_record(npc_id)["shop"]))
+	return can_interact_npc(npc_id) and GameState.state["flight"]["npcs"][npc_id]["status"] != "battle" and DataLoader.get_record(npc_id).has("shop") and can_use_shop(str(DataLoader.get_record(npc_id)["shop"]))
 
 
 static func can_autopilot_to(system_id: String, routes: Array[String]) -> bool:
@@ -308,7 +311,7 @@ static func is_near(position: Array) -> bool:
 
 static func is_near_planet(planet_id: String) -> bool:
 	var planet: Dictionary = space_object(planet_id)
-	if not can_fly() or planet.get("type") != "planet":
+	if not can_fly() or planet.get("type") not in ["planet", "station"]:
 		return false
 	var range_from_center: float = Motion.INTERACTION_RADIUS + float(planet["radius"]) / Motion.WORLD_SCALE
 	return Motion.point(GameState.state["flight"]["pos"]).distance_to(Motion.point(planet["pos"])) <= range_from_center
@@ -386,11 +389,12 @@ static func space_object(object_id: String, system_id: String = "") -> Dictionar
 
 static func can_interact_planet(planet_id: String) -> bool:
 	var planet: Dictionary = space_object(planet_id)
-	return not has_combat() and can_fly() and GameState.state.get("flight", {}).get("encounter", "").is_empty() and planet.get("type") == "planet" and planet.get("inhabited", false) and is_near_planet(planet_id)
+	var inhabited: bool = planet.get("inhabited", false) if planet.get("type") == "planet" else planet.get("type") == "station" and planet.has("shop") and planet.has("dialogue")
+	return not has_combat() and can_fly() and GameState.state.get("flight", {}).get("encounter", "").is_empty() and inhabited and is_near_planet(planet_id)
 
 
 static func can_buy_planet_fuel(planet_id: String, amount: float) -> bool:
-	if not is_finite(amount) or amount <= 0.0 or not can_interact_planet(planet_id):
+	if not is_finite(amount) or amount <= 0.0 or not can_interact_planet(planet_id) or space_object(planet_id).get("type") != "planet":
 		return false
 	var system: Dictionary = DataLoader.get_record(str(GameState.state["current_system"]))
 	var fuel: Dictionary = GameState.state["ship"]["fuel"]
@@ -411,7 +415,7 @@ static func can_choose_planet_dialogue(planet_id: String, index: int) -> bool:
 
 
 static func can_pirate_target(pirate: Dictionary, entry: Dictionary, target_id: String, entries: Dictionary, acquiring: bool = true) -> bool:
-	if pirate.get("role") != "pirate" or entry.get("status") in ["landed", "destroyed"] or float(entry.get("cooldown", 0.0)) > 0.0:
+	if pirate.get("role") != "pirate" or entry.get("status") not in ["cruise", "chase"] or float(entry.get("cooldown", 0.0)) > 0.0:
 		return false
 	var target_pos: Vector2
 	if target_id == "player":
@@ -448,7 +452,7 @@ static func can_keep_pirate_pair(npc: Dictionary, entries: Dictionary) -> bool:
 	if partner["partner"] != npc["id"] or entry["pair_timer"] <= 0 or partner["pair_timer"] <= 0:
 		return false
 	for actor_id: String in [str(npc["id"]), partner_id]:
-		if actor_id in GameState.state["flight"]["defeated_npcs"] or entries[actor_id]["status"] not in ["cruise", "chase"] or entries[actor_id]["cooldown"] > 0:
+		if actor_id in GameState.state["flight"]["defeated_npcs"] or entries[actor_id]["status"] not in ["cruise", "chase", "battle"] or entries[actor_id]["cooldown"] > 0:
 			return false
 	if entry["status"] == "chase" and partner["status"] == "chase" and entry["target"] != partner["target"]:
 		return false
@@ -473,12 +477,62 @@ static func star_is_dangerous(position: Vector2) -> bool:
 	return false
 
 
+static func can_start_ambient_battle(attacker: String, defender: String, entries: Dictionary, battles: Array) -> bool:
+	if attacker == defender or not entries.has(attacker) or not entries.has(defender):
+		return false
+	if DataLoader.get_record(attacker).get("system") != DataLoader.get_record(defender).get("system"):
+		return false
+	for npc_id: String in [attacker, defender]:
+		if npc_id in GameState.state["flight"]["defeated_npcs"] or entries[npc_id]["status"] not in ["cruise", "landing", "chase"] or not Battles.for_npc(npc_id, battles).is_empty():
+			return false
+	return true
+
+
+static func ambient_battle_side(npc_id: String, entries: Dictionary) -> Array[String]:
+	var result: Array[String] = [npc_id]
+	var npc: Dictionary = DataLoader.get_record(npc_id)
+	if npc.get("role") == "pirate" and can_keep_pirate_pair(npc, entries):
+		result.append(str(entries[npc_id]["partner"]))
+	return result
+
+
+static func battle_for_npc(npc_id: String) -> Dictionary:
+	return Battles.for_npc(npc_id, GameState.state.get("flight", {}).get("battles", []))
+
+
+static func can_join_battle(battle_id: String, side: int) -> bool:
+	if side not in [0, 1] or not can_fly() or has_combat() or CombatMath.player_weapon().is_empty():
+		return false
+	var flight: Dictionary = GameState.state["flight"]
+	if not flight["paused"] or not flight["encounter"].is_empty():
+		return false
+	var battle: Dictionary = Battles.find(battle_id, flight.get("battles", []))
+	if battle.is_empty() or battle["system"] != GameState.state["current_system"]:
+		return false
+	for npc_id: String in Battles.members(battle):
+		if npc_is_active(npc_id) and is_near(flight["npcs"][npc_id]["pos"]):
+			return true
+	return false
+
+
 static func has_combat() -> bool:
 	return not GameState.state.get("combat", {}).is_empty()
 
 
 static func can_start_combat(enemy_id: String) -> bool:
 	return can_fly() and not has_combat() and DataLoader.record_sources.has("enemies/" + enemy_id) and not CombatMath.player_weapon().is_empty()
+
+
+static func combat_npcs(source_npc: String) -> Array[String]:
+	var result: Array[String] = []
+	if source_npc.is_empty():
+		return result
+	result.append(source_npc)
+	var npc: Dictionary = DataLoader.get_record(source_npc)
+	var entries: Dictionary = GameState.state["flight"]["npcs"]
+	if npc.get("role") == "pirate" and can_keep_pirate_pair(npc, entries):
+		result.append(str(entries[source_npc]["partner"]))
+	return result
 
 
 static func can_act_combat() -> bool:
@@ -493,14 +547,14 @@ static func combat_move_path(target: Vector2i) -> Array[Vector2i]:
 	if not can_act_combat():
 		return []
 	var combat: Dictionary = GameState.state["combat"]
-	return CombatRoutes.path(combat["player"], target, combat["movement"]["player"], int(combat["move_points"]), CombatMath.movement_settings(true), CombatMath.cell(combat["opponent"]["pos"]))
+	return CombatRoutes.path(combat["player"], target, combat["movement"]["player"], int(combat["move_points"]), CombatMath.movement_settings(true), Roster.blocked("player", combat))
 
 
-static func can_move_vessel(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Vector2i) -> bool:
+static func can_move_vessel(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Variant) -> bool:
 	return not vessel_move_path(vessel, target, turn, remaining, settings, occupied).is_empty()
 
 
-static func vessel_move_path(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Vector2i) -> Array[Vector2i]:
+static func vessel_move_path(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Variant) -> Array[Vector2i]:
 	return CombatRoutes.path(vessel, target, turn, remaining, settings, occupied)
 
 
@@ -518,7 +572,7 @@ static func can_fire_weapon(attacker: Dictionary, target: Dictionary, weapon: Di
 
 
 static func can_shoot_combat(weapon_id: String, target: Vector2i) -> bool:
-	if not can_act_combat():
+	if not can_act_combat() or Roster.ally_at(target):
 		return false
 	var combat: Dictionary = GameState.state["combat"]
 	return weapon_id in GameState.state["ship"]["modules"] and DataLoader.get_record(weapon_id).get("slot") == "weapon" and can_fire_weapon(combat["player"], {"pos": CombatMath.coordinates(target)}, DataLoader.get_record(weapon_id), int(combat["ap"]), combat["fired"]["player"])
@@ -652,7 +706,7 @@ static func can_modify_ship() -> bool:
 
 
 static func can_install_module(module_id: String, target_slot: String = "") -> bool:
-	if not can_modify_ship() or not DataLoader.record_sources.has("modules/" + module_id):
+	if not can_modify_ship() or not DataLoader.record_sources.has("modules/" + module_id) or ModuleStorage.count(module_id) <= 0:
 		return false
 	var module: Dictionary = DataLoader.get_record(module_id)
 	var ship: Dictionary = GameState.state["ship"]
@@ -661,20 +715,36 @@ static func can_install_module(module_id: String, target_slot: String = "") -> b
 		return false
 	if slot not in ShipLoadout.SLOTS or not evaluate(module.get("requires", [])) or module_id in ship["modules"]:
 		return false
+	if slot == "fuel_tank":
+		var fuel: Dictionary = ShipLoadout.replacement_fuel(ship, module)
+		return fuel["max"] > 0 and float(fuel["current"]) <= float(fuel["max"])
 	return slot != "armor" or float(ShipLoadout.replacement_hull(ship, module)["current"]) > 0.0
 
 
 static func can_use_shop(shop_id: String = "hub_shop_stock") -> bool:
 	var shop: Dictionary = DataLoader.get_record(shop_id)
+	if shop.has("location"):
+		return can_modify_ship() and GameState.state.get("location") == shop["location"] and Clock.current_slot() in shop.get("open_slots", [])
 	if not shop.has("owner"):
 		for planet: Dictionary in DataLoader.get_record(str(GameState.state.get("current_system", ""))).get("objects", []):
 			if planet.get("shop") == shop_id and can_interact_planet(str(planet["id"])):
 				return Clock.current_slot() in shop.get("open_slots", [])
 		for npc: Dictionary in DataLoader.get_records("npcs"):
-			if npc.get("shop") == shop_id and can_interact_npc(str(npc["id"])):
+			if npc.get("shop") == shop_id and can_interact_npc(str(npc["id"])) and GameState.state["flight"]["npcs"][npc["id"]]["status"] != "battle":
 				return Clock.current_slot() in shop.get("open_slots", [])
 		return false
 	return domestic_available() and GameState.state.get("location") == "hub_shop" and Clock.current_slot() in shop.get("open_slots", []) and is_present(str(shop.get("owner", "")))
+
+
+static func can_buy_module(shop_id: String, module_id: String) -> bool:
+	if not can_use_shop(shop_id) or not DataLoader.record_sources.has("modules/" + module_id):
+		return false
+	var shop: Dictionary = DataLoader.get_record(shop_id)
+	return module_id in shop.get("modules", []) and evaluate(shop.get("requires", [])) and evaluate(DataLoader.get_record(module_id).get("requires", [])) and int(GameState.state["money"]) >= int(DataLoader.get_record(module_id)["cost"])
+
+
+static func module_delivery_due(entry: Dictionary) -> bool:
+	return int(entry["arrival_day"]) <= Clock.current_day()
 
 
 static func can_buy_item(shop_id: String, item_id: String) -> bool:

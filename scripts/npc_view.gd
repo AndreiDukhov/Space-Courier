@@ -5,6 +5,7 @@ const Motion = preload("res://scripts/flight_motion.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const Pairs = preload("res://scripts/pirate_pairs.gd")
+const Battles = preload("res://scripts/ambient_battle_state.gd")
 
 
 func rebuild(system_id: String) -> void:
@@ -36,9 +37,9 @@ func sync_positions() -> void:
 		var target: Vector2 = Motion.point(npc["waypoints"][int(entry["waypoint"])])
 		if entry["status"] == "landing":
 			target = Motion.point(Conditions.space_object(str(entry["destination"]), str(npc["system"]))["pos"])
-		elif entry["status"] == "chase":
+		elif entry["status"] in ["chase", "battle"]:
 			target = Motion.point(GameState.state["flight"]["pos"] if entry["target"] == "player" else GameState.state["flight"]["npcs"][entry["target"]]["pos"])
-		if Pairs.is_follower(npc, entry) and (entry["status"] == "cruise" or GameState.state["flight"]["npcs"][entry["partner"]]["target"] == entry["target"]):
+		if entry["status"] in ["cruise", "chase"] and Pairs.is_follower(npc, entry) and (entry["status"] == "cruise" or GameState.state["flight"]["npcs"][entry["partner"]]["target"] == entry["target"]):
 			target = Pairs.follow_target(npc, GameState.state["flight"]["npcs"])
 		var direction: Vector2 = target - Motion.point(entry["pos"])
 		if direction.length_squared() > 0.01:
@@ -48,6 +49,8 @@ func sync_positions() -> void:
 		label.text = str(npc["name"]) + (" · " + Text.get_text("ui_space_chasing") if entry["status"] == "chase" else "")
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.offset = Vector2.ZERO
+		if entry["status"] == "battle":
+			label.text += " · " + Text.get_text("ui_space_battle")
 		if not entry["partner"].is_empty():
 			label.text += " · " + Text.get_text("ui_space_pair")
 			var partner_pos: Vector2 = Motion.point(GameState.state["flight"]["npcs"][entry["partner"]]["pos"])
@@ -55,3 +58,19 @@ func sync_positions() -> void:
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if on_right else HORIZONTAL_ALIGNMENT_RIGHT
 			label.offset.x = 20.0 if on_right else -20.0
 		label.position = vessel.position + Vector3(0, 2.0, 0)
+		if entry["status"] == "battle":
+			_position_battle_label(label, str(npc["id"]))
+
+
+func _position_battle_label(label: Label3D, npc_id: String) -> void:
+	var battle: Dictionary = Conditions.battle_for_npc(npc_id)
+	if battle.is_empty():
+		return
+	var members: Array[String] = Battles.members(battle)
+	var centre: Vector2 = Vector2.ZERO
+	for member: String in members:
+		centre += Motion.point(GameState.state["flight"]["npcs"][member]["pos"])
+	centre /= members.size()
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.offset = Vector2.ZERO
+	label.position = Motion.world_position(Motion.coordinates(centre), 4.8 + members.find(npc_id) * 4.0)

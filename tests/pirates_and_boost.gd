@@ -132,7 +132,7 @@ func _check_interaction() -> void:
 	_check(view.get_node("%EncounterLayer").visible and GameState.state["flight"]["encounter"] == DataLoader.get_record(npc_id)["event"], "The overhead button opens the correct pirate encounter")
 	await _capture("pirate-dialogue")
 	await _click(view.get_node("%FlightEncounter/%EventChoices/Option0"))
-	_check(Conditions.has_combat() and GameState.state["combat"]["source_npc"] == npc_id, "Combat uses the selected pirate even when another pirate is closer")
+	_check(Conditions.has_combat() and GameState.state["combat"]["opponents"][0]["source_npc"] == npc_id, "Combat uses the selected pirate even when another pirate is closer")
 	view.queue_free()
 	await _frames()
 

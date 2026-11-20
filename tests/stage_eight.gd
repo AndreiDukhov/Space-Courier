@@ -371,6 +371,15 @@ func _check_scene_flow() -> void:
 	if hub == null:
 		return
 	_check(hub.find_child("Domestic", true, false) != null and hub.find_child("Prepared", true, false) != null, "The unfinished kitchen automatically reopens with the prepared ingredient")
+	for pressed: bool in [true, false]:
+		var escape: InputEventKey = InputEventKey.new()
+		escape.keycode = KEY_ESCAPE
+		escape.pressed = pressed
+		get_viewport().push_input(escape, true)
+	await get_tree().process_frame
+	_check(hub.find_child("Domestic", true, false) == null and GameState.serialize() == cooking, "Escape closes the kitchen without consuming ingredients, time or unfinished work")
+	_check(hub.open_domestic("kitchen"), "The kitchen can be reopened after Escape")
+	await get_tree().process_frame
 	_check(GameState.restore(in_flight) == OK, "A flight snapshot can be restored while the kitchen overlay is open")
 	flight = await _wait_scene("SystemFlight")
 	_check(flight != null and GameState.serialize() == in_flight, "The kitchen overlay restores the correct flight scene without losing inventory")

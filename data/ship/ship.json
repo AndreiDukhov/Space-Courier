@@ -19,7 +19,8 @@
     "course": 1,
     "armor": 1,
     "shield": 1,
-    "broadside": 1
+    "broadside": 1,
+    "fuel_tank": 1
   },
   "modules": [
     "engine_mk1",
@@ -28,7 +29,8 @@
     "broadside_plasma",
     "maneuver_mk1",
     "armor_mk1",
-    "shield_mk1"
+    "shield_mk1",
+    "fuel_tank_mk1"
   ],
   "crew_aboard": [
     "pilot",

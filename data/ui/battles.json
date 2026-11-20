@@ -1,0 +1,46 @@
+[
+  {
+    "id": "ui_space_battle",
+    "text": "В бою"
+  },
+  {
+    "id": "ui_combat_ally_marker",
+    "text": "Союзник"
+  },
+  {
+    "id": "ui_battle_title",
+    "text": "Вмешаться в бой"
+  },
+  {
+    "id": "ui_battle_hint",
+    "text": "Выберите сторону, которой хотите помочь. Полёт приостановлен."
+  },
+  {
+    "id": "ui_battle_role_patrol",
+    "text": "Госполиция"
+  },
+  {
+    "id": "ui_battle_role_pirate",
+    "text": "Пираты"
+  },
+  {
+    "id": "ui_battle_role_civilian",
+    "text": "Гражданские корабли"
+  },
+  {
+    "id": "ui_battle_stats",
+    "text": "Корпус {hull} · Щиты {shield} · ОП {move}"
+  },
+  {
+    "id": "ui_battle_weapon",
+    "text": "{name} · Урон {min}–{max}"
+  },
+  {
+    "id": "ui_battle_help",
+    "text": "Помочь этой стороне"
+  },
+  {
+    "id": "ui_battle_join",
+    "text": "Вмешаться"
+  }
+]

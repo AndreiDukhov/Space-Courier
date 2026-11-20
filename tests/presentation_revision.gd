@@ -56,7 +56,7 @@ func _battle() -> void:
 func _check_abilities() -> void:
 	_battle()
 	var combat: Dictionary = GameState.state["combat"]
-	_check(Math.distance(Math.cell(combat["player"]["pos"]), Math.cell(combat["opponent"]["pos"])) == 10.0, "New battles begin with ten cells between the ships")
+	_check(Math.distance(Math.cell(combat["player"]["pos"]), Math.cell(combat["opponents"][0]["pos"])) == 10.0, "New battles begin with ten cells between the ships")
 	combat["ap"] = 4
 	GameState.state["heroines"]["pilot"]["mood"] = 50.0
 	_check(EffectApplier.use_combat_ability("emergency_burn") == OK and combat["ap"] == 0 and combat["move_points"] == 9 and GameState.state["ship"]["fuel"]["current"] == 29.0, "Dash spends all remaining AP and fuel while granting movement")
@@ -65,8 +65,8 @@ func _check_abilities() -> void:
 	_battle()
 	combat = GameState.state["combat"]
 	combat["player"]["shield"] = 2.0
-	combat["opponent"]["pos"] = Math.coordinates(Math.cell(combat["player"]["pos"]) + Vector2i(3, 0))
-	combat["movement"]["opponent"] = State.new_turn(combat["opponent"])
+	combat["opponents"][0]["pos"] = Math.coordinates(Math.cell(combat["player"]["pos"]) + Vector2i(3, 0))
+	combat["movement"]["opponent"] = State.new_turn(combat["opponents"][0])
 	_check(EffectApplier.use_combat_ability("shield_reboot") == OK and combat["ap"] == 3 and combat["player"]["shield"] == 2.0, "Shield reboot costs three AP and does not refill early")
 	var snapshot: Dictionary = GameState.serialize()
 	_check(GameState.save_game("user://recharge.json") == OK and GameState.load_game("user://recharge.json") == OK and GameState.serialize() == snapshot, "The pending recharge survives an exact JSON round trip")
@@ -89,6 +89,8 @@ func _check_combat_migration() -> void:
 	var expected: Dictionary = GameState.serialize()
 	var old: Dictionary = expected.duplicate(true)
 	old["combat"].erase("shield_recharge")
+	old["combat"].erase("allies")
+	old["combat"].erase("battle_id")
 	old["combat"]["cooldowns"].erase("shield_reboot")
 	_check(GameState.restore(old) == OK and GameState.serialize() == expected, "Previous battles gain an empty recharge queue and retain positions")
 
@@ -131,6 +133,7 @@ func _check_flight() -> void:
 	var expected: Dictionary = GameState.serialize()
 	var old: Dictionary = expected.duplicate(true)
 	old["flight"].erase("map_scale")
+	old["flight"].erase("battles")
 	for field: String in ["pos", "target"]:
 		old["flight"][field] = Motion.coordinates(Motion.point(old["flight"][field]) / Motion.MAP_SCALE)
 	for entry: Dictionary in old["flight"]["npcs"].values():
@@ -147,10 +150,23 @@ func _check_combat_view() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var gun: Button = view.find_child("Weapon_cannon_s", true, false)
+	_check(view.find_child("evasive_maneuver", true, false) == null and view._abilities.size() == 2 and view._abilities.has_all(["emergency_burn", "shield_reboot"]), "Only dash and shield recharge remain in the abilities section")
+	var sections: Array[Rect2] = []
+	for section_id: String in ["MovementSection", "WeaponsSection", "AbilitiesSection"]:
+		var section: Control = view.find_child(section_id, true, false)
+		var rect: Rect2 = section.get_global_rect()
+		_check(get_viewport().get_visible_rect().encloses(rect), "The " + section_id + " section fits inside the window")
+		for previous: Rect2 in sections:
+			_check(previous.end.x < rect.position.x, "Movement, weapons and abilities occupy separate sectors in that order")
+		sections.append(rect)
 	_check(gun.find_child("Icon", true, false) != null and gun.find_child("Caption", true, false).text == DataLoader.get_record("cannon_s")["name"], "Weapon slots show an icon and the data-defined name below it")
 	_check("Урон" in gun.tooltip_text and "ОД" in gun.tooltip_text, "Hover descriptions contain weapon damage and AP cost")
 	await _click(gun)
 	_check(view._weapon_id == "cannon_s" and not view._moving, "A real click on a weapon card selects its firing mode")
+	var selection_state: Dictionary = GameState.serialize()
+	await _click(view.find_child("Move", true, false))
+	_check(view._moving and view._weapon_id.is_empty() and GameState.serialize() == selection_state, "A real click on the separate movement card returns from weapons without spending AP")
+	await _click(gun)
 	var vitals: Control = view.find_child("Vitals", true, false)
 	var player_bar: ProgressBar = vitals.get_node("PlayerVitals/Hull")
 	var enemy_bar: ProgressBar = vitals.get_node("EnemyVitals/Hull")
@@ -165,27 +181,29 @@ func _check_combat_view() -> void:
 	await _capture("combat-tooltip")
 	var old_bar: Vector2 = vitals.get_node("PlayerVitals").position
 	var old_vessel: Vector3 = view._board.get_node("PlayerShip").position
-	view._camera.pan(Vector2(2, 0))
+	view._camera.handle_input(InputEventMouseMotion.new())
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_check(vitals.get_node("PlayerVitals").position != old_bar and view._board.get_node("PlayerShip").position == old_vessel, "Free camera movement reprojects the health bars without moving ships")
+	_check(vitals.get_node("PlayerVitals").position.is_equal_approx(old_bar) and view._board.get_node("PlayerShip").position == old_vessel, "Pointer movement preserves the locked camera and health bars")
 	var camera_position: Vector3 = view._camera.position
 	EffectApplier.move_combat(Math.cell(GameState.state["combat"]["player"]["pos"]) + Vector2i.RIGHT)
 	await get_tree().create_timer(0.55).timeout
-	_check(view._camera.position == camera_position, "Combat camera stays free while the ship moves")
+	_check(view._camera.position != camera_position, "Combat camera follows the animated player model")
 	var vessel: Node3D = view._board.get_node("PlayerShip")
 	var expected: Vector2 = view._camera.unproject_position(vessel.global_position + Vector3.UP * 2.0) - Vector2(56, 34)
 	_check(vitals.get_node("PlayerVitals").position.distance_to(expected) < 2, "The bars follow the animated model's current position")
 	GameState.state["ship"]["hull"]["current"] = 64.0
 	GameState.state["combat"]["player"]["shield"] = 3.0
-	GameState.state["combat"]["opponent"]["hull"] = 17.0
-	GameState.state["combat"]["opponent"]["shield"] = 2.0
+	GameState.state["combat"]["opponents"][0]["hull"] = 17.0
+	GameState.state["combat"]["opponents"][0]["shield"] = 2.0
 	EffectApplier.combat_changed.emit()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	_check(player_bar.value == 64 and enemy_bar.value == 17 and vitals.get_node("PlayerVitals/Shield").value == 3 and vitals.get_node("EnemyVitals/Shield").value == 2, "Damage updates hull and shield bars independently")
 	await _click(view.find_child("shield_reboot", true, false))
 	_check(GameState.state["combat"]["ap"] == 3 and not GameState.state["combat"]["shield_recharge"].is_empty(), "The shield card activates the delayed recharge through its normal input")
+	await _click(view.find_child("emergency_burn", true, false))
+	_check(GameState.state["combat"]["ap"] == 0 and GameState.state["combat"]["move_points"] > 6, "The dash card remains usable in the separate abilities sector")
 	view.queue_free()
 	await get_tree().process_frame
 

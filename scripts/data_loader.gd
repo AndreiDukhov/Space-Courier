@@ -22,6 +22,10 @@ func load_data() -> bool:
 	_scan_directory("res://data")
 	if not record_sources.has("ship/ship_main"):
 		load_errors.append("Missing required ship id 'ship_main' in data/ship/ship.json")
+	if not record_sources.has("battle_rules/ambient_battle_rules"):
+		load_errors.append("Missing ambient battle rules")
+	if not record_sources.has("shops/hub_module_parts"):
+		load_errors.append("Missing workshop module shop")
 	if not record_sources.has("locations/" + GameState.INITIAL_LOCATION):
 		load_errors.append("Missing initial hub location: " + GameState.INITIAL_LOCATION)
 	load_errors.append_array(Validator.validate(records_by_group, record_sources))

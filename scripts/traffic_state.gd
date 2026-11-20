@@ -2,7 +2,7 @@ extends RefCounted
 
 const Motion = preload("res://scripts/flight_motion.gd")
 const Rules = preload("res://scripts/order_rules.gd")
-const STATUSES: Array[String] = ["cruise", "landing", "landed", "chase", "destroyed"]
+const STATUSES: Array[String] = ["cruise", "landing", "landed", "chase", "destroyed", "battle"]
 const FIELDS: Array[String] = ["status", "destination", "target", "timer", "cooldown", "partner", "pair_timer"]
 
 
@@ -52,6 +52,8 @@ static func valid(entry: Dictionary, npc: Dictionary, all_npcs: Dictionary) -> b
 		for planet: Dictionary in planets(str(npc["system"])):
 			if planet["id"] == entry["destination"] and Motion.point(entry["pos"]).distance_to(Motion.point(planet["pos"])) > 1.0:
 				return false
+	if entry["status"] == "battle":
+		return not entry["target"].is_empty() and all_npcs.get(entry["target"]) is Dictionary and all_npcs[entry["target"]].get("status") == "battle"
 	if entry["status"] != "chase":
 		return entry["target"].is_empty()
 	if npc["role"] not in ["pirate", "patrol"] or entry["target"].is_empty():

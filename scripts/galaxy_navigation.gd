@@ -3,6 +3,14 @@ extends RefCounted
 const Graph = preload("res://scripts/galaxy_graph.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const State = preload("res://scripts/galaxy_state.gd")
+const Text = preload("res://scripts/ui_text.gd")
+
+
+static func gate_name(route_id: String, number: int) -> String:
+	if Conditions.is_destination_known(route_id):
+		var route: Dictionary = DataLoader.get_record(route_id)
+		return Text.get_text("ui_flight_known_gate", {"name": DataLoader.get_record(str(route["to"]))["name"]})
+	return Text.get_text("ui_flight_unknown_gate", {"number": number})
 
 
 static func visible_routes() -> Array[Dictionary]:

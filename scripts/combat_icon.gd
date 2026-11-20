@@ -10,6 +10,12 @@ func _draw() -> void:
 	var metal: Color = Color(0.65, 0.76, 0.82)
 	var glow: Color = Color(0.35, 0.95, 0.85)
 	match kind:
+		"fuel_tank":
+			draw_rect(Rect2(-18, -21, 36, 47), metal.darkened(0.25))
+			draw_rect(Rect2(-10, -28, 20, 7), metal)
+			draw_rect(Rect2(-12, -14, 24, 32), Color(0.12, 0.25, 0.3))
+			draw_rect(Rect2(-10, 0, 20, 16), glow)
+			draw_polyline(PackedVector2Array([Vector2(18, -11), Vector2(26, -5), Vector2(26, 21)]), metal, 4, true)
 		"armor":
 			draw_rect(Rect2(-23, -26, 46, 52), metal.darkened(0.3))
 			draw_rect(Rect2(-17, -20, 34, 40), metal)
@@ -40,6 +46,6 @@ func _draw() -> void:
 			draw_polyline(points, Color(0.3, 0.65, 1.0), 4, true)
 			draw_line(Vector2(-11, 0), Vector2(11, 0), glow, 4)
 			draw_line(Vector2(0, -11), Vector2(0, 11), glow, 4)
-		"evasion":
+		"evasion", "movement":
 			draw_polyline(PackedVector2Array([Vector2(-22, 24), Vector2(-22, -3), Vector2(18, -3), Vector2(18, -24)]), glow, 5, true)
 			draw_colored_polygon(PackedVector2Array([Vector2(7, -14), Vector2(18, -29), Vector2(29, -14)]), metal)

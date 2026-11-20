@@ -2,6 +2,7 @@ extends "res://scripts/combat_card.gd"
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const Storage = preload("res://scripts/module_storage.gd")
 
 var module_id: String = ""
 
@@ -10,6 +11,8 @@ func refresh_status() -> void:
 	title = str(DataLoader.get_record(module_id)["name"])
 	if module_id in GameState.state["ship"]["modules"]:
 		title += "\n" + Text.get_text("ui_refit_current")
+	else:
+		title += "\n" + Text.get_text("ui_parts_stock", {"count": Storage.count(module_id)})
 	_label.text = title
 	disabled = not Conditions.can_install_module(module_id)
 	set_selected(false)

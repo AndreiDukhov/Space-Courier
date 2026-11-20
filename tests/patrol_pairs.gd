@@ -27,6 +27,8 @@ func _run() -> void:
 	EffectApplier.space_effect.connect(func(kind: String, _pos: Vector2, npc_id: String) -> void:
 		if kind == "destroyed":
 			_destroyed.append(npc_id))
+	var battle_duration: float = float(DataLoader.records["ambient_battle_rules"]["duration"])
+	DataLoader.records["ambient_battle_rules"]["duration"] = 0.25
 	_check_speed()
 	_check_pairs()
 	_check_police()
@@ -37,6 +39,7 @@ func _run() -> void:
 	_check_content_errors()
 	await _check_view()
 	_restore_definitions()
+	DataLoader.records["ambient_battle_rules"]["duration"] = battle_duration
 	for failure: String in failures:
 		printerr("FAIL: " + failure)
 	print("Patrol and pair checks: %d passed, %d failed" % [check_count - failures.size(), failures.size()])
@@ -54,6 +57,7 @@ func _setup(allowed: Array[String], engine_id: String = "engine_mk1") -> void:
 	GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
 	EffectApplier.move_player("hub_tech")
 	if engine_id != "engine_mk1":
+		GameState.state["module_storage"][engine_id] = 1
 		EffectApplier.install_module(engine_id)
 	EffectApplier.launch_flight()
 	for npc: Dictionary in DataLoader.get_records("npcs"):
@@ -134,7 +138,8 @@ func _check_pairs() -> void:
 	_player(Motion.point(_entry(PIRATE)["pos"]) + Vector2(20, 0), Motion.point(_entry(PIRATE)["pos"]) + Vector2(20, 0))
 	_check(EffectApplier.start_flight_event("event_pirate_test") == OK and EffectApplier.choose_flight_event("event_pirate_test", 0) == OK, "A paired pirate still opens the existing combat encounter")
 	GameState.state["combat"]["result"] = "victory"
-	GameState.state["combat"]["opponent"]["hull"] = 0.0
+	for opponent: Dictionary in GameState.state["combat"]["opponents"]:
+		opponent["hull"] = 0.0
 	GameState.state["combat"]["loot"] = {"money": 0, "fuel": 0}
 	_check(EffectApplier.finish_combat() == OK and _entry(WINGMAN)["partner"].is_empty(), "Player victory releases the surviving wingman immediately")
 
@@ -159,6 +164,8 @@ func _check_outcome(chance: float, victim: String) -> void:
 	config["resolve_seconds"] = 0.2
 	config["respawn_seconds"] = 0.4
 	EffectApplier.advance_flight(0.21)
+	_check(GameState.state["flight"]["battles"].size() == 1, "The close encounter first opens an intervention window")
+	EffectApplier.advance_flight(0.2)
 	_check(_entry(victim)["status"] == "destroyed" and _destroyed == [victim], "Exactly the configured loser disappears with one explosion event")
 	var survivor: String = COP if victim == PIRATE else PIRATE
 	_check(_entry(survivor)["status"] != "destroyed", "The other ship survives the clash")
@@ -191,6 +198,8 @@ func _check_pair_clash() -> void:
 	DataLoader.records[COP]["policing"]["pirate_loss_chance"] = 1.0
 	DataLoader.records[COP]["policing"]["resolve_seconds"] = 0.2
 	EffectApplier.advance_flight(0.21)
+	_check(GameState.state["flight"]["battles"].size() == 1, "The close encounter first opens an intervention window")
+	EffectApplier.advance_flight(0.2)
 	_check(_entry(PIRATE)["status"] == "destroyed" and _entry(WINGMAN)["partner"].is_empty(), "A police victory releases the surviving pirate wingman")
 	_check(GameState.save_game("user://paired-clash.json") == OK and GameState.load_game("user://paired-clash.json") == OK, "A police clash involving a pair leaves a valid save")
 
@@ -224,6 +233,8 @@ func _check_view() -> void:
 	DataLoader.records[COP]["policing"]["resolve_seconds"] = 0.2
 	EffectApplier.galaxy_changed.emit()
 	EffectApplier.advance_flight(0.21)
+	_check(GameState.state["flight"]["battles"].size() == 1, "The close encounter first opens an intervention window")
+	EffectApplier.advance_flight(0.2)
 	await _frames()
 	_check(not view.get_node("%NPCView").get_node(PIRATE).visible, "A destroyed pirate model disappears")
 	var particles: int = 0

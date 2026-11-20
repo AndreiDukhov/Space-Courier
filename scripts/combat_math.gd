@@ -6,6 +6,7 @@ const HEIGHT: int = Movement.BOARD_SIZE.y
 const ACTION_POINTS: int = 6
 const DIRECTIONS: Array[Vector2i] = Movement.DIRECTIONS
 const Loadouts = preload("res://scripts/enemy_loadout.gd")
+const Roster = preload("res://scripts/combat_roster.gd")
 const ShipLoadout = preload("res://scripts/ship_loadout.gd")
 
 
@@ -82,9 +83,9 @@ static func player_weapons() -> Array[Dictionary]:
 	return weapons
 
 
-static func enemy_weapons() -> Array[Dictionary]:
-	var combat: Dictionary = GameState.state["combat"]
-	return Loadouts.weapons(str(combat["enemy"]), combat["opponent"]["weapons"])
+static func enemy_weapons(actor_id: String = "opponent") -> Array[Dictionary]:
+	var opponent: Dictionary = Roster.actor(actor_id)
+	return Loadouts.weapons(str(opponent["enemy"]), opponent["weapons"])
 
 
 static func weapon_power(weapon: Dictionary) -> float:
@@ -98,8 +99,8 @@ static func strongest_first(weapons: Array[Dictionary]) -> Array[Dictionary]:
 	return result
 
 
-static func movement_settings(player: bool) -> Dictionary:
-	return ShipLoadout.movement_settings(GameState.state["ship"]) if player else DataLoader.get_record(str(GameState.state["combat"]["enemy"]))["movement"]
+static func movement_settings(player: bool, actor_id: String = "opponent") -> Dictionary:
+	return ShipLoadout.movement_settings(GameState.state["ship"]) if player else DataLoader.get_record(str(Roster.actor(actor_id)["enemy"]))["movement"]
 
 
 static func player_shield_max() -> float:
@@ -115,12 +116,13 @@ static func security_mood() -> float:
 
 static func shot_chance(attacker: Dictionary, target: Vector2i, weapon: Dictionary, player_fires: bool) -> float:
 	var combat: Dictionary = GameState.state["combat"]
-	var target_actor: String = "opponent" if player_fires else "player"
-	if target != cell(combat[target_actor]["pos"]):
+	var actor_id: String = "player" if player_fires else str(attacker.get("id", "opponent"))
+	var target_id: String = Roster.target_at(actor_id, target, combat)
+	if target_id.is_empty():
 		return 0.0
 	var hull: Dictionary = GameState.state["ship"]["hull"]
-	var ratio: float = float(hull["current"]) / float(hull["max"]) if player_fires else float(combat["opponent"]["hull"]) / float(DataLoader.get_record(str(combat["enemy"]))["hull"])
-	var evasion: float = 0.0 if player_fires or target != cell(combat["player"]["pos"]) else float(combat["evasion"]["value"])
+	var ratio: float = float(hull["current"]) / float(hull["max"]) if player_fires else float(attacker["hull"]) / float(DataLoader.get_record(str(attacker["enemy"]))["hull"])
+	var evasion: float = float(combat["evasion"]["value"]) if target_id == "player" else 0.0
 	return accuracy(weapon, distance(cell(attacker["pos"]), target), evasion, ratio, security_mood() if player_fires else 50.0)
 
 

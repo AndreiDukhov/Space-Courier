@@ -120,7 +120,7 @@ func _check_interception_ui() -> void:
 	await _frames()
 	await _capture("interception")
 	await _click_at(flight.get_node("%FlightEncounter/%EventChoices/Option0").get_global_rect().get_center())
-	_check(Conditions.has_combat() and GameState.state["combat"]["source_npc"] == npc_id, "The forced encounter's battle choice starts combat against the interceptor")
+	_check(Conditions.has_combat() and GameState.state["combat"]["opponents"][0]["source_npc"] == npc_id, "The forced encounter's battle choice starts combat against the interceptor")
 	flight.queue_free()
 	await _frames()
 

@@ -2,6 +2,7 @@ extends VBoxContainer
 
 signal map_requested
 signal flight_requested
+signal parts_requested
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
@@ -16,5 +17,6 @@ func _ready() -> void:
 	offset_bottom = -22
 	add_theme_constant_override("separation", 16)
 	add_child(Widgets.label(Text.get_text("ui_hub_flight_terminal"), 24))
+	add_child(Widgets.button("Parts", "ui_parts_open", parts_requested.emit, Conditions.can_use_shop("hub_module_parts")))
 	add_child(Widgets.button("Map", "ui_map_open", map_requested.emit, Conditions.can_use_galaxy_map()))
 	add_child(Widgets.button("Launch", "ui_flight_launch", flight_requested.emit, Conditions.can_launch()))

@@ -93,6 +93,19 @@
           780,
           1650
         ]
+      },
+      {
+        "type": "station",
+        "id": "station_police",
+        "name": "TODO Станция госполиции",
+        "pos": [
+          450,
+          1200
+        ],
+        "color": "#56A5F5",
+        "radius": 2.0,
+        "shop": "police_module_parts",
+        "dialogue": "event_station_parts"
       }
     ],
     "traffic": {
@@ -198,6 +211,19 @@
           210,
           390
         ]
+      },
+      {
+        "type": "station",
+        "id": "station_pirate",
+        "name": "TODO Пиратская верфь",
+        "pos": [
+          2440,
+          1840
+        ],
+        "color": "#D06A57",
+        "radius": 2.0,
+        "shop": "mafia_module_parts",
+        "dialogue": "event_station_parts"
       }
     ],
     "traffic": {

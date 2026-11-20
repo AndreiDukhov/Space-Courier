@@ -3,6 +3,7 @@ extends RefCounted
 const BOARD_SIZE: Vector2i = Vector2i(32, 24)
 const EDGE_ASSIST_DISTANCE: float = 3.0
 const MAX_EDGE_TURN_BONUS: int = 3
+const CONTACT_EPSILON: float = 0.00001
 const DIRECTIONS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 1), Vector2i(-1, 1), Vector2i(-1, 0), Vector2i(-1, -1)]
 
 
@@ -92,8 +93,8 @@ static func _intersects_cell(origin: Vector2, target: Vector2, center: Vector2) 
 	var entry: float = 0.0
 	var leave: float = 1.0
 	for axis: int in range(2):
-		var low: float = center[axis] - 0.5
-		var high: float = center[axis] + 0.5
+		var low: float = center[axis] - 0.5 + CONTACT_EPSILON
+		var high: float = center[axis] + 0.5 - CONTACT_EPSILON
 		if is_zero_approx(direction[axis]):
 			if origin[axis] < low or origin[axis] > high:
 				return false

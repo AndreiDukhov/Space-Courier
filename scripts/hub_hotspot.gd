@@ -21,6 +21,15 @@ func _ready() -> void:
 	_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	for style: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 		_button.add_theme_stylebox_override(style, StyleBoxEmpty.new())
+	for style: String in ["hover", "pressed", "focus"]:
+		var glow: StyleBoxFlat = StyleBoxFlat.new()
+		glow.bg_color = Color(0.6, 0.85, 1.0, 0.16 if style == "pressed" else 0.09)
+		glow.border_color = Color(0.65, 0.9, 1.0, 0.32)
+		glow.set_border_width_all(1)
+		glow.set_corner_radius_all(8)
+		glow.shadow_color = Color(0.4, 0.75, 1.0, 0.08)
+		glow.shadow_size = 8
+		_button.add_theme_stylebox_override(style, glow)
 	add_child(_button)
 	_button.pressed.connect(_activate)
 	_button.mouse_entered.connect(_show_hint)

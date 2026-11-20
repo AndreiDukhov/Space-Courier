@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/fuel_hover_gates.gd" id="1"]
+
+[node name="FuelHoverGateChecks" type="Node"]
+script = ExtResource("1")

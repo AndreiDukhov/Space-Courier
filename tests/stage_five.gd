@@ -58,7 +58,7 @@ func _check_orders() -> void:
 	for order: Dictionary in DataLoader.get_records("orders"):
 		if order.get("source") == "shop":
 			continue
-		_check(order["description"].begins_with("текст"), "Order descriptions contain only test placeholder text")
+		_check(order["description"].begins_with("текст") or order["description"] == "TODO scene text", "Order descriptions contain only test placeholder text")
 		var planet_ids: Array[String] = []
 		for object: Dictionary in DataLoader.get_record(str(order["to"]))["objects"]:
 			if object["type"] == "planet":

@@ -3,10 +3,10 @@ extends RefCounted
 const Motion = preload("res://scripts/flight_motion.gd")
 const NpcMotion = preload("res://scripts/npc_motion.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
-const Pairs = preload("res://scripts/pirate_pairs.gd")
+const Battles = preload("res://scripts/ambient_battles.gd")
 
 
-static func step(npc: Dictionary, local: Array[Dictionary], entries: Dictionary, delta: float, events: Array[Dictionary]) -> bool:
+static func step(npc: Dictionary, local: Array[Dictionary], entries: Dictionary, delta: float, events: Array[Dictionary], battles: Array) -> bool:
 	var entry: Dictionary = entries[npc["id"]]
 	if entry["status"] == "chase" and not Conditions.can_police_target(npc, entry, str(entry["target"]), entries, false):
 		release(npc, entry)
@@ -35,17 +35,7 @@ static func step(npc: Dictionary, local: Array[Dictionary], entries: Dictionary,
 		return true
 	entry["timer"] = float(entry["timer"]) + delta
 	if entry["timer"] >= float(npc["policing"]["resolve_seconds"]):
-		var victim_id: String = target_id if randf() < float(npc["policing"]["pirate_loss_chance"]) else str(npc["id"])
-		Pairs.release(victim_id, entries)
-		var victim: Dictionary = entries[victim_id]
-		victim["status"] = "destroyed"
-		victim["target"] = ""
-		victim["destination"] = ""
-		victim["timer"] = float(npc["policing"]["respawn_seconds"])
-		victim["cooldown"] = 0.0
-		events.append({"kind": "destroyed", "pos": victim["pos"].duplicate(), "npc": victim_id})
-		if victim_id == target_id:
-			release(npc, entry)
+		Battles.begin(str(npc["id"]), target_id, entries, battles, events)
 	return true
 
 

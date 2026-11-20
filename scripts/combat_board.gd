@@ -9,6 +9,7 @@ const Models = preload("res://scripts/ship_placeholder.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const ShotFX = preload("res://scripts/combat_shot_fx.gd")
+const Roster = preload("res://scripts/combat_roster.gd")
 const Routes = preload("res://scripts/combat_routes.gd")
 
 var _tiles: Dictionary = {}
@@ -23,6 +24,7 @@ var _active_route: Array[Vector2i] = []
 var _fx: Node3D
 var _pending_shots: Array = []
 var _shot_stamp: String = ""
+var _dying: Dictionary = {}
 
 
 func _ready() -> void:
@@ -46,16 +48,34 @@ func _ready() -> void:
 			tile.position = Math.world_position([x, y]) - Vector3(0, 0.25, 0)
 			_tiles[Vector2i(x, y)] = tile
 			tiles.add_child(tile)
-	for actor: String in ["player", "opponent"]:
-		var vessel: Node3D = Models.create(Color(0.12, 0.9, 0.8) if actor == "player" else Color(1.0, 0.36, 0.2), actor == "opponent")
-		vessel.name = "PlayerShip" if actor == "player" else "EnemyShip"
+	reset_from_state()
+
+
+func _sync_vessels() -> void:
+	var actors: Array[String] = Roster.ids()
+	for actor: String in _vessels.keys():
+		if actor not in actors:
+			remove_child(_vessels[actor])
+			_vessels[actor].queue_free()
+			for cache: Dictionary in [_vessels, _targets, _facings, _turns]:
+				cache.erase(actor)
+	for actor: String in actors:
+		if _vessels.has(actor):
+			continue
+		var vessel: Node3D = Models.create(Color(0.12, 0.9, 0.8) if actor == "player" else Color(0.25, 0.65, 1.0) if Roster.friendly(actor) else Color(1.0, 0.36, 0.2), actor != "player")
+		vessel.name = "PlayerShip" if actor == "player" else ("AllyShip" if Roster.friendly(actor) else "EnemyShip") + ("2" if actor.ends_with("_2") else "")
 		_vessels[actor] = vessel
 		add_child(vessel)
-		var label: Label3D = Art.label(Text.get_text("ui_combat_player_marker" if actor == "player" else "ui_combat_enemy_marker"), Vector3(0, -0.9 if actor == "player" else -0.25, 0))
+		var label: Label3D = Art.label(Text.get_text("ui_combat_player_marker" if actor == "player" else "ui_combat_ally_marker" if Roster.friendly(actor) else "ui_combat_enemy_marker"), Vector3(0, -0.9 if actor == "player" else -0.25, 0))
 		label.font_size = 28
 		label.pixel_size = 0.01
 		vessel.add_child(label)
-	reset_from_state()
+		var entry: Dictionary = Roster.actor(actor)
+		_targets[actor] = entry["pos"].duplicate()
+		_facings[actor] = int(entry["facing"])
+		_turns[actor] = GameState.state["combat"]["movement"][actor].duplicate(true)
+		vessel.position = Math.world_position(entry["pos"])
+		vessel.rotation.y = _yaw(int(entry["facing"]))
 
 
 func is_animating() -> bool:
@@ -69,17 +89,20 @@ func reset_from_state() -> void:
 	_active_route.clear()
 	_route_line.visible = false
 	_pending_shots = []
+	_dying.clear()
 	_fx.clear()
 	if not Conditions.has_combat():
 		return
+	_sync_vessels()
 	_shot_stamp = _current_shot_stamp()
 	for actor: String in _vessels:
-		var entry: Dictionary = GameState.state["combat"][actor]
+		var entry: Dictionary = Roster.actor(actor)
 		_targets[actor] = entry["pos"].duplicate()
 		_facings[actor] = int(entry["facing"])
 		_turns[actor] = GameState.state["combat"]["movement"][actor].duplicate(true)
 		_vessels[actor].position = Math.world_position(entry["pos"])
 		_vessels[actor].rotation.y = _yaw(int(entry["facing"]))
+		_vessels[actor].visible = actor == "player" or entry["hull"] > 0
 
 
 func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void:
@@ -87,7 +110,7 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 		return
 	var combat: Dictionary = GameState.state["combat"]
 	var origin: Vector2i = Math.cell(combat["player"]["pos"])
-	var enemy: Vector2i = Math.cell(combat["opponent"]["pos"])
+	_sync_vessels()
 	for cell: Vector2i in _tiles:
 		var color: Color = Color(0.065, 0.095, 0.14) if (cell.x + cell.y) % 2 == 0 else Color(0.085, 0.125, 0.18)
 		if not weapon.is_empty() and Conditions.can_fire_weapon(combat["player"], {"pos": Math.coordinates(cell)}, weapon, Math.ACTION_POINTS):
@@ -96,7 +119,9 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 			color = Color(0.06, 0.32, 0.28)
 		if cell == origin:
 			color = Color(0.08, 0.57, 0.48)
-		elif cell == enemy:
+		elif Roster.ally_at(cell, combat):
+			color = Color(0.12, 0.3, 0.65)
+		elif not Roster.at_cell(cell, combat).is_empty():
 			color = Color(0.65, 0.16, 0.1)
 		if cell == hovered:
 			color = color.lightened(0.3)
@@ -106,10 +131,13 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 			_materials[color].transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		_tiles[cell].material_override = _materials[color]
 	var started: bool = false
+	var enemy_delay: float = 0.0
 	for actor: String in _vessels:
-		var entry: Dictionary = combat[actor]
+		var entry: Dictionary = Roster.actor(actor, combat)
 		if _targets.get(actor, []) != entry["pos"] or _facings.get(actor, -1) != int(entry["facing"]):
-			_animate(actor, entry, combat["movement"][actor])
+			var duration: float = _animate(actor, entry, combat["movement"][actor], enemy_delay if actor != "player" else 0.0)
+			if actor != "player":
+				enemy_delay += duration
 			started = true
 		_turns[actor] = combat["movement"][actor].duplicate(true)
 	if _tweens.has("player"):
@@ -122,14 +150,16 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 	if stamp != _shot_stamp:
 		_shot_stamp = stamp
 		_pending_shots = combat["shots"].duplicate(true)
+		_mark_dying(_pending_shots)
 		started = started or not _pending_shots.is_empty()
 	_try_play_shots()
-	_vessels["opponent"].visible = combat["opponent"]["hull"] > 0 or is_animating()
+	for opponent: Dictionary in Roster.ships(combat):
+		_vessels[opponent["id"]].visible = opponent["hull"] > 0 or _dying.has(opponent["id"])
 	if started:
 		motion_changed.emit()
 
 
-func _animate(actor: String, entry: Dictionary, turn: Dictionary) -> void:
+func _animate(actor: String, entry: Dictionary, turn: Dictionary, delay: float = 0.0) -> float:
 	if _tweens.has(actor):
 		_tweens[actor].kill()
 		_tweens.erase(actor)
@@ -142,9 +172,12 @@ func _animate(actor: String, entry: Dictionary, turn: Dictionary) -> void:
 	if points.is_empty():
 		vessel.position = Math.world_position(entry["pos"])
 		vessel.rotation.y = _yaw(int(entry["facing"]))
-		return
+		return 0.0
 	var tween: Tween = create_tween()
 	_tweens[actor] = tween
+	if delay > 0.0:
+		tween.tween_interval(delay)
+	var total_duration: float = 0.0
 	var previous_position: Vector3 = vessel.position
 	var previous_yaw: float = vessel.rotation.y
 	for point: Vector2i in points.slice(1):
@@ -152,23 +185,25 @@ func _animate(actor: String, entry: Dictionary, turn: Dictionary) -> void:
 		var delta: Vector3 = destination - previous_position
 		var yaw: float = previous_yaw + angle_difference(previous_yaw, atan2(-delta.x, -delta.z))
 		var duration: float = clampf(delta.length() * 0.18, 0.12, 0.5)
+		total_duration += duration
 		tween.tween_property(vessel, "position", destination, duration)
 		tween.parallel().tween_property(vessel, "rotation:y", yaw, minf(duration, 0.12))
 		previous_position = destination
 		previous_yaw = yaw
 	var final_yaw: float = previous_yaw + angle_difference(previous_yaw, _yaw(int(entry["facing"])))
 	if absf(angle_difference(previous_yaw, final_yaw)) > 0.00001:
+		total_duration += 0.12
 		tween.tween_property(vessel, "rotation:y", final_yaw, 0.12)
 	tween.finished.connect(_on_motion_finished.bind(actor))
+	return total_duration
 
 
 func _animation_path(actor: String, entry: Dictionary, turn: Dictionary) -> Array[Vector2i]:
 	var old_turn: Dictionary = _turns[actor]
 	var history: Array = turn["history"]
 	var old_history: Array = old_turn["history"]
-	var settings: Dictionary = Math.movement_settings(true) if actor == "player" else DataLoader.get_record(str(GameState.state["combat"]["enemy"]))["movement"]
-	var other: String = "opponent" if actor == "player" else "player"
-	var occupied: Vector2i = Math.cell(GameState.state["combat"][other]["pos"])
+	var settings: Dictionary = Math.movement_settings(actor == "player", actor)
+	var occupied: Array[Vector2i] = Roster.history_blocked(actor, GameState.state["combat"])
 	var same_turn: bool = old_turn["origin"] == turn["origin"] and old_turn["facing"] == turn["facing"]
 	if same_turn and history.size() < old_history.size() and old_history.slice(0, history.size()) == history:
 		var reverse: Array[Vector2i] = Routes.trace(old_turn, _targets[actor], settings, occupied, history.size())
@@ -213,17 +248,32 @@ func _current_shot_stamp() -> String:
 
 
 func _try_play_shots() -> void:
+	if not Conditions.has_combat():
+		_pending_shots = []
+		return
 	if not _tweens.is_empty() or _fx.active or _pending_shots.is_empty():
 		return
 	var shots: Array = _pending_shots
 	_pending_shots = []
+	_mark_dying(shots)
 	_fx.play(shots)
 
 
+func _mark_dying(shots: Array) -> void:
+	for opponent: Dictionary in Roster.ships():
+		if opponent["hull"] > 0 or not _vessels[opponent["id"]].visible:
+			continue
+		for shot: Dictionary in shots:
+			if Roster.friendly(str(shot["shooter"])) != Roster.friendly(str(opponent["id"])) and shot["result"] != "miss" and shot["target"] == opponent["pos"]:
+				_dying[opponent["id"]] = true
+
+
 func _on_fx_finished() -> void:
+	_dying.clear()
 	_try_play_shots()
 	if Conditions.has_combat():
-		_vessels["opponent"].visible = GameState.state["combat"]["opponent"]["hull"] > 0
+		for opponent: Dictionary in Roster.ships():
+			_vessels[opponent["id"]].visible = opponent["hull"] > 0 or _dying.has(opponent["id"])
 	motion_changed.emit()
 
 

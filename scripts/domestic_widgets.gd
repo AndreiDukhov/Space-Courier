@@ -19,6 +19,11 @@ static func button(node_name: String, text_id: String, callback: Callable, enabl
 	node.custom_minimum_size.y = 38
 	node.disabled = not enabled
 	node.pressed.connect(callback)
+	if node_name == "Close":
+		var escape: InputEventKey = InputEventKey.new()
+		escape.keycode = KEY_ESCAPE
+		node.shortcut = Shortcut.new()
+		node.shortcut.events = [escape]
 	return node
 
 

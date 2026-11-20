@@ -8,12 +8,15 @@ static var _graph: AStar2D
 static var _paths: Dictionary = {}
 
 
-static func path(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Vector2i) -> Array[Vector2i]:
+static func path(vessel: Dictionary, target: Vector2i, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Variant) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
 	var origin: Vector2i = Math.cell(vessel["pos"])
+	var blocked: Array[Vector2i] = _blocked_cells(occupied)
+	if origin + Movement.DIRECTIONS[int(vessel["facing"])] in blocked:
+		return result
 	if not Math.inside(target) or not Movement.cone_contains(origin, target, Math.cell(turn["origin"]), int(vessel["facing"]), remaining, settings, int(turn["facing"]), true):
 		return result
-	var context: String = JSON.stringify([vessel["pos"], vessel["facing"], turn["origin"], turn["facing"], remaining, settings, Math.coordinates(occupied)])
+	var context: String = JSON.stringify([vessel["pos"], vessel["facing"], turn["origin"], turn["facing"], remaining, settings, occupied])
 	if context != _context:
 		_build(vessel, turn, remaining, settings, occupied)
 		_context = context
@@ -42,7 +45,7 @@ static func arrival_facing(points: Array[Vector2i]) -> int:
 	return Movement.facing_toward(Vector2(points[-1] - points[-2]))
 
 
-static func trace(turn: Dictionary, position: Array, settings: Dictionary, occupied: Vector2i, first: int = 0) -> Array[Vector2i]:
+static func trace(turn: Dictionary, position: Array, settings: Dictionary, occupied: Variant, first: int = 0) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
 	var history: Array = turn["history"]
 	for index: int in range(history.size()):
@@ -58,18 +61,18 @@ static func trace(turn: Dictionary, position: Array, settings: Dictionary, occup
 	return result
 
 
-static func _build(vessel: Dictionary, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Vector2i) -> void:
+static func _build(vessel: Dictionary, turn: Dictionary, remaining: int, settings: Dictionary, occupied: Variant) -> void:
 	_graph = AStar2D.new()
 	_paths.clear()
+	var blocked: Array[Vector2i] = _blocked_cells(occupied)
 	var origin: Vector2i = Math.cell(vessel["pos"])
 	for y: int in range(maxi(0, origin.y - remaining), mini(Math.HEIGHT, origin.y + remaining + 1)):
 		for x: int in range(maxi(0, origin.x - remaining), mini(Math.WIDTH, origin.x + remaining + 1)):
 			var cell: Vector2i = Vector2i(x, y)
-			if cell == occupied:
+			if cell in blocked:
 				continue
 			if cell == origin or Movement.cone_contains(origin, cell, Math.cell(turn["origin"]), int(vessel["facing"]), remaining, settings, int(turn["facing"]), true):
 				_graph.add_point(_id(cell), Vector2(cell))
-	var blocked: Array[Vector2i] = [occupied]
 	for point: int in _graph.get_point_ids():
 		var cell: Vector2i = _cell(point)
 		for index: int in range(4):
@@ -80,6 +83,15 @@ static func _build(vessel: Dictionary, turn: Dictionary, remaining: int, setting
 
 static func _id(cell: Vector2i) -> int:
 	return cell.y * Math.WIDTH + cell.x
+
+
+static func _blocked_cells(occupied: Variant) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+	if occupied is Vector2i:
+		result.append(occupied)
+	else:
+		result.assign(occupied)
+	return result
 
 
 static func _cell(point: int) -> Vector2i:

@@ -33,6 +33,10 @@ static func validate_system(system: Dictionary) -> Array[String]:
 			var hazard: Variant = object.get("hazard")
 			if not hazard is Dictionary or not Rules.finite_number(hazard.get("radius")) or not Rules.finite_number(hazard.get("damage_per_second")) or hazard["radius"] <= 0 or hazard["damage_per_second"] <= 0:
 				errors.append("Star requires positive hazard radius and damage")
+		elif object.get("type") == "station" and (object.has("shop") or object.has("dialogue")):
+			for field: String in ["shop", "dialogue"]:
+				if not object.get(field) is String or str(object[field]).is_empty():
+					errors.append("Trading station requires " + field + " id")
 	if inhabited < 1:
 		errors.append("Traffic system requires at least one inhabited planet")
 	return errors
@@ -40,6 +44,8 @@ static func validate_system(system: Dictionary) -> Array[String]:
 
 static func validate_npc(npc: Dictionary) -> Array[String]:
 	var errors: Array[String] = []
+	if not npc.get("combat_profile") is String or str(npc["combat_profile"]).is_empty():
+		errors.append("NPC requires a combat profile id")
 	if npc.get("role") not in ["civilian", "patrol", "pirate"]:
 		errors.append("NPC requires a supported role")
 	if npc.get("role") == "pirate":

@@ -6,6 +6,7 @@ const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const ModuleMarket = preload("res://scripts/module_market.gd")
 
 var planet_id: String = ""
 var npc_id: String = ""
@@ -66,11 +67,14 @@ func refresh() -> void:
 		return
 	Widgets.clear(_column)
 	var planet: Dictionary = Conditions.space_object(planet_id) if npc_id.is_empty() else DataLoader.get_record(npc_id)
+	var available: bool = Conditions.can_interact_planet(planet_id) if npc_id.is_empty() else Conditions.can_trade_npc(npc_id)
+	if available and trading and not DataLoader.get_record(str(planet.get("shop", ""))).get("modules", []).is_empty():
+		_trade(planet)
+		return
 	_column.add_child(Widgets.label(str(planet.get("name", "")), 24))
 	_column.add_child(Widgets.label(Text.get_text("ui_space_wallet", {"money": GameState.state["money"]}), 17))
 	if not _result.is_empty():
 		_column.add_child(Widgets.label(_result, 17))
-	var available: bool = Conditions.can_interact_planet(planet_id) if npc_id.is_empty() else Conditions.can_trade_npc(npc_id)
 	if not available:
 		_column.add_child(Widgets.label(Text.get_text("ui_space_unavailable")))
 		return
@@ -81,9 +85,17 @@ func refresh() -> void:
 
 
 func _trade(planet: Dictionary) -> void:
-	if npc_id.is_empty():
+	if npc_id.is_empty() and planet.get("type") == "planet":
 		_fuel_controls()
 	var shop_id: String = str(planet["shop"])
+	if not DataLoader.get_record(shop_id).get("modules", []).is_empty():
+		var market: ModuleMarket = ModuleMarket.new()
+		market.name = "ModuleMarket"
+		market.shop_id = shop_id
+		market.title = str(planet["name"])
+		market.back_requested.connect(closed.emit)
+		_column.add_child(market)
+		market.custom_minimum_size.y = maxf(400.0, get_viewport().get_visible_rect().size.y * 0.62)
 	for entry: Dictionary in DataLoader.get_record(shop_id).get("items", []):
 		var item_id: String = str(entry["item"])
 		_column.add_child(Widgets.button("Buy_" + item_id, "ui_space_buy", _buy.bind(shop_id, item_id), Conditions.can_buy_item(shop_id, item_id), {"name": DataLoader.get_record(item_id)["name"], "price": int(entry["price"])}))

@@ -6,6 +6,7 @@ const Traffic = preload("res://scripts/traffic_state.gd")
 const Geometry = preload("res://scripts/space_geometry.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Pairs = preload("res://scripts/pirate_pairs.gd")
+const Battles = preload("res://scripts/ambient_battles.gd")
 const Police = preload("res://scripts/police_simulation.gd")
 const ROBBERY_RADIUS: float = 24.0
 
@@ -14,6 +15,7 @@ static func step(delta: float) -> Dictionary:
 	var system_id: String = str(GameState.state["current_system"])
 	var entries: Dictionary = GameState.state["flight"]["npcs"].duplicate(true)
 	var events: Array[Dictionary] = []
+	var battles: Array = GameState.state["flight"]["battles"].duplicate(true)
 	var population: int = 0
 	var local: Array[Dictionary] = []
 	for npc: Dictionary in DataLoader.get_records("npcs"):
@@ -24,6 +26,8 @@ static func step(delta: float) -> Dictionary:
 	for npc: Dictionary in local:
 		var entry: Dictionary = entries[npc["id"]]
 		entry["cooldown"] = maxf(0.0, float(entry["cooldown"]) - delta)
+		if entry["status"] == "battle":
+			continue
 		if npc["role"] == "civilian":
 			population += _civilian(npc, entry, population, delta, events)
 		elif entry["status"] == "destroyed":
@@ -35,17 +39,18 @@ static func step(delta: float) -> Dictionary:
 				entry["cooldown"] = float(npc["piracy"]["cooldown"] if npc["role"] == "pirate" else npc["policing"]["cooldown"])
 	Pairs.step(local, entries, delta)
 	for npc: Dictionary in local:
-		if npc["role"] == "pirate" and entries[npc["id"]]["status"] != "destroyed":
-			_pirate(npc, entries, delta, events)
+		if npc["role"] == "pirate" and entries[npc["id"]]["status"] not in ["destroyed", "battle"]:
+			_pirate(npc, entries, delta, events, battles)
 	for npc: Dictionary in local:
-		if npc["role"] == "patrol" and entries[npc["id"]]["status"] != "destroyed":
-			if not Police.step(npc, local, entries, delta, events):
+		if npc["role"] == "patrol" and entries[npc["id"]]["status"] not in ["destroyed", "battle"]:
+			if not Police.step(npc, local, entries, delta, events, battles):
 				_patrol(npc, entries[npc["id"]], delta)
+	battles = Battles.advance(battles, entries, system_id, delta, events)
 	cleanup(local, entries)
 	for npc: Dictionary in local:
 		for field: String in ["timer", "cooldown", "pair_timer"]:
 			entries[npc["id"]][field] = float(Vector2(float(entries[npc["id"]][field]), 0).x)
-	return {"npcs": entries, "events": events}
+	return {"npcs": entries, "events": events, "battles": battles}
 
 
 static func _civilian(npc: Dictionary, entry: Dictionary, population: int, delta: float, events: Array[Dictionary]) -> int:
@@ -111,7 +116,7 @@ static func _move(npc: Dictionary, entry: Dictionary, target: Vector2, delta: fl
 	return Patrol.toward(origin, target, str(npc["system"]), float(npc["speed"]), delta)
 
 
-static func _pirate(npc: Dictionary, entries: Dictionary, delta: float, events: Array[Dictionary]) -> void:
+static func _pirate(npc: Dictionary, entries: Dictionary, delta: float, events: Array[Dictionary], battles: Array) -> void:
 	var entry: Dictionary = entries[npc["id"]]
 	if entry["status"] == "chase" and not Conditions.can_pirate_target(npc, entry, str(entry["target"]), entries, false):
 		_release(npc, entry)
@@ -150,16 +155,7 @@ static func _pirate(npc: Dictionary, entries: Dictionary, delta: float, events: 
 	if Motion.point(entry["pos"]).distance_to(target) <= ROBBERY_RADIUS:
 		entry["timer"] = float(entry["timer"]) + delta
 		if float(entry["timer"]) >= float(npc["piracy"]["robbery_seconds"]):
-			var victim: Dictionary = entries[target_id]
-			if randf() < float(npc["piracy"]["destroy_chance"]):
-				victim["status"] = "destroyed"
-				victim["target"] = ""
-				victim["destination"] = ""
-				victim["timer"] = randf_range(75.0, 120.0)
-				events.append({"kind": "destroyed", "pos": victim["pos"].duplicate(), "npc": target_id})
-			else:
-				events.append({"kind": "paid", "pos": victim["pos"].duplicate(), "npc": target_id})
-			_release(npc, entry)
+			Battles.begin(str(npc["id"]), target_id, entries, battles, events)
 	else:
 		entry["timer"] = 0.0
 

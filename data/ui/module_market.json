@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ui_parts_open",
+    "text": "Запчасти · Интернет-магазин"
+  },
+  {
+    "id": "ui_parts_brand",
+    "text": "STARWIND PARTS"
+  },
+  {
+    "id": "ui_parts_address",
+    "text": "starwind.parts / каталог"
+  },
+  {
+    "id": "ui_parts_all",
+    "text": "Все категории"
+  },
+  {
+    "id": "ui_parts_wallet",
+    "text": "Счёт: {money} кр."
+  },
+  {
+    "id": "ui_parts_price",
+    "text": "{price} кр."
+  },
+  {
+    "id": "ui_parts_buy",
+    "text": "Купить"
+  },
+  {
+    "id": "ui_parts_order",
+    "text": "Заказать"
+  },
+  {
+    "id": "ui_parts_arrival",
+    "text": "Доставка в хаб: день {day}"
+  },
+  {
+    "id": "ui_parts_immediate",
+    "text": "Выдача на станции сразу после оплаты"
+  },
+  {
+    "id": "ui_parts_owned",
+    "text": "На складе: {count} · В пути: {pending}"
+  },
+  {
+    "id": "ui_parts_queue",
+    "text": "Доставки"
+  },
+  {
+    "id": "ui_parts_queue_empty",
+    "text": "Нет ожидающих доставок"
+  },
+  {
+    "id": "ui_parts_queue_entry",
+    "text": "{name} ×{count} · день {day}"
+  },
+  {
+    "id": "ui_parts_rep",
+    "text": "{faction}: {current} / {required}"
+  },
+  {
+    "id": "ui_parts_faction_state",
+    "text": "Госполиция"
+  },
+  {
+    "id": "ui_parts_faction_mafia",
+    "text": "Мафия"
+  },
+  {
+    "id": "ui_parts_unavailable",
+    "text": "Покупка недоступна: проверь репутацию и кредиты."
+  },
+  {
+    "id": "ui_parts_catalog",
+    "text": "Каталог запчастей"
+  },
+  {
+    "id": "ui_parts_back",
+    "text": "Назад"
+  },
+  {
+    "id": "ui_parts_stock",
+    "text": "На складе: {count}"
+  },
+  {
+    "id": "ui_parts_missing",
+    "text": "Сначала получи этот модуль: закажи через ПК или купи на станции."
+  },
+  {
+    "id": "ui_parts_weapon_stats",
+    "text": "Урон {min}–{max} · Сектор {arc}° · Дальность {range}"
+  },
+  {
+    "id": "ui_parts_engine_stats",
+    "text": "Скорость {speed} · Тяга {thrust} ОП"
+  },
+  {
+    "id": "ui_parts_maneuver_stats",
+    "text": "Маневренность +{value}"
+  },
+  {
+    "id": "ui_parts_armor_stats",
+    "text": "Корпус +{value}"
+  },
+  {
+    "id": "ui_parts_shield_stats",
+    "text": "Щиты {value}"
+  },
+  {
+    "id": "ui_parts_tank_stats",
+    "text": "Ёмкость бака +{value}"
+  },
+  {
+    "id": "ui_parts_empty",
+    "text": "В этой категории нет товаров."
+  },
+  {
+    "id": "ui_parts_page_title",
+    "text": "Каталог · Starwind Parts"
+  }
+]

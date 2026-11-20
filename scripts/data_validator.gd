@@ -19,7 +19,7 @@ const SINGLE_REFERENCES: Dictionary = {
 	"to_route": "routes", "unlock_route": "routes", "unlock_scene": "scenes",
 	"start_order": "orders", "start_combat": "enemies", "event": "events",
 	"scene": "scenes", "on_fail": "scenes", "system": "systems", "dish": "items",
-	"shop": "shops", "dialogue": "events"
+	"shop": "shops", "dialogue": "events", "combat_profile": "enemies"
 }
 const LIST_REFERENCES: Dictionary = {
 	"connects": "locations", "crew_aboard": "heroines", "abilities": "abilities",
@@ -75,7 +75,10 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 			if group == "orders":
 				for message: String in Orders.validate(record):
 					errors.append(context + ": " + message)
-			if group in ["enemies", "abilities", "modules", "ship"]:
+			if group == "modules" and record.get("requires") is Array:
+				for message: String in Conditions.validate(record["requires"]):
+					errors.append(context + ": " + message)
+			if group in ["enemies", "abilities", "modules", "ship", "battle_rules"]:
 				for message: String in CombatContent.validate_record(record, group):
 					errors.append(context + ": " + message)
 			if group in ["npcs", "events"]:
