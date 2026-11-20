@@ -6,6 +6,7 @@ const Runner = preload("res://scripts/dialogue_runner.gd")
 const MealConversation = preload("res://scripts/meal_conversation.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const Portrait = preload("res://scripts/heroine_portrait.gd")
+const Scenes = preload("res://scripts/scene_queue.gd")
 
 @onready var scene_list: VBoxContainer = %SceneList
 @onready var stat_list: VBoxContainer = %Stats
@@ -18,6 +19,7 @@ const Portrait = preload("res://scripts/heroine_portrait.gd")
 var _selected_scene_id: String = ""
 var _speaker_filter: String = ""
 var _portrait: Portrait
+var _bedroom_scene_id: String = ""
 
 
 func _ready() -> void:
@@ -90,6 +92,15 @@ func select_scene(scene_id: String) -> bool:
 	return true
 
 
+func select_bedroom_scene(scene_id: String) -> bool:
+	var scene: Dictionary = DataLoader.get_record(scene_id)
+	if not Scenes.is_bedroom(scene) or not Runner.is_available(scene):
+		return false
+	_bedroom_scene_id = scene_id
+	refresh(scene_id)
+	return true
+
+
 func configure_for_hub(heroine_id: String) -> void:
 	_speaker_filter = heroine_id
 	get_node("Margin/Columns/Sidebar").hide()
@@ -105,6 +116,12 @@ func configure_for_hub(heroine_id: String) -> void:
 func _scenes_for_view() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for scene: Dictionary in DataLoader.get_records("scenes"):
+		if not _bedroom_scene_id.is_empty():
+			if scene["id"] == _bedroom_scene_id:
+				result.append(scene)
+			continue
+		if Scenes.is_bedroom(scene):
+			continue
 		if _speaker_filter.is_empty():
 			result.append(scene)
 			continue
@@ -120,6 +137,8 @@ func _render_scene(scene: Dictionary) -> void:
 	_clear(line_list)
 	_clear(choice_list)
 	scene_label.text = str(scene.get("id", ""))
+	if not _bedroom_scene_id.is_empty():
+		scene_label.text = str(DataLoader.get_record(str(scene.get("location", ""))).get("name", ""))
 	if not _speaker_filter.is_empty() and scene.is_empty():
 		scene_label.text = Text.get_text("ui_food_talk_title", {"name": DataLoader.get_record(_speaker_filter).get("name", "")})
 		var placeholder: Label = Label.new()

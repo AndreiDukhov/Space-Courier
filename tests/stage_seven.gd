@@ -138,7 +138,8 @@ func _check_weapons() -> void:
 	_check(is_equal_approx(high - Math.shot_chance(player, Vector2i(19, 12), course, true), 0.125), "Half hull applies half of the configured hull penalty")
 	var unaffected: float = Math.shot_chance(player, Vector2i(19, 12), course, true)
 	GameState.state["heroines"]["medic"]["mood"] = 0.0
-	_check(Math.shot_chance(player, Vector2i(19, 12), course, true) == unaffected and DataLoader.get_record("mechanic").is_empty(), "Other heroines do not affect gunnery and no mechanic was added")
+	GameState.state["heroines"]["mechanic"]["mood"] = 0.0
+	_check(Math.shot_chance(player, Vector2i(19, 12), course, true) == unaffected and not GameState.state["heroines"]["mechanic"]["aboard"], "Other heroines do not affect gunnery and the mechanic remains in the hub")
 	GameState.state["heroines"]["security"]["aboard"] = false
 	_check(Math.security_mood() == 50.0 and GameState.state["heroines"]["security"]["loc"] == "ship_bridge", "An absent security officer provides a neutral modifier; her test schedule is on the ship")
 

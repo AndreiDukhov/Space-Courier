@@ -1,0 +1,570 @@
+[
+  {
+    "id": "pilot_door_peek_test",
+    "type": "hub",
+    "tags": [
+      "door_peek"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "pilot",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "pilot_door_knock_test",
+    "type": "hub",
+    "tags": [
+      "door_knock"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "pilot",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "pilot_door_enter_friendly_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_friendly"
+    ],
+    "location": "hub_pilot_bedroom",
+    "conditions": [
+      {
+        "stat": "pilot.attitude",
+        "op": ">=",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "pilot",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "pilot_door_enter_rejected_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_rejected"
+    ],
+    "location": "hub_corridor",
+    "conditions": [
+      {
+        "stat": "pilot.attitude",
+        "op": "<",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "pilot",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [
+      {
+        "stat": "pilot.mood",
+        "add": -5
+      }
+    ],
+    "next": []
+  },
+  {
+    "id": "pilot_door_enter_knocked_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_knocked"
+    ],
+    "location": "hub_pilot_bedroom",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "pilot",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "medic_door_peek_test",
+    "type": "hub",
+    "tags": [
+      "door_peek"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "medic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "medic_door_knock_test",
+    "type": "hub",
+    "tags": [
+      "door_knock"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "medic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "medic_door_enter_friendly_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_friendly"
+    ],
+    "location": "hub_medic_bedroom",
+    "conditions": [
+      {
+        "stat": "medic.attitude",
+        "op": ">=",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "medic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "medic_door_enter_rejected_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_rejected"
+    ],
+    "location": "hub_corridor",
+    "conditions": [
+      {
+        "stat": "medic.attitude",
+        "op": "<",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "medic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [
+      {
+        "stat": "medic.mood",
+        "add": -5
+      }
+    ],
+    "next": []
+  },
+  {
+    "id": "medic_door_enter_knocked_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_knocked"
+    ],
+    "location": "hub_medic_bedroom",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "medic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "security_door_peek_test",
+    "type": "hub",
+    "tags": [
+      "door_peek"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "security",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "security_door_knock_test",
+    "type": "hub",
+    "tags": [
+      "door_knock"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "security",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "security_door_enter_friendly_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_friendly"
+    ],
+    "location": "hub_security_bedroom",
+    "conditions": [
+      {
+        "stat": "security.attitude",
+        "op": ">=",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "security",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "security_door_enter_rejected_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_rejected"
+    ],
+    "location": "hub_corridor",
+    "conditions": [
+      {
+        "stat": "security.attitude",
+        "op": "<",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "security",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [
+      {
+        "stat": "security.mood",
+        "add": -5
+      }
+    ],
+    "next": []
+  },
+  {
+    "id": "security_door_enter_knocked_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_knocked"
+    ],
+    "location": "hub_security_bedroom",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "security",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "mechanic_door_peek_test",
+    "type": "hub",
+    "tags": [
+      "door_peek"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "mechanic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "mechanic_door_knock_test",
+    "type": "hub",
+    "tags": [
+      "door_knock"
+    ],
+    "location": "hub_corridor",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "mechanic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "mechanic_door_enter_friendly_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_friendly"
+    ],
+    "location": "hub_mechanic_bedroom",
+    "conditions": [
+      {
+        "stat": "mechanic.attitude",
+        "op": ">=",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "mechanic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  },
+  {
+    "id": "mechanic_door_enter_rejected_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_rejected"
+    ],
+    "location": "hub_corridor",
+    "conditions": [
+      {
+        "stat": "mechanic.attitude",
+        "op": "<",
+        "value": 50
+      }
+    ],
+    "lines": [
+      {
+        "who": "mechanic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [
+      {
+        "stat": "mechanic.mood",
+        "add": -5
+      }
+    ],
+    "next": []
+  },
+  {
+    "id": "mechanic_door_enter_knocked_test",
+    "type": "hub",
+    "tags": [
+      "door_enter_knocked"
+    ],
+    "location": "hub_mechanic_bedroom",
+    "conditions": [],
+    "lines": [
+      {
+        "who": "mechanic",
+        "face": "neutral",
+        "text": "TODO scene text"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "TODO choice text",
+        "effects": []
+      }
+    ],
+    "on_end": [],
+    "next": []
+  }
+]

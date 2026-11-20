@@ -18,6 +18,8 @@ const ComputerMenu = preload("res://scripts/computer_menu.gd")
 const Refit = preload("res://scripts/ship_refit.gd")
 const RelationshipsPanel = preload("res://scripts/relationships_panel.gd")
 const ModuleMarket = preload("res://scripts/module_market.gd")
+const Doors = preload("res://scripts/hub_doors.gd")
+const BedroomFeedback = preload("res://scripts/bedroom_feedback.gd")
 
 @onready var background: TextureRect = %Background
 @onready var backdrop: ColorRect = %Backdrop
@@ -41,6 +43,8 @@ var _lighting: Lighting = Lighting.new()
 var _terminal_kind: String = ""
 var _refit: Refit
 var _relationships: RelationshipsPanel
+var _doors: Doors
+var _bedroom_feedback: BedroomFeedback
 
 
 func _ready() -> void:
@@ -53,6 +57,7 @@ func _ready() -> void:
 	GameState.restored.connect(_on_restored)
 	EffectApplier.domestic_changed.connect(refresh)
 	EffectApplier.scenes_changed.connect(_show_pending_scene)
+	EffectApplier.bedroom_action_resolved.connect(_on_bedroom_action)
 	wait_button.pressed.connect(_on_wait_pressed)
 	%CloseDialogue.pressed.connect(_close_dialogue)
 	%CloseTerminal.pressed.connect(_close_terminal)
@@ -76,6 +81,14 @@ func _ready() -> void:
 	_add_hotspot("OfficeHotspot", "hub_office_hotspot", "ui_hub_office_computer", open_order_terminal)
 	_add_hotspot("TechHotspot", "hub_tech_hotspot", "ui_hub_tech_computer", open_flight_terminal)
 	_add_hotspot("ShipHotspot", "hub_ship_hotspot", "ui_refit_open", open_ship_refit)
+	_doors = Doors.new()
+	_doors.name = "BedroomDoors"
+	_doors.background = background
+	_doors.action_requested.connect(EffectApplier.use_bedroom_door)
+	_doors.exit_requested.connect(EffectApplier.exit_bedroom)
+	add_child(_doors)
+	move_child(_doors, %Navigation.get_index())
+	_doors.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	refresh()
 	if not GameState.state.get("kitchen", {}).is_empty():
 		open_domestic("kitchen")
@@ -99,6 +112,9 @@ func refresh() -> void:
 	backdrop.material = background.material
 	for hotspot: Hotspot in _hotspots:
 		hotspot.refresh()
+	if _doors != null:
+		_doors.refresh()
+	conversation.offset_bottom = Doors.EXIT_TOP - 12 if Conditions.can_exit_bedroom() else -18
 	location_label.text = str(location.get("name", location_id))
 	time_label.text = "%02d / %s" % [Clock.current_day(), Clock.current_slot()]
 	wait_button.text = ""
@@ -125,7 +141,7 @@ func refresh() -> void:
 			_domestic_actions.add_child(button)
 	_clear(cards)
 	for target: Dictionary in DataLoader.get_records("locations"):
-		if target.get("area") == location.get("area"):
+		if target.get("area") == location.get("area") and Conditions.room_is_in_navigation(str(target["id"])):
 			cards.add_child(_location_card(target))
 	%RoomNavigation.sync(location_id)
 	_clear(people)
@@ -174,11 +190,37 @@ func open_dialogue(heroine_id: String) -> bool:
 
 
 func _show_pending_scene() -> void:
-	if not is_inside_tree() or not is_node_ready() or conversation.visible or terminal.visible or _domestic != null or _galaxy_map != null or _refit != null or _relationships != null:
+	if not is_inside_tree() or not is_node_ready() or conversation.visible or terminal.visible or _domestic != null or _galaxy_map != null or _refit != null or _relationships != null or _bedroom_feedback != null:
 		return
 	var scene_id: String = Conditions.next_pending_scene()
 	if not scene_id.is_empty():
 		open_dialogue(SceneQueue.heroine(DataLoader.get_record(scene_id)))
+
+
+func _on_bedroom_action(door_id: String, action: String, scene_id: String) -> void:
+	if not is_inside_tree():
+		return
+	_close_bedroom_feedback()
+	var door: Dictionary = Conditions.bedroom_door(door_id)
+	if action == "enter" and GameState.state["location"] == door["location"]:
+		if door.has("heroine") and Conditions.is_present(str(door["heroine"])) and open_dialogue(str(door["heroine"])):
+			var view: DialogueView = dialogue_content.get_child(0)
+			view.select_bedroom_scene(scene_id)
+		return
+	_bedroom_feedback = BedroomFeedback.new()
+	_bedroom_feedback.name = "BedroomFeedback"
+	_bedroom_feedback.scene_id = scene_id
+	_bedroom_feedback.heading = str(DataLoader.get_record(str(door["location"]))["name"])
+	_bedroom_feedback.message_id = "ui_door_empty" if scene_id.is_empty() else "ui_door_invited" if action == "knock" else "ui_door_denied" if Conditions.bedroom_entry_is_rejected(scene_id) else ""
+	_bedroom_feedback.closed.connect(_close_bedroom_feedback)
+	add_child(_bedroom_feedback)
+
+
+func _close_bedroom_feedback() -> void:
+	if _bedroom_feedback != null:
+		remove_child(_bedroom_feedback)
+		_bedroom_feedback.queue_free()
+		_bedroom_feedback = null
 
 
 func open_order_terminal() -> bool:
@@ -480,10 +522,12 @@ func _on_wait_pressed() -> void:
 
 
 func _on_location_changed(_location_id: String) -> void:
+	_close_bedroom_feedback()
 	refresh()
 
 
 func _on_restored() -> void:
+	_close_bedroom_feedback()
 	_close_relationships()
 	_close_refit()
 	_close_domestic()

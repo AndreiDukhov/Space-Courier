@@ -109,5 +109,35 @@
       ]
     },
     "overrides": []
+  },
+  {
+    "heroine": "mechanic",
+    "slots": {
+      "morning": [
+        {
+          "loc": "hub_tech",
+          "weight": 1
+        }
+      ],
+      "day": [
+        {
+          "loc": "hub_tech",
+          "weight": 1
+        }
+      ],
+      "evening": [
+        {
+          "loc": "hub_kitchen",
+          "weight": 1
+        }
+      ],
+      "night": [
+        {
+          "loc": "hub_mechanic_bedroom",
+          "weight": 1
+        }
+      ]
+    },
+    "overrides": []
   }
 ]

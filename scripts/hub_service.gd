@@ -2,6 +2,7 @@ extends RefCounted
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Runner = preload("res://scripts/dialogue_runner.gd")
+const Scenes = preload("res://scripts/scene_queue.gd")
 const TRAVEL_SLOTS: int = 0
 const WAIT_SLOTS: int = 1
 
@@ -19,7 +20,7 @@ static func dialogues_for(heroine_id: String) -> Array[Dictionary]:
 	if not Conditions.is_present(heroine_id):
 		return result
 	for scene: Dictionary in DataLoader.get_records("scenes"):
-		if not Runner.is_available(scene):
+		if Scenes.is_bedroom(scene) or not Runner.is_available(scene):
 			continue
 		for line: Dictionary in scene.get("lines", []):
 			if line.get("who") == heroine_id:

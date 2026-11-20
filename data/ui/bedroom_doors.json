@@ -1,0 +1,20 @@
+[
+  {
+    "id": "hub_corridor_doors",
+    "location": "hub_corridor",
+    "doors": [
+      {"id": "door_pilot", "heroine": "pilot", "location": "hub_pilot_bedroom", "drop_rect": [0.092, 0.232, 0.12, 0.64]},
+      {"id": "door_medic", "heroine": "medic", "location": "hub_medic_bedroom", "drop_rect": [0.282, 0.310, 0.052, 0.46]},
+      {"id": "door_security", "heroine": "security", "location": "hub_security_bedroom", "drop_rect": [0.466, 0.378, 0.097, 0.293]},
+      {"id": "door_mechanic", "heroine": "mechanic", "location": "hub_mechanic_bedroom", "drop_rect": [0.735, 0.310, 0.044, 0.46]},
+      {"id": "door_player", "location": "hub_bedroom", "drop_rect": [0.831, 0.242, 0.115, 0.59]}
+    ]
+  },
+  {"id": "ui_door_peek", "text": "Подглядеть"},
+  {"id": "ui_door_knock", "text": "Постучаться"},
+  {"id": "ui_door_enter", "text": "Войти"},
+  {"id": "ui_door_empty", "text": "В комнате никого нет."},
+  {"id": "ui_door_invited", "text": "Разрешение на вход получено."},
+  {"id": "ui_door_denied", "text": "Вход отклонён. Настроение героини снизилось."},
+  {"id": "ui_bedroom_exit", "text": "В коридор"}
+]

@@ -10,6 +10,7 @@ const CombatContent = preload("res://scripts/combat_validator.gd")
 const Domestic = preload("res://scripts/domestic_validator.gd")
 const Progression = preload("res://scripts/progression_validator.gd")
 const Lighting = preload("res://scripts/hub_lighting_validator.gd")
+const Bedrooms = preload("res://scripts/bedroom_validator.gd")
 
 const MIN_HEROINE_AGE: int = 21
 const SINGLE_REFERENCES: Dictionary = {
@@ -66,6 +67,9 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 			if group == "ui" and record_id == "kitchen_layout":
 				for message: String in Domestic.validate_kitchen_layout(record):
 					errors.append(context + ": " + message)
+			if group == "ui" and record_id == "hub_corridor_doors":
+				for message: String in Bedrooms.validate_layout(record):
+					errors.append(context + ": " + message)
 			if group == "ui" and record_id in ["hub_kitchen_hotspot", "hub_office_hotspot", "hub_tech_hotspot"]:
 				for message: String in Domestic.validate_hub_hotspot(record):
 					errors.append(context + ": " + message)
@@ -95,6 +99,7 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 	errors.append_array(CombatContent.validate_links(groups))
 	errors.append_array(Domestic.validate_links(groups))
 	errors.append_array(Progression.validate_links(groups))
+	errors.append_array(Bedrooms.validate_links(groups))
 	return errors
 
 

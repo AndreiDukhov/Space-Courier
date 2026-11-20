@@ -30,17 +30,7 @@ func start_new_game(heroine_records: Array[Dictionary], ship_record: Dictionary)
 		var heroine_id: String = str(heroine.get("id", ""))
 		if heroine_id.is_empty():
 			continue
-		var stats: Dictionary = heroine.get("stats", {})
-		heroine_states[heroine_id] = {
-			"attitude": float(stats.get("attitude", 0)),
-			"mood": float(stats.get("mood", 50)),
-			"arousal": float(stats.get("arousal", 0)),
-			"aboard": bool(heroine.get("aboard", false)),
-			"suspicion": int(heroine.get("suspicion", 0)),
-			"contact_block": bool(heroine.get("contact_block", false)),
-			"polygamy": str(heroine.get("polygamy", "tolerates")),
-			"loc": ""
-		}
+		heroine_states[heroine_id] = _initial_heroine_state(heroine)
 
 	state = {
 		"day": 1,
@@ -71,7 +61,33 @@ func serialize() -> Dictionary:
 	return state.duplicate(true)
 
 
+func _initial_heroine_state(heroine: Dictionary) -> Dictionary:
+	var stats: Dictionary = heroine.get("stats", {})
+	return {
+		"attitude": float(stats.get("attitude", 0)), "mood": float(stats.get("mood", 50)),
+		"arousal": float(stats.get("arousal", 0)), "aboard": bool(heroine.get("aboard", false)),
+		"suspicion": int(heroine.get("suspicion", 0)), "contact_block": bool(heroine.get("contact_block", false)),
+		"polygamy": str(heroine.get("polygamy", "tolerates")), "loc": ""
+	}
+
+
+func _upgrade_mechanic(save_data: Dictionary) -> Dictionary:
+	var heroines: Variant = save_data.get("heroines")
+	if not heroines is Dictionary or heroines.has("mechanic") or heroines.size() != 4 or not heroines.has_all(["pilot", "medic", "security", "shopkeeper"]):
+		return save_data
+	var definition: Dictionary = DataLoader.get_record("mechanic")
+	var slots: Array = DataLoader.get_schedule("mechanic").get("slots", {}).get(str(save_data.get("time_slot", "")), [])
+	if definition.is_empty() or slots.is_empty():
+		return save_data
+	var result: Dictionary = save_data.duplicate(true)
+	var mechanic: Dictionary = _initial_heroine_state(definition)
+	mechanic["loc"] = str(slots[0]["loc"])
+	result["heroines"]["mechanic"] = mechanic
+	return result
+
+
 func restore(save_data: Dictionary) -> Error:
+	save_data = _upgrade_mechanic(save_data)
 	save_data = ModuleStorage.migrate(save_data, SAVE_FIELDS)
 	var previous_fields: Array[String] = SAVE_FIELDS.duplicate()
 	previous_fields.erase("pending_scenes")

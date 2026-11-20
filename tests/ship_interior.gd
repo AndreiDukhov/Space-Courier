@@ -150,7 +150,7 @@ func _check_scene_flow() -> void:
 	if hub != null:
 		_check(GameState.restore(building_save) == OK, "A building save can be restored from the ship")
 		await _frames()
-		_check(hub.get_node("%Locations").get_child_count() == 10 and hub.get_node("%Background").texture.resource_path == "res://art/backgrounds/hub_corridor.png", "Restoring the building restores its separate corridor and room navigation")
+		_check(hub.get_node("%Locations").get_child_count() == 6 and hub.get_node("%Background").texture.resource_path == "res://art/backgrounds/hub_corridor.png", "Restoring the building restores its corridor and common room navigation")
 
 
 func _wait_scene(scene_name: String) -> Node:

@@ -11,6 +11,7 @@ signal scenes_changed
 signal traffic_changed
 signal ship_changed
 signal modules_changed
+signal bedroom_action_resolved(door_id: String, action: String, scene_id: String)
 signal space_effect(kind: String, position: Vector2, npc_id: String)
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
@@ -634,9 +635,45 @@ func move_player(location_id: String) -> Error:
 	if not Conditions.can_enter(location_id):
 		return ERR_UNAVAILABLE
 	if GameState.state["location"] != location_id:
+		_clear_bedroom_permissions()
 		GameState.state["location"] = location_id
 		location_changed.emit(location_id)
 	return OK
+
+
+func exit_bedroom() -> Error:
+	if not Conditions.can_exit_bedroom():
+		return ERR_UNAVAILABLE
+	return move_player(str(DataLoader.get_record("hub_corridor_doors")["location"]))
+
+
+func use_bedroom_door(door_id: String, action: String) -> Error:
+	if not Conditions.can_use_bedroom_door(door_id, action):
+		return ERR_UNAVAILABLE
+	var door: Dictionary = Conditions.bedroom_door(door_id)
+	var scene_id: String = Conditions.bedroom_action_scene(door_id, action)
+	if Conditions.bedroom_owner_is_home(door_id) and scene_id.is_empty():
+		return ERR_INVALID_DATA
+	var effects: Array = DataLoader.get_record(scene_id).get("on_end", []) if action != "enter" or Conditions.bedroom_entry_is_rejected(scene_id) else []
+	if not validate(effects).is_empty() or not _targets_exist(effects):
+		return ERR_INVALID_DATA
+	if action == "knock" and Conditions.bedroom_owner_is_home(door_id):
+		apply_effects([{"flag": Conditions.bedroom_permission_flag(door_id), "set": true}])
+	if action == "enter" and not Conditions.bedroom_entry_is_rejected(scene_id):
+		var result: Error = move_player(str(door["location"]))
+		if result != OK:
+			return result
+	if not scene_id.is_empty() and (action != "enter" or Conditions.bedroom_entry_is_rejected(scene_id)):
+		var result: Error = apply_effects(effects)
+		if result != OK:
+			return result
+	bedroom_action_resolved.emit(door_id, action, scene_id)
+	return OK
+
+
+func _clear_bedroom_permissions() -> void:
+	for door: Dictionary in DataLoader.get_record("hub_corridor_doors").get("doors", []):
+		GameState.state.get("flags", {}).erase(Conditions.bedroom_permission_flag(str(door["id"])))
 
 
 func apply_schedule(placements: Dictionary) -> Error:
@@ -966,6 +1003,7 @@ func _apply_stat(stat_path: String, amount: float) -> void:
 
 
 func _on_time_changed(_day: int, _time_slot: String) -> void:
+	_clear_bedroom_permissions()
 	receive_module_deliveries()
 	for heroine_id: String in GameState.state.get("meal_invites", {}).keys():
 		if Conditions.meal_has_expired(heroine_id):

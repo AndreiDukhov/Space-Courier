@@ -4,7 +4,7 @@ const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Service = preload("res://scripts/hub_service.gd")
 const HubScene = preload("res://scenes/hub.tscn")
 const Navigation = preload("res://scripts/room_navigation.gd")
-const BEDROOMS: Array[String] = ["hub_pilot_bedroom", "hub_medic_bedroom", "hub_security_bedroom"]
+const BEDROOMS: Array[String] = ["hub_pilot_bedroom", "hub_medic_bedroom", "hub_security_bedroom", "hub_mechanic_bedroom"]
 
 var failures: Array[String] = []
 var check_count: int = 0
@@ -51,12 +51,22 @@ func _check_navigation() -> void:
 	add_child(hub)
 	await _settled()
 	var nav: Navigation = hub.get_node("%RoomNavigation")
-	_check(nav.rooms.get_child_count() == 10 and _visible_rooms(nav).size() == 6, "Exactly six full location buttons are visible initially")
-	_check(nav.previous.visible and nav.previous.disabled and nav.next.visible and not nav.next.disabled, "Both chevrons frame the row with the left boundary disabled")
-	_check(nav.previous.get_global_rect().end.x <= nav.viewport.get_global_rect().position.x and nav.next.get_global_rect().position.x >= nav.viewport.get_global_rect().end.x, "The arrows sit on opposite sides of the clipped row")
+	_check(nav.rooms.get_child_count() == 6 and _visible_rooms(nav).size() == 6, "Only the six common rooms remain in the upper navigation")
+	_check(not nav.previous.visible and not nav.next.visible, "Chevrons are hidden when all six cards fit")
 	_check(hub.get_node("%Navigation").get_global_rect().end.x < hub.get_node("ClockPanel").get_global_rect().position.x, "Six cards and their arrows fit beside the clock")
 	_check(nav.rooms.get_node("hub_shop/Travel").disabled and nav.rooms.get_node("hub_shop/Travel/ClosedShade/Closed").visible, "Closed rooms retain their disabled grey cards")
 	await _capture("first")
+	# Extra presentation fixtures preserve coverage of scrolling for future common rooms.
+	var extra_cards: Array[Node] = []
+	for index: int in range(5):
+		var card: Node = nav.rooms.get_child(0).duplicate()
+		card.name = "extra_" + str(index)
+		nav.rooms.add_child(card)
+		extra_cards.append(card)
+	nav.sync(str(GameState.state["location"]))
+	await _settled()
+	_check(nav.previous.visible and nav.previous.disabled and nav.next.visible and not nav.next.disabled, "Both chevrons frame a longer row")
+	_check(nav.previous.get_global_rect().end.x <= nav.viewport.get_global_rect().position.x and nav.next.get_global_rect().position.x >= nav.viewport.get_global_rect().end.x, "The arrows sit on opposite sides of the clipped row")
 	var saved: Dictionary = GameState.serialize()
 	await _click(nav.next)
 	await get_tree().create_timer(0.08).timeout
@@ -68,39 +78,41 @@ func _check_navigation() -> void:
 	for _press: int in range(6):
 		await _click(nav.next)
 	await _settled()
-	_check(nav.viewport.scroll_horizontal == 408 and nav.next.disabled and not nav.previous.disabled, "Rapid clicks stop at the last valid six-room window")
-	_check(_visible_rooms(nav).size() == 6 and "hub_security_bedroom" in _visible_rooms(nav), "The final window includes the last crew bedroom")
+	_check(nav.viewport.scroll_horizontal == 510 and nav.next.disabled and not nav.previous.disabled, "Rapid clicks stop at the last valid six-room window")
+	_check(_visible_rooms(nav).size() == 6 and "extra_4" in _visible_rooms(nav), "The final window includes the last added room")
 	await _capture("last")
 	await _click(nav.previous)
 	await _settled()
-	_check(nav.viewport.scroll_horizontal == 306 and not nav.next.disabled and _visible_rooms(nav).size() == 6, "The previous chevron scrolls back by one room")
+	_check(nav.viewport.scroll_horizontal == 408 and not nav.next.disabled and _visible_rooms(nav).size() == 6, "The previous chevron scrolls back by one room")
 	await _click(nav.next)
 	await _settled()
-	for bedroom: String in BEDROOMS:
-		await _click(nav.rooms.get_node(bedroom + "/Travel"))
-		await _settled()
-		_check(GameState.state["location"] == bedroom and bedroom in _visible_rooms(nav), "A real click enters " + bedroom + " and keeps it visible")
-		_check(hub.get_node("%Background").texture.resource_path == "res://art/backgrounds/hub_bedroom.png", "Crew bedrooms use the temporary shared background")
-	await _capture("bedroom")
-	var offset: int = nav.viewport.scroll_horizontal
+	for card: Node in extra_cards:
+		nav.rooms.remove_child(card)
+		card.queue_free()
+	nav.sync(str(GameState.state["location"]))
+	await _settled()
+	await _click(nav.rooms.get_node("hub_corridor/Travel"))
+	await _settled()
+	_check(GameState.state["location"] == "hub_corridor", "A real navigation click enters the corridor with the bedroom doors")
 	EffectApplier.apply_effects([{"advance_time": 1}])
 	await _settled()
-	_check(nav.viewport.scroll_horizontal == offset and not nav.rooms.get_node("hub_shop/Travel").disabled, "A time refresh keeps the scroll position and updates access")
+	_check(nav.viewport.scroll_horizontal == 0 and not nav.rooms.get_node("hub_shop/Travel").disabled, "A time refresh keeps the common row and updates access")
 	var placements: Dictionary = {}
 	for heroine_id: String in GameState.state["heroines"]:
 		placements[heroine_id] = GameState.state["heroines"][heroine_id]["loc"]
 	placements["security"] = "hub_security_bedroom"
 	_check(EffectApplier.apply_schedule(placements) == OK, "Crew bedrooms accept existing placement effects")
 	ScheduleManager.placements_changed.emit()
+	EffectApplier.move_player("hub_security_bedroom")
 	await _settled()
-	_check(nav.rooms.get_node("hub_security_bedroom/Occupants").has_node("security") and hub.get_node("%People").has_node("security"), "Presence icons and local conversations work in a crew bedroom")
+	_check(not nav.rooms.has_node("hub_security_bedroom") and hub.get_node("%People").has_node("security"), "Private rooms have local conversations and no upper navigation cards")
 	var bedroom_save: Dictionary = GameState.serialize()
 	EffectApplier.move_player("hub_kitchen")
 	await _settled()
 	_check(nav.viewport.scroll_horizontal == 0 and "hub_kitchen" in _visible_rooms(nav), "Programmatic travel reveals the newly selected room")
 	_check(GameState.restore(bedroom_save) == OK, "A saved crew bedroom can be restored")
 	await _settled()
-	_check("hub_security_bedroom" in _visible_rooms(nav) and nav.viewport.scroll_horizontal == 408, "Loading reveals the selected room in the last window")
+	_check(not nav.rooms.has_node("hub_security_bedroom") and GameState.state["location"] == "hub_security_bedroom" and nav.viewport.scroll_horizontal == 0, "Loading a private room preserves the common navigation")
 	GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
 	EffectApplier.move_player("hub_tech")
 	EffectApplier.launch_flight()

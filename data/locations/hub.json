@@ -16,7 +16,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -43,7 +44,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -67,7 +69,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -90,7 +93,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [
       {
@@ -120,7 +124,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -139,7 +144,8 @@
       "hub_bedroom",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [
       {
@@ -173,7 +179,8 @@
       "hub_shop",
       "hub_pilot_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -199,7 +206,8 @@
       "hub_shop",
       "hub_bedroom",
       "hub_medic_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -224,7 +232,8 @@
       "hub_shop",
       "hub_bedroom",
       "hub_pilot_bedroom",
-      "hub_security_bedroom"
+      "hub_security_bedroom",
+      "hub_mechanic_bedroom"
     ],
     "access": [],
     "actions": [
@@ -249,7 +258,34 @@
       "hub_shop",
       "hub_bedroom",
       "hub_pilot_bedroom",
-      "hub_medic_bedroom"
+      "hub_medic_bedroom",
+      "hub_mechanic_bedroom"
+    ],
+    "access": [],
+    "actions": [
+      "talk",
+      "wait"
+    ]
+  },
+  {
+    "id": "hub_mechanic_bedroom",
+    "area": "hub",
+    "name": "Спальня механика",
+    "backgrounds": {
+      "day": "res://art/backgrounds/hub_bedroom.png",
+      "night": "res://art/backgrounds/hub_bedroom.png"
+    },
+    "connects": [
+      "hub_kitchen",
+      "hub_corridor",
+      "hub_tech",
+      "hub_showers",
+      "hub_office",
+      "hub_shop",
+      "hub_bedroom",
+      "hub_pilot_bedroom",
+      "hub_medic_bedroom",
+      "hub_security_bedroom"
     ],
     "access": [],
     "actions": [

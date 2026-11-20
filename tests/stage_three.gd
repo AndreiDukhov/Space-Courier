@@ -17,8 +17,8 @@ func _ready() -> void:
 
 func _run() -> void:
 	_check(DataLoader.load_errors.is_empty(), "Hub data loads without errors")
-	_check(DataLoader.get_records("locations").size() == 11, "Ten building rooms and one separate ship room are defined")
-	_check(DataLoader.get_records("heroines").size() == 4, "Four adult test heroines are available")
+	_check(DataLoader.get_records("locations").size() == 12, "Eleven building rooms and one separate ship room are defined")
+	_check(DataLoader.get_records("heroines").size() == 5, "Five adult test heroines are available")
 	_check_schedules()
 	_check_navigation()
 	_check_scene_gates()
@@ -45,7 +45,7 @@ func _placements() -> Dictionary:
 func _check_schedules() -> void:
 	_new_game()
 	_check(GameState.state["location"] == "hub_kitchen", "The player starts in the main hall")
-	_check(_placements() == {"medic": "hub_kitchen", "pilot": "hub_kitchen", "security": "ship_bridge", "shopkeeper": "hub_shop"}, "Initial placements follow morning schedules")
+	_check(_placements() == {"medic": "hub_kitchen", "pilot": "hub_kitchen", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_tech"}, "Initial placements follow morning schedules")
 	var schedule: Dictionary = DataLoader.get_schedule("pilot")
 	_check(ScheduleManager.entries_for_slot(schedule, "day")[0]["loc"] == "ship_bridge", "Aboard overrides replace the matching slot")
 	GameState.state["heroines"]["pilot"]["aboard"] = false
@@ -63,7 +63,7 @@ func _check_schedules() -> void:
 	_check(EffectApplier.apply_effects([{"flag": "schedule_check", "set": true}]) == OK, "Schedule test flag can be set")
 	_check(ScheduleManager.entries_for_slot(conditional, "morning")[0]["loc"] == "hub_tech", "Matching flag overrides take effect")
 	Clock.advance_slots()
-	_check(_placements() == {"medic": "hub_tech", "pilot": "ship_bridge", "security": "ship_bridge", "shopkeeper": "hub_shop"}, "Heroines move on the day slot")
+	_check(_placements() == {"medic": "hub_tech", "pilot": "ship_bridge", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_tech"}, "Heroines move on the day slot")
 	var fixed: Dictionary = _placements()
 	for _query_index: int in range(10):
 		Service.occupants("hub_kitchen")
@@ -73,11 +73,11 @@ func _check_schedules() -> void:
 	_check(GameState.state["heroines"]["medic"]["loc"] == "hub_showers", "The evening schedule moves the medic")
 	_check(GameState.state["heroines"]["pilot"]["loc"] in ["hub_kitchen", "hub_tech"], "Weighted evening choices stay within their entries")
 	Clock.advance_slots()
-	_check(_placements() == {"medic": "hub_corridor", "pilot": "ship_bridge", "security": "ship_bridge", "shopkeeper": "hub_shop"}, "The night schedule is applied")
+	_check(_placements() == {"medic": "hub_corridor", "pilot": "ship_bridge", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_mechanic_bedroom"}, "The night schedule is applied")
 	Clock.advance_slots()
-	_check(Clock.current_day() == 2 and _placements() == {"medic": "hub_kitchen", "pilot": "hub_kitchen", "security": "ship_bridge", "shopkeeper": "hub_shop"}, "A new day applies morning placements")
+	_check(Clock.current_day() == 2 and _placements() == {"medic": "hub_kitchen", "pilot": "hub_kitchen", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_tech"}, "A new day applies morning placements")
 	fixed = _placements()
-	_check(EffectApplier.apply_schedule({"pilot": "missing", "medic": "hub_tech", "security": "ship_bridge", "shopkeeper": "hub_shop"}) == ERR_INVALID_DATA and _placements() == fixed, "An invalid placement batch is rejected atomically")
+	_check(EffectApplier.apply_schedule({"pilot": "missing", "medic": "hub_tech", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_tech"}) == ERR_INVALID_DATA and _placements() == fixed, "An invalid placement batch is rejected atomically")
 
 
 func _check_navigation() -> void:
@@ -130,7 +130,7 @@ func _check_scene_gates() -> void:
 	GameState.state["heroines"]["pilot"]["mood"] = 70
 	_check(EffectApplier.apply_effects([{"flag": "pilot_test_01_seen", "set": true}]) == OK, "The scene gate test sets its prerequisite")
 	_check(not Runner.is_available(DataLoader.get_record("pilot_test_02")), "A witness in the room blocks the second scene")
-	_check(EffectApplier.apply_schedule({"pilot": "hub_kitchen", "medic": "hub_tech", "security": "ship_bridge", "shopkeeper": "hub_shop"}) == OK, "The witness can be placed in another room")
+	_check(EffectApplier.apply_schedule({"pilot": "hub_kitchen", "medic": "hub_tech", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_kitchen"}) == OK, "The witness can be placed in another room")
 	_check(Runner.is_available(DataLoader.get_record("pilot_test_02")) and not Service.dialogues_for("pilot").is_empty(), "A scene opens when its witness leaves")
 
 
@@ -161,7 +161,7 @@ func _check_validation() -> void:
 func _check_persistence() -> void:
 	_new_game()
 	Clock.advance_slots(2)
-	_check(EffectApplier.apply_schedule({"pilot": "hub_tech", "medic": "hub_showers", "security": "ship_bridge", "shopkeeper": "hub_shop"}) == OK, "A weighted evening placement can be fixed for the save test")
+	_check(EffectApplier.apply_schedule({"pilot": "hub_tech", "medic": "hub_showers", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_kitchen"}) == OK, "A weighted evening placement can be fixed for the save test")
 	_check(Service.travel("hub_tech") == OK, "The player position changes before saving")
 	var snapshot: Dictionary = GameState.serialize()
 	_check(GameState.save_game(SAVE_TEST_PATH) == OK, "The extended state saves to JSON")
@@ -170,7 +170,10 @@ func _check_persistence() -> void:
 	_check(GameState.load_game(SAVE_TEST_PATH) == OK, "The extended state loads from JSON")
 	_check(GameState.serialize() == snapshot, "Player and heroine positions restore exactly")
 	_check(Clock.current_slot() == "evening" and GameState.state["location"] == "hub_tech", "Saved time and location restore together")
-	_check(_placements() == {"pilot": "hub_tech", "medic": "hub_showers", "security": "ship_bridge", "shopkeeper": "hub_shop"}, "Loading does not reroll weighted choices")
+	_check(_placements() == {"pilot": "hub_tech", "medic": "hub_showers", "security": "ship_bridge", "shopkeeper": "hub_shop", "mechanic": "hub_kitchen"}, "Loading does not reroll weighted choices")
+	var legacy: Dictionary = snapshot.duplicate(true)
+	legacy["heroines"].erase("mechanic")
+	_check(GameState.restore(legacy) == OK and GameState.serialize() == snapshot, "An older save gains the hub-only mechanic without changing the other saved characters")
 	var invalid: Dictionary = snapshot.duplicate(true)
 	invalid["location"] = "missing"
 	_check(GameState.restore(invalid) == ERR_INVALID_DATA, "Unknown saved player locations are rejected")
@@ -191,7 +194,7 @@ func _check_view() -> void:
 	add_child(view)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_check(view.get_node("%Locations").get_child_count() == 10, "All building cards belong to the scrollable navigation row")
+	_check(view.get_node("%Locations").get_child_count() == 6, "Common building rooms remain in navigation; bedrooms use corridor doors")
 	_check(not view.get_node("%Locations").has_node("ship_bridge"), "Ship rooms are absent from building navigation")
 	_check(view.get_node("%Background").texture != null, "The supplied hall image is the room background")
 	_check(view.get_node("%Locations/hub_kitchen/Travel/Thumbnail/Image").texture != null, "The hall card uses its background image")
@@ -207,7 +210,7 @@ func _check_view() -> void:
 	view.get_node("%Locations/hub_tech/Travel").pressed.emit()
 	_check(GameState.state["location"] == "hub_tech" and Clock.current_slot() == "morning", "Clicking a square travels without spending time")
 	_check(view.get_node("%Background").texture.resource_path == "res://art/backgrounds/hub_tech.png", "The workshop uses the supplied background")
-	_check(_placements() == fixed and view.get_node("%People").get_child_count() == 0, "Travel preserves placements and refreshes local characters")
+	_check(_placements() == fixed and view.get_node("%People").get_child_count() == 1 and view.get_node("%People").has_node("mechanic"), "Travel preserves placements and shows the mechanic in the workshop")
 	view.get_node("%Locations/hub_kitchen/Travel").pressed.emit()
 	_check(view.get_node("%Background").visible and view.get_node("%People").get_child_count() == 2, "Returning restores the hall and its occupants")
 	view.get_node("%Wait").pressed.emit()
@@ -262,9 +265,9 @@ func _check_icons(view: Control) -> void:
 	var current_area: String = str(DataLoader.get_record(str(GameState.state["location"]))["area"])
 	for heroine_id: String in GameState.state["heroines"]:
 		var heroine: Dictionary = GameState.state["heroines"][heroine_id]
-		if Conditions.heroine_visible(heroine_id) and DataLoader.get_record(str(heroine["loc"])).get("area") == current_area:
+		if Conditions.heroine_visible(heroine_id) and Conditions.room_is_in_navigation(str(heroine["loc"])) and DataLoader.get_record(str(heroine["loc"])).get("area") == current_area:
 			expected_count += 1
-	_check(count == expected_count, "Each heroine in the current area has exactly one presence icon")
+	_check(count == expected_count, "Each heroine in a navigation room has exactly one presence icon")
 
 
 func _capture(view: Control, suffix: String) -> void:

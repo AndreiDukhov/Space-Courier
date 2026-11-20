@@ -122,6 +122,74 @@ static func can_enter(location_id: String) -> bool:
 	return location_is_open(location_id)
 
 
+static func bedroom_door(door_id: String) -> Dictionary:
+	for door: Dictionary in DataLoader.get_record("hub_corridor_doors").get("doors", []):
+		if door["id"] == door_id:
+			return door
+	return {}
+
+
+static func room_is_in_navigation(location_id: String) -> bool:
+	for door: Dictionary in DataLoader.get_record("hub_corridor_doors").get("doors", []):
+		if door["location"] == location_id:
+			return false
+	return true
+
+
+static func can_use_bedroom_doors() -> bool:
+	return domestic_available() and GameState.state.get("kitchen", {}).is_empty() and GameState.state.get("location") == DataLoader.get_record("hub_corridor_doors").get("location")
+
+
+static func can_exit_bedroom() -> bool:
+	return domestic_available() and not room_is_in_navigation(str(GameState.state.get("location", ""))) and can_enter(str(DataLoader.get_record("hub_corridor_doors").get("location", "")))
+
+
+static func can_use_bedroom_door(door_id: String, action: String) -> bool:
+	var door: Dictionary = bedroom_door(door_id)
+	if not can_use_bedroom_doors() or door.is_empty():
+		return false
+	if action == "enter":
+		return can_enter(str(door["location"]))
+	return action in ["peek", "knock"] and door.has("heroine")
+
+
+static func bedroom_owner_is_home(door_id: String) -> bool:
+	var door: Dictionary = bedroom_door(door_id)
+	return door.has("heroine") and GameState.state.get("heroines", {}).get(door["heroine"], {}).get("loc") == door.get("location")
+
+
+static func bedroom_permission_flag(door_id: String) -> String:
+	return "bedroom_knocked_" + door_id
+
+
+static func bedroom_has_permission(door_id: String) -> bool:
+	return bedroom_owner_is_home(door_id) and evaluate([{"flag": bedroom_permission_flag(door_id), "is": true}])
+
+
+static func bedroom_action_scene(door_id: String, action: String) -> String:
+	if not bedroom_owner_is_home(door_id):
+		return ""
+	var heroine_id: String = str(bedroom_door(door_id)["heroine"])
+	if action in ["peek", "knock"]:
+		return _available_bedroom_scene(heroine_id, "door_" + action)
+	if bedroom_has_permission(door_id):
+		return _available_bedroom_scene(heroine_id, "door_enter_knocked")
+	for tag: String in ["door_enter_friendly", "door_enter_rejected"]:
+		var scene_id: String = _available_bedroom_scene(heroine_id, tag)
+		if not scene_id.is_empty():
+			return scene_id
+	return ""
+
+
+static func _available_bedroom_scene(heroine_id: String, tag: String) -> String:
+	var scene_id: String = Scenes.find_for(heroine_id, tag)
+	return scene_id if not scene_id.is_empty() and evaluate(DataLoader.get_record(scene_id).get("conditions", [])) else ""
+
+
+static func bedroom_entry_is_rejected(scene_id: String) -> bool:
+	return "door_enter_rejected" in DataLoader.get_record(scene_id).get("tags", [])
+
+
 static func location_is_open(location_id: String) -> bool:
 	if not DataLoader.record_sources.has("locations/" + location_id):
 		return false

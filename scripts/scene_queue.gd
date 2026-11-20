@@ -9,6 +9,13 @@ static func heroine(scene: Dictionary) -> String:
 	return ""
 
 
+static func is_bedroom(scene: Dictionary) -> bool:
+	for tag: String in scene.get("tags", []):
+		if tag.begins_with("door_"):
+			return true
+	return false
+
+
 static func find_for(heroine_id: String, tag: String) -> String:
 	for scene: Dictionary in DataLoader.get_records("scenes"):
 		if tag in scene.get("tags", []) and heroine(scene) == heroine_id:

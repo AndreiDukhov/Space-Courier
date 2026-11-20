@@ -40,12 +40,15 @@ func _check_bedroom() -> void:
 			GameState.state["location"] = room["id"]
 			EffectApplier.location_changed.emit(str(room["id"]))
 			_check(Conditions.can_enter("hub_bedroom"), "The bedroom is reachable from " + str(room["id"]) + " during " + Clock.current_slot())
-			_check(not hub.get_node("%Locations/hub_bedroom/Travel").disabled, "The bedroom card is enabled from " + str(room["id"]) + " during " + Clock.current_slot())
+			_check(not hub.get_node("%Locations").has_node("hub_bedroom"), "The player's bedroom uses its corridor door rather than an upper card")
 		Clock.advance_slots()
 	GameState.state["location"] = "hub_office"
 	EffectApplier.location_changed.emit("hub_office")
-	await _click(hub.get_node("%Locations/hub_bedroom/Travel"))
-	_check(GameState.state["location"] == "hub_bedroom", "A real click enters the bedroom directly from the office")
+	await _click(hub.get_node("%Locations/hub_corridor/Travel"))
+	await _frames()
+	await _click(hub.get_node("BedroomDoors/door_player"))
+	await _click(hub.get_node("BedroomDoors/DoorMenu").find_child("Enter", true, false))
+	_check(GameState.state["location"] == "hub_bedroom", "A real click enters the always-open player's bedroom through door five")
 	_check(Service.travel("hub_office") == OK, "The bedroom has a return path to the office")
 	hub.queue_free()
 	await _frames()

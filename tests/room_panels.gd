@@ -126,7 +126,7 @@ func _check_compact_panel(hub: Control) -> void:
 	ScheduleManager.placements_changed.emit()
 	await _frames()
 	var people: Control = hub.get_node("%People")
-	_check(people.get_child_count() == 4, "The compact room panel accommodates all current characters")
+	_check(people.get_child_count() == GameState.state["heroines"].size(), "The compact room panel accommodates all current characters")
 	for button: Control in people.get_children():
 		_check(hub.get_node("%LocationPanel").get_global_rect().encloses(button.get_global_rect()), "Every character button stays inside the compact panel")
 		for content: Control in button.get_child(0).get_child(0).get_children():
