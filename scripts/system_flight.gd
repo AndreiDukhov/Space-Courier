@@ -15,6 +15,7 @@ const Backdrop = preload("res://scripts/space_backdrop.gd")
 const BattlePanel = preload("res://scripts/battle_panel.gd")
 const BattleView = preload("res://scripts/ambient_battle_view.gd")
 const Navigation = preload("res://scripts/galaxy_navigation.gd")
+const Models = preload("res://scripts/ship_models.gd")
 
 @onready var space: Node3D = %Space
 @onready var camera: Camera3D = %Camera
@@ -33,6 +34,7 @@ var _status: Label
 var _flash: ColorRect
 var _flash_tween: Tween
 var _journal: QuestButton
+var _player_model_key: String = ""
 
 
 func _ready() -> void:
@@ -43,7 +45,8 @@ func _ready() -> void:
 	if Conditions.can_launch():
 		EffectApplier.launch_flight()
 	%SpaceContainer.add_child(Backdrop.new())
-	_player.add_child(Art.ship(Color(0.15, 0.95, 0.85)))
+	_player.add_child(Art.ship(Color(0.15, 0.95, 0.85), "player", 0, GameState.state["ship"]["modules"]))
+	_player_model_key = Models.actor_key("player")
 	var marker: TorusMesh = TorusMesh.new()
 	marker.inner_radius = 0.7
 	marker.outer_radius = 0.9
@@ -52,6 +55,7 @@ func _ready() -> void:
 	marker_view.material_override = Art.material(Color(0.15, 0.95, 0.85), true)
 	_player.add_child(marker_view)
 	space.add_child(_player)
+	SoundSystem.attach_listener(viewport, _player)
 	space.add_child(SpaceEffects.new())
 	space.add_child(BattleView.new())
 	_interactions = Interactions.new()
@@ -92,6 +96,7 @@ func _ready() -> void:
 	EffectApplier.space_effect.connect(_on_space_effect)
 	EffectApplier.location_changed.connect(_on_location_changed)
 	GameState.restored.connect(_on_restored)
+	PauseMenu.opened.connect(func() -> void: _following_mouse = false)
 	%SpaceContainer.gui_input.connect(_on_space_input)
 	viewport.size_changed.connect(_resize_camera)
 	%Pause.pressed.connect(_pause)
@@ -110,6 +115,11 @@ func _ready() -> void:
 	_refresh_world()
 	_resize_camera.call_deferred()
 	_on_combat_changed.call_deferred()
+
+
+func _process(_delta: float) -> void:
+	if is_node_ready():
+		SoundSystem.pause_world(viewport, _leaving or not Conditions.can_tick_flight() or _map != null or _battle_panel != null or _planet_panel != null or (_journal != null and _journal.is_open()))
 
 
 func _physics_process(delta: float) -> void:
@@ -143,6 +153,13 @@ func gate_name(route_id: String, number: int) -> String:
 func _sync_flight() -> void:
 	if not is_node_ready():
 		return
+	var model_key: String = Models.actor_key("player")
+	if _player_model_key != model_key:
+		var previous: Node3D = _player.get_node("ShipModel")
+		_player.remove_child(previous)
+		previous.queue_free()
+		_player.add_child(Art.ship(Color(0.15, 0.95, 0.85), "player", 0, GameState.state["ship"]["modules"]))
+		_player_model_key = model_key
 	var flight: Dictionary = GameState.state["flight"]
 	if not flight["paused"]:
 		_interactions.selected_npc = ""
@@ -157,6 +174,10 @@ func _sync_flight() -> void:
 	var direction: Vector2 = Motion.point(flight["target"]) - Motion.point(flight["pos"])
 	if direction.length_squared() > 0.01:
 		_player.rotation.y = atan2(direction.x, direction.y)
+	var model: Node3D = _player.get_node("ShipModel")
+	model.animation_enabled = Conditions.can_tick_flight()
+	model.set_motion(direction.length_squared() > 0.01 and Conditions.can_move_flight(), _boost)
+	model.set_damage(float(GameState.state["ship"]["hull"]["current"]) / float(GameState.state["ship"]["hull"]["max"]))
 	%Pause.text = Text.get_text("ui_flight_resume" if flight["paused"] else "ui_flight_pause")
 	%Paused.visible = flight["paused"]
 	%Paused.text = Text.get_text("ui_flight_paused")
@@ -268,7 +289,7 @@ func _jump(route_id: String) -> void:
 func _on_boost(enabled: bool) -> void:
 	_boost = enabled
 	_interactions.boost = enabled
-	_refresh_world()
+	_sync_flight()
 
 
 func _interact_npc(npc_id: String, trading: bool) -> void:
@@ -319,6 +340,7 @@ func _close_map() -> void:
 
 
 func _on_restored() -> void:
+	_player.get_node("ShipModel").clear_trail()
 	_close_battle()
 	_close_planet()
 	if Conditions.has_combat():

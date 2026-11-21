@@ -5,12 +5,13 @@ signal motion_changed
 const Math = preload("res://scripts/combat_math.gd")
 const Movement = preload("res://scripts/combat_movement.gd")
 const Art = preload("res://scripts/flight_art.gd")
-const Models = preload("res://scripts/ship_placeholder.gd")
+const Models = preload("res://scripts/ship_models.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const ShotFX = preload("res://scripts/combat_shot_fx.gd")
 const Roster = preload("res://scripts/combat_roster.gd")
 const Routes = preload("res://scripts/combat_routes.gd")
+const ImpactFX = preload("res://scripts/impact_fx.gd")
 
 var _tiles: Dictionary = {}
 var _materials: Dictionary = {}
@@ -25,6 +26,8 @@ var _fx: Node3D
 var _pending_shots: Array = []
 var _shot_stamp: String = ""
 var _dying: Dictionary = {}
+var _shield_stamp: String = ""
+var _model_keys: Dictionary = {}
 
 
 func _ready() -> void:
@@ -57,12 +60,20 @@ func _sync_vessels() -> void:
 		if actor not in actors:
 			remove_child(_vessels[actor])
 			_vessels[actor].queue_free()
-			for cache: Dictionary in [_vessels, _targets, _facings, _turns]:
+			for cache: Dictionary in [_vessels, _targets, _facings, _turns, _model_keys]:
 				cache.erase(actor)
 	for actor: String in actors:
 		if _vessels.has(actor):
+			if _model_keys.get(actor) != Models.actor_key(actor):
+				var previous: Node3D = _vessels[actor].get_node("ShipModel")
+				_vessels[actor].remove_child(previous)
+				previous.queue_free()
+				_vessels[actor].add_child(Models.for_actor(actor))
+				_model_keys[actor] = Models.actor_key(actor)
 			continue
-		var vessel: Node3D = Models.create(Color(0.12, 0.9, 0.8) if actor == "player" else Color(0.25, 0.65, 1.0) if Roster.friendly(actor) else Color(1.0, 0.36, 0.2), actor != "player")
+		var vessel: Node3D = Node3D.new()
+		vessel.add_child(Models.for_actor(actor))
+		_model_keys[actor] = Models.actor_key(actor)
 		vessel.name = "PlayerShip" if actor == "player" else ("AllyShip" if Roster.friendly(actor) else "EnemyShip") + ("2" if actor.ends_with("_2") else "")
 		_vessels[actor] = vessel
 		add_child(vessel)
@@ -95,6 +106,7 @@ func reset_from_state() -> void:
 		return
 	_sync_vessels()
 	_shot_stamp = _current_shot_stamp()
+	_shield_stamp = JSON.stringify(GameState.state["combat"]["shield_recharge"])
 	for actor: String in _vessels:
 		var entry: Dictionary = Roster.actor(actor)
 		_targets[actor] = entry["pos"].duplicate()
@@ -102,6 +114,8 @@ func reset_from_state() -> void:
 		_turns[actor] = GameState.state["combat"]["movement"][actor].duplicate(true)
 		_vessels[actor].position = Math.world_position(entry["pos"])
 		_vessels[actor].rotation.y = _yaw(int(entry["facing"]))
+		_vessels[actor].get_node("ShipModel").set_motion(false)
+		_vessels[actor].get_node("ShipModel").clear_trail()
 		_vessels[actor].visible = actor == "player" or entry["hull"] > 0
 
 
@@ -109,6 +123,11 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 	if not is_node_ready() or not Conditions.has_combat():
 		return
 	var combat: Dictionary = GameState.state["combat"]
+	var shield_stamp: String = JSON.stringify(combat["shield_recharge"])
+	if shield_stamp != _shield_stamp and not combat["shield_recharge"].is_empty():
+		ImpactFX.shield(_fx, _vessels["player"].position + Vector3(0, 0.3, 0), 1.4)
+		SoundSystem.play_at("sfx_shield_recharge", _vessels["player"].position, _fx)
+	_shield_stamp = shield_stamp
 	var origin: Vector2i = Math.cell(combat["player"]["pos"])
 	_sync_vessels()
 	for cell: Vector2i in _tiles:
@@ -134,6 +153,9 @@ func refresh(show_movement: bool, weapon: Dictionary, hovered: Vector2i) -> void
 	var enemy_delay: float = 0.0
 	for actor: String in _vessels:
 		var entry: Dictionary = Roster.actor(actor, combat)
+		var hull: Dictionary = GameState.state["ship"]["hull"]
+		var maximum: float = float(hull["max"]) if actor == "player" else float(DataLoader.get_record(str(entry["enemy"]))["hull"])
+		_vessels[actor].get_node("ShipModel").set_damage(float(hull["current"] if actor == "player" else entry["hull"]) / maximum)
 		if _targets.get(actor, []) != entry["pos"] or _facings.get(actor, -1) != int(entry["facing"]):
 			var duration: float = _animate(actor, entry, combat["movement"][actor], enemy_delay if actor != "player" else 0.0)
 			if actor != "player":
@@ -174,6 +196,7 @@ func _animate(actor: String, entry: Dictionary, turn: Dictionary, delay: float =
 		vessel.rotation.y = _yaw(int(entry["facing"]))
 		return 0.0
 	var tween: Tween = create_tween()
+	vessel.get_node("ShipModel").set_motion(true, actor == "player" and int(GameState.state["combat"]["ap"]) == 0)
 	_tweens[actor] = tween
 	if delay > 0.0:
 		tween.tween_interval(delay)
@@ -237,6 +260,7 @@ func _draw_route(points: Array[Vector2i]) -> void:
 
 func _on_motion_finished(actor: String) -> void:
 	_tweens.erase(actor)
+	_vessels[actor].get_node("ShipModel").set_motion(false)
 	if actor == "player":
 		_active_route.clear()
 	_try_play_shots()
@@ -269,6 +293,9 @@ func _mark_dying(shots: Array) -> void:
 
 
 func _on_fx_finished() -> void:
+	for actor: String in _dying:
+		ImpactFX.burst(_fx, _vessels[actor].position + Vector3(0, 0.25, 0), Color(1.0, 0.3, 0.06), 2.0, "ShipDestruction")
+		SoundSystem.play_at("sfx_explosion", _vessels[actor].position, _fx)
 	_dying.clear()
 	_try_play_shots()
 	if Conditions.has_combat():

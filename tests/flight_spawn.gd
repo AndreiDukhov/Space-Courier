@@ -59,6 +59,8 @@ func _check_directions() -> void:
 	var destination: Dictionary = DataLoader.records["sys_alpha"]
 	var original_source: Array = source["map_pos"].duplicate()
 	var original_destination: Array = destination["map_pos"].duplicate()
+	var original_objects: Array = destination["objects"].duplicate(true)
+	destination["objects"] = destination["objects"].filter(func(object: Dictionary) -> bool: return object.get("type") != "gate" or DataLoader.get_record(str(object["to_route"])).get("to") != "sys_earth")
 	destination["map_pos"] = [0, 0]
 	var directions: Array[Vector2i] = [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN, Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(1, 1)]
 	for direction: Vector2i in directions:
@@ -71,6 +73,7 @@ func _check_directions() -> void:
 	_check(is_finite(fallback.x) and is_finite(fallback.y) and fallback.y > Motion.BOUNDS.y * 0.5, "Coincident galaxy positions have a finite deterministic fallback")
 	source["map_pos"] = original_source
 	destination["map_pos"] = original_destination
+	destination["objects"] = original_objects
 
 
 func _check_routes() -> void:
@@ -87,14 +90,19 @@ func _check_routes() -> void:
 		var flight: Dictionary = GameState.state["flight"]
 		var pos: Vector2 = Motion.point(flight["pos"])
 		_check(pos == Spawn.arrival(str(route["from"]), str(route["to"])) and flight["pos"] == flight["target"], "The actual jump applies its route-specific stopped entry")
-		_check(is_equal_approx(_edge_distance(pos), Spawn.ENTRY_MARGIN), "The actual arrival stays inside the system boundary")
+		var reverse: Dictionary = _reverse_gate(str(route["from"]), str(route["to"]))
+		if reverse.is_empty():
+			_check(is_equal_approx(_edge_distance(pos), Spawn.ENTRY_MARGIN), "A one-way arrival retains the directional boundary fallback")
+		else:
+			var delta: Vector2 = pos - Motion.point(reverse["pos"])
+			_check(is_equal_approx(delta.length(), Spawn.GATE_CLEARANCE) and delta.normalized().dot((Motion.BOUNDS * 0.5 - Motion.point(reverse["pos"])).normalized()) > 0.99, "A reversible route arrives beside its actual return gate on the inward side")
 		var star: Dictionary = Geometry.star(str(route["to"]))
 		_check(pos.distance_to(Motion.point(star["pos"])) > float(star["hazard"]["radius"]), "Arrival avoids the destination star's hazard")
 		for object: Dictionary in DataLoader.get_record(str(route["to"]))["objects"]:
 			if object["type"] == "planet":
 				_check(pos.distance_to(Motion.point(object["pos"])) > float(object["radius"]) / Motion.WORLD_SCALE, "Arrival is outside each planet's surface")
 			elif object["type"] == "gate":
-				_check(pos.distance_to(Motion.point(object["pos"])) > Motion.INTERACTION_RADIUS, "Arrival requires an approach before a new wormhole interaction")
+				_check((pos.distance_to(Motion.point(object["pos"])) <= Motion.INTERACTION_RADIUS) == (object == reverse), "Only the matching return wormhole is immediately within interaction range")
 		_check(flight["npcs"] == npcs and "npc_earth_raider_2" in flight["defeated_npcs"], "Changing the player's entry preserves NPC state and defeated ships")
 		var snapshot: Dictionary = GameState.serialize()
 		_check(GameState.save_game("user://route-entry.json") == OK and GameState.load_game("user://route-entry.json") == OK and GameState.serialize() == snapshot, "The route-specific entry position round-trips exactly")
@@ -127,6 +135,15 @@ func _check_ui() -> void:
 	await _capture("alpha")
 	view.queue_free()
 	await _frames()
+
+
+func _reverse_gate(source_id: String, destination_id: String) -> Dictionary:
+	for object: Dictionary in DataLoader.get_record(destination_id)["objects"]:
+		if object.get("type") == "gate":
+			var route: Dictionary = DataLoader.get_record(str(object["to_route"]))
+			if route.get("from") == destination_id and route.get("to") == source_id:
+				return object
+	return {}
 
 
 func _edge_distance(pos: Vector2) -> float:

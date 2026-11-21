@@ -45,6 +45,7 @@ func _ready() -> void:
 	_board.motion_changed.connect(refresh)
 	EffectApplier.combat_changed.connect(refresh)
 	GameState.restored.connect(_on_restored)
+	PauseMenu.opened.connect(_camera.stop_tracking)
 	refresh()
 	_resize_camera.call_deferred()
 
@@ -179,6 +180,7 @@ func _build_space(parent: Control) -> void:
 	_viewport = SubViewport.new()
 	_viewport.name = "Viewport"
 	_viewport.own_world_3d = true
+	_viewport.msaa_3d = Viewport.MSAA_2X
 	_viewport.transparent_bg = true
 	_viewport.handle_input_locally = false
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -204,6 +206,7 @@ func _build_space(parent: Control) -> void:
 	_board.set_script(Board)
 	_viewport.add_child(_board)
 	_camera.target = _board.get_node("PlayerShip")
+	SoundSystem.attach_listener(_viewport, _board.get_node("PlayerShip"))
 	_camera.center_on_player()
 	var vitals: Vitals = Vitals.new()
 	vitals.name = "Vitals"

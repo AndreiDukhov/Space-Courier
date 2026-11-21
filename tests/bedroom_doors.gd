@@ -73,7 +73,7 @@ func _check_rules() -> void:
 		_check(EffectApplier.use_bedroom_door(id, "peek") == OK and GameState.serialize() == peek, "Peeking only shows placeholder text")
 		_check(EffectApplier.use_bedroom_door(id, "knock") == OK and Conditions.bedroom_has_permission(id), "Knocking at an occupied room grants permission")
 		var saved: Dictionary = GameState.serialize()
-		_check(saved.size() == 25 and GameState.save_game("user://bedroom-check.json") == OK and GameState.load_game("user://bedroom-check.json") == OK and GameState.serialize() == saved, "Permission round-trips in existing flags without new root fields")
+		_check(saved.size() == GameState.SAVE_FIELDS.size() and GameState.save_game("user://bedroom-check.json") == OK and GameState.load_game("user://bedroom-check.json") == OK and GameState.serialize() == saved, "Permission round-trips in existing flags with the current save contract")
 		_check(EffectApplier.use_bedroom_door(id, "enter") == OK and GameState.state["location"] == destination and GameState.state["heroines"][owner]["mood"] == 50, "Permission allows entry at low attitude")
 		_check(not GameState.state["flags"].has(Conditions.bedroom_permission_flag(id)), "Entering consumes the current corridor visit permission")
 		EffectApplier.move_player("hub_corridor")

@@ -1,0 +1,14 @@
+[
+  {"id": "ui_pause_title", "text": "Пауза"},
+  {"id": "ui_pause_resume", "text": "Продолжить"},
+  {"id": "ui_pause_save", "text": "Сохранить"},
+  {"id": "ui_pause_settings", "text": "Настройки"},
+  {"id": "ui_pause_back", "text": "Назад"},
+  {"id": "ui_pause_effects", "text": "Эффекты"},
+  {"id": "ui_pause_music", "text": "Музыка"},
+  {"id": "ui_pause_volume", "text": "{value}%"},
+  {"id": "ui_pause_settings_hint", "text": "Громкость меняется сразу. Сохраните игру, чтобы запомнить настройки."},
+  {"id": "ui_pause_saved", "text": "Игра сохранена"},
+  {"id": "ui_pause_save_error", "text": "Не удалось сохранить игру"},
+  {"id": "ui_pause_hint", "text": "Esc — вернуться в игру"}
+]

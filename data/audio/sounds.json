@@ -1,0 +1,277 @@
+[
+  {
+    "id": "sfx_laser",
+    "files": [
+      "res://audio/sfx/laser_1.wav",
+      "res://audio/sfx/laser_2.wav",
+      "res://audio/sfx/laser_3.wav"
+    ],
+    "volume_db": -16.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_autocannon",
+    "files": [
+      "res://audio/sfx/autocannon_1.wav",
+      "res://audio/sfx/autocannon_2.wav",
+      "res://audio/sfx/autocannon_3.wav"
+    ],
+    "volume_db": -17.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_plasma",
+    "files": [
+      "res://audio/sfx/plasma_1.wav",
+      "res://audio/sfx/plasma_2.wav",
+      "res://audio/sfx/plasma_3.wav"
+    ],
+    "volume_db": -16.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_impact",
+    "files": [
+      "res://audio/sfx/impact_1.wav",
+      "res://audio/sfx/impact_2.wav",
+      "res://audio/sfx/impact_3.wav"
+    ],
+    "volume_db": -17.0,
+    "pitch": [
+      0.92,
+      1.08
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_explosion",
+    "files": [
+      "res://audio/sfx/explosion_1.wav",
+      "res://audio/sfx/explosion_2.wav",
+      "res://audio/sfx/explosion_3.wav"
+    ],
+    "volume_db": -18.0,
+    "pitch": [
+      0.92,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_shield_hit",
+    "files": [
+      "res://audio/sfx/shield_hit_1.wav",
+      "res://audio/sfx/shield_hit_2.wav"
+    ],
+    "volume_db": -19.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_shield_recharge",
+    "files": [
+      "res://audio/sfx/shield_recharge.wav"
+    ],
+    "volume_db": -18.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_engine_idle",
+    "files": [
+      "res://audio/sfx/engine_idle.wav"
+    ],
+    "volume_db": -34.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": true,
+    "spatial": true
+  },
+  {
+    "id": "sfx_engine_cruise",
+    "files": [
+      "res://audio/sfx/engine_cruise.wav"
+    ],
+    "volume_db": -38.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": true,
+    "spatial": true
+  },
+  {
+    "id": "sfx_engine_boost",
+    "files": [
+      "res://audio/sfx/engine_boost.wav"
+    ],
+    "volume_db": -34.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": true,
+    "spatial": true
+  },
+  {
+    "id": "sfx_jump_depart",
+    "files": [
+      "res://audio/sfx/jump_depart.wav"
+    ],
+    "volume_db": -15.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_jump_arrive",
+    "files": [
+      "res://audio/sfx/jump_arrive.wav"
+    ],
+    "volume_db": -15.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_ui_click",
+    "files": [
+      "res://audio/sfx/ui_click_1.wav",
+      "res://audio/sfx/ui_click_2.wav",
+      "res://audio/sfx/ui_click_3.wav"
+    ],
+    "volume_db": -16.0,
+    "pitch": [
+      0.98,
+      1.02
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_ui_confirm",
+    "files": [
+      "res://audio/sfx/ui_confirm.wav"
+    ],
+    "volume_db": -17.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_ui_cancel",
+    "files": [
+      "res://audio/sfx/ui_cancel.wav"
+    ],
+    "volume_db": -19.0,
+    "pitch": [
+      1.0,
+      1.0
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_door_open",
+    "files": [
+      "res://audio/sfx/door_open_1.wav",
+      "res://audio/sfx/door_open_2.wav"
+    ],
+    "volume_db": -18.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_knock",
+    "files": [
+      "res://audio/sfx/knock_1.wav",
+      "res://audio/sfx/knock_2.wav"
+    ],
+    "volume_db": -16.0,
+    "pitch": [
+      0.97,
+      1.03
+    ],
+    "loop": false,
+    "spatial": false
+  },
+  {
+    "id": "sfx_takeoff",
+    "files": [
+      "res://audio/sfx/takeoff.wav"
+    ],
+    "volume_db": -20.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_landing",
+    "files": [
+      "res://audio/sfx/landing.wav"
+    ],
+    "volume_db": -20.0,
+    "pitch": [
+      0.96,
+      1.04
+    ],
+    "loop": false,
+    "spatial": true
+  },
+  {
+    "id": "sfx_heat",
+    "files": [
+      "res://audio/sfx/impact_2.wav"
+    ],
+    "volume_db": -23.0,
+    "pitch": [
+      0.7,
+      0.85
+    ],
+    "loop": false,
+    "spatial": true
+  }
+]

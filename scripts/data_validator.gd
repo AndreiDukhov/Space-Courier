@@ -11,6 +11,7 @@ const Domestic = preload("res://scripts/domestic_validator.gd")
 const Progression = preload("res://scripts/progression_validator.gd")
 const Lighting = preload("res://scripts/hub_lighting_validator.gd")
 const Bedrooms = preload("res://scripts/bedroom_validator.gd")
+const Audio = preload("res://scripts/audio_validator.gd")
 
 const MIN_HEROINE_AGE: int = 21
 const SINGLE_REFERENCES: Dictionary = {
@@ -61,6 +62,9 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 							errors.append(context + ": tag weights must be finite numbers")
 			if group == "scenes":
 				_validate_dialogue(record, context, errors)
+			if group == "audio":
+				for message: String in Audio.validate(record):
+					errors.append(context + ": " + message)
 			if group in ["items", "shops", "recipes", "heroines"]:
 				for message: String in Domestic.validate_record(record, group):
 					errors.append(context + ": " + message)

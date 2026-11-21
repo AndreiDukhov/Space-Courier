@@ -1,6 +1,7 @@
 extends Node
 
 signal restored
+signal settings_changed
 
 const Orders = preload("res://scripts/order_rules.gd")
 const Galaxy = preload("res://scripts/galaxy_state.gd")
@@ -10,12 +11,13 @@ const Domestic = preload("res://scripts/domestic_state.gd")
 const SceneQueue = preload("res://scripts/scene_queue.gd")
 const Loadout = preload("res://scripts/ship_loadout.gd")
 const ModuleStorage = preload("res://scripts/module_storage.gd")
+const AudioSettings = preload("res://scripts/audio_settings.gd")
 const SAVE_PATH: String = "user://save.json"
 const INITIAL_MONEY: int = 1000
 const INITIAL_LOCATION: String = "hub_kitchen"
 const SHIP_INTERIOR_FLAG: String = "ship_interior_open"
 const HEROINE_STAT_FIELDS: Array[String] = ["attitude", "mood", "arousal"]
-const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes", "module_storage", "module_deliveries"]
+const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes", "module_storage", "module_deliveries", "settings"]
 
 var state: Dictionary = {}
 
@@ -50,11 +52,12 @@ func start_new_game(heroine_records: Array[Dictionary], ship_record: Dictionary)
 		"orders": {}
 	}
 	state.merge({"inventory": [], "known_recipes": Domestic.initial_recipes(), "cooking_skill": 0, "buffs": {}, "served_days": {}, "kitchen": {}, "meal_invites": {}, "pending_scenes": []})
-	state.merge({"module_storage": {}, "module_deliveries": []})
+	state.merge({"module_storage": {}, "module_deliveries": [], "settings": AudioSettings.initial()})
 	_normalize_fuel()
 	Loadout.normalize_numbers(state["ship"])
 	if ScheduleManager.assign_locations() != OK:
 		push_error("GameState: could not initialize schedules")
+	settings_changed.emit()
 
 
 func serialize() -> Dictionary:
@@ -87,6 +90,7 @@ func _upgrade_mechanic(save_data: Dictionary) -> Dictionary:
 
 
 func restore(save_data: Dictionary) -> Error:
+	save_data = AudioSettings.migrate(save_data)
 	save_data = _upgrade_mechanic(save_data)
 	save_data = ModuleStorage.migrate(save_data, SAVE_FIELDS)
 	var previous_fields: Array[String] = SAVE_FIELDS.duplicate()
@@ -134,6 +138,9 @@ func restore(save_data: Dictionary) -> Error:
 		for stat_name: String in HEROINE_STAT_FIELDS:
 			heroine[stat_name] = float(heroine[stat_name])
 		heroine["suspicion"] = int(heroine["suspicion"])
+	for field: String in AudioSettings.FIELDS:
+		state["settings"][field] = float(state["settings"][field])
+	settings_changed.emit()
 	restored.emit()
 	return OK
 
@@ -176,6 +183,8 @@ func load_game(save_path: String = SAVE_PATH) -> Error:
 
 func _is_valid_state(save_data: Dictionary) -> bool:
 	if save_data.size() != SAVE_FIELDS.size() or not save_data.has_all(SAVE_FIELDS):
+		return false
+	if not AudioSettings.valid(save_data["settings"]):
 		return false
 	for field_name: String in ["day", "money"]:
 		var number: Variant = save_data[field_name]

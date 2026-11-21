@@ -1,38 +1,49 @@
 extends Node3D
 
-const Art = preload("res://scripts/flight_art.gd")
 const Motion = preload("res://scripts/flight_motion.gd")
+const FX = preload("res://scripts/impact_fx.gd")
+
+var _system_id: String = ""
 
 
 func _ready() -> void:
+	name = "SpaceEffects"
+	_system_id = str(GameState.state.get("current_system", ""))
 	EffectApplier.space_effect.connect(show_effect)
-	EffectApplier.galaxy_changed.connect(clear)
+	EffectApplier.galaxy_changed.connect(_on_system_changed)
 	GameState.restored.connect(clear)
 
 
 func clear() -> void:
+	_system_id = str(GameState.state.get("current_system", ""))
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
 
 
 func show_effect(kind: String, position: Vector2, _npc_id: String) -> void:
-	if kind not in ["destroyed", "landing", "takeoff"]:
+	if kind not in ["destroyed", "landing", "takeoff", "star_damage", "arrival"]:
 		return
-	var colour: Color = Color(1.0, 0.35, 0.05) if kind == "destroyed" else Color(0.2, 0.9, 0.75)
 	var centre: Vector3 = Motion.world_position(Motion.coordinates(position), 2.8)
-	var count: int = 3 if kind == "destroyed" else 1
-	for i: int in range(count):
-		var mesh: MeshInstance3D = MeshInstance3D.new()
-		var sphere: SphereMesh = SphereMesh.new()
-		sphere.radius = 0.4
-		sphere.height = 0.8
-		mesh.mesh = sphere
-		mesh.material_override = Art.material(colour.lightened(float(i) * 0.2), true)
-		mesh.position = centre + Vector3(float(i - 1) * 0.3, 0, float(i % 2) * 0.3)
-		add_child(mesh)
-		var tween: Tween = create_tween()
-		tween.bind_node(mesh)
-		tween.tween_property(mesh, "scale", Vector3.ONE * (4.0 if kind == "destroyed" else 2.0), 0.28)
-		tween.tween_property(mesh, "scale", Vector3.ZERO, 0.35)
-		tween.tween_callback(mesh.queue_free)
+	if kind == "destroyed":
+		FX.burst(self, centre, Color(1.0, 0.35, 0.06), 2.3)
+		SoundSystem.play_at("sfx_explosion", centre, self)
+	elif kind == "star_damage":
+		FX.burst(self, centre, Color(1.0, 0.28, 0.04), 0.65)
+		SoundSystem.play_at("sfx_heat", centre, self)
+	else:
+		FX.ripple(self, centre, Color(0.28, 0.65, 1.0) if kind == "arrival" else Color(0.15, 0.85, 0.65), 3.5 if kind == "arrival" else 2.5)
+		if kind in ["takeoff", "landing"]:
+			SoundSystem.play_at("sfx_" + kind, centre, self)
+	while get_child_count() > 18:
+		var oldest: Node = get_child(0)
+		remove_child(oldest)
+		oldest.queue_free()
+
+
+func _on_system_changed() -> void:
+	var previous: String = _system_id
+	clear()
+	if previous != _system_id:
+		show_effect("arrival", Motion.point(GameState.state["flight"]["pos"]), "player")
+		SoundSystem.play_jump()

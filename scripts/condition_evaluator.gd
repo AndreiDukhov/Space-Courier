@@ -270,6 +270,35 @@ static func can_tick_flight() -> bool:
 	return not has_combat() and can_fly() and not flight.get("paused", true) and flight.get("encounter", "").is_empty()
 
 
+static func can_open_pause_menu() -> bool:
+	return not GameState.state.is_empty() and DataLoader.load_errors.is_empty()
+
+
+static func can_set_audio_volume(field: String, value: float) -> bool:
+	return field in ["effects_volume", "music_volume"] and is_finite(value) and value >= 0.0 and value <= 1.0 and GameState.state.get("settings") is Dictionary
+
+
+static func music_track() -> String:
+	if GameState.state.is_empty():
+		return ""
+	if has_combat():
+		return "music_danger"
+	var location: String = str(GameState.state.get("location", ""))
+	if DataLoader.get_record(location).get("area") == "hub":
+		return "music_hub"
+	if location != "ship_bridge":
+		return ""
+	var flight: Dictionary = GameState.state.get("flight", {})
+	for npc_id: String in flight.get("npcs", {}):
+		var entry: Dictionary = flight["npcs"][npc_id]
+		if entry.get("status") != "chase" or entry.get("target") != "player" or npc_id in flight.get("defeated_npcs", []):
+			continue
+		var npc: Dictionary = DataLoader.get_record(npc_id)
+		if npc.get("role") == "pirate" and npc.get("system") == GameState.state.get("current_system"):
+			return "music_danger"
+	return "music_space"
+
+
 static func can_open_flight_map() -> bool:
 	return can_use_galaxy_map() and GameState.state.get("flight", {}).get("encounter", "").is_empty()
 

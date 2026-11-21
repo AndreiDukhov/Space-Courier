@@ -61,6 +61,14 @@ func _ready() -> void:
 	Clock.time_changed.connect(_on_time_changed)
 
 
+func set_audio_volume(field: String, value: float) -> Error:
+	if not Conditions.can_set_audio_volume(field, value):
+		return ERR_INVALID_PARAMETER
+	GameState.state["settings"][field] = value
+	GameState.settings_changed.emit()
+	return OK
+
+
 static func validate(effects: Array) -> Array[String]:
 	var errors: Array[String] = []
 	for effect: Variant in effects:

@@ -1,7 +1,9 @@
 extends RefCounted
 
 const Motion = preload("res://scripts/flight_motion.gd")
-const ShipModel = preload("res://scripts/ship_placeholder.gd")
+const ShipModel = preload("res://scripts/ship_models.gd")
+const StationModel = preload("res://scripts/station_model.gd")
+const GateVisual = preload("res://scripts/gate_visual.gd")
 
 
 static func material(color: Color, glow: bool = false) -> StandardMaterial3D:
@@ -14,8 +16,8 @@ static func material(color: Color, glow: bool = false) -> StandardMaterial3D:
 	return result
 
 
-static func ship(color: Color) -> Node3D:
-	var result: Node3D = ShipModel.create(color)
+static func ship(_color: Color, role: String = "player", variant: int = 0, weapons: Array = []) -> Node3D:
+	var result: Node3D = ShipModel.create(role, variant, weapons)
 	result.rotation.y = PI
 	return result
 
@@ -42,16 +44,16 @@ static func system_object(object: Dictionary) -> MeshInstance3D:
 			ring.outer_radius = 1.5
 			result.mesh = ring
 			result.material_override = material(Color(0.65, 0.3, 0.95), true)
+			result.set_script(GateVisual)
+			result.configure()
 		"event_marker":
 			var cube: BoxMesh = BoxMesh.new()
 			cube.size = Vector3(0.8, 0.8, 0.8)
 			result.mesh = cube
 			result.material_override = material(Color(1.0, 0.7, 0.2), true)
 		"station":
-			var station: BoxMesh = BoxMesh.new()
-			station.size = Vector3.ONE * float(object["radius"]) * 2.0
-			result.mesh = station
-			result.material_override = material(Color(str(object["color"])))
+			result.set_script(StationModel)
+			result.configure(object)
 	result.position = Motion.world_position(object["pos"], 0.3)
 	return result
 

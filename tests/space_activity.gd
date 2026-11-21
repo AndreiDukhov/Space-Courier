@@ -311,7 +311,14 @@ func _check_ui() -> void:
 	EffectApplier.apply_effects([{"unlock_route": "r_alpha_earth"}])
 	await get_tree().process_frame
 	await _click(chart.get_node("sys_earth"))
-	_check(view._map == null and GameState.state["flight"]["autopilot"].get("destination") == "sys_earth", "Clicking a known map destination starts local automatic travel")
+	_check(view._map == null and GameState.state["current_system"] == "sys_earth" and GameState.state["flight"]["autopilot"].is_empty(), "A known map destination jumps immediately when already beside its return gate")
+	_place(Vector2(800, 620))
+	EffectApplier.flight_changed.emit()
+	view.open_map()
+	await get_tree().process_frame
+	chart = view.find_child("Chart", true, false)
+	await _click(chart.get_node("sys_alpha"))
+	_check(view._map == null and GameState.state["current_system"] == "sys_earth" and GameState.state["flight"]["autopilot"].get("destination") == "sys_alpha", "Selecting a known system away from its gate still starts local automatic travel")
 	EffectApplier.stop_autopilot()
 	_place(Vector2(500, 380))
 	EffectApplier.advance_flight(0.1)

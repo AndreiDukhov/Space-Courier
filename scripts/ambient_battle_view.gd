@@ -60,6 +60,12 @@ func refresh() -> void:
 
 func _process(delta: float) -> void:
 	if Conditions.can_tick_flight():
+		var previous: int = floori(_phase * 1.4)
 		_phase += delta
+		if _mesh != null and _mesh.visible and floori(_phase * 1.4) != previous:
+			for battle: Dictionary in GameState.state["flight"]["battles"]:
+				if battle["system"] == GameState.state["current_system"]:
+					var source: String = str(battle["sides"][previous % 2][0])
+					SoundSystem.play_at("sfx_laser", Motion.world_position(GameState.state["flight"]["npcs"][source]["pos"], 3.1), self)
 	if _material != null:
 		_material.albedo_color.a = 0.35 + 0.65 * absf(sin(_phase * 9.0))

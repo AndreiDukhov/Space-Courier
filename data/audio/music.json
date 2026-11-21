@@ -1,0 +1,26 @@
+[
+  {
+    "id": "music_hub",
+    "files": ["res://audio/music/hub.wav"],
+    "volume_db": -24.0,
+    "pitch": [1.0, 1.0],
+    "loop": true,
+    "spatial": false
+  },
+  {
+    "id": "music_space",
+    "files": ["res://audio/music/space.wav"],
+    "volume_db": -25.0,
+    "pitch": [1.0, 1.0],
+    "loop": true,
+    "spatial": false
+  },
+  {
+    "id": "music_danger",
+    "files": ["res://audio/music/danger.wav"],
+    "volume_db": -24.0,
+    "pitch": [1.0, 1.0],
+    "loop": true,
+    "spatial": false
+  }
+]

@@ -18,12 +18,17 @@ static func button(node_name: String, text_id: String, callback: Callable, enabl
 	node.text = Text.get_text(text_id, values)
 	node.custom_minimum_size.y = 38
 	node.disabled = not enabled
-	node.pressed.connect(callback)
 	if node_name == "Close":
+		node.pressed.connect(func() -> void:
+			node.get_viewport().set_input_as_handled()
+			callback.call()
+		)
 		var escape: InputEventKey = InputEventKey.new()
 		escape.keycode = KEY_ESCAPE
 		node.shortcut = Shortcut.new()
 		node.shortcut.events = [escape]
+	else:
+		node.pressed.connect(callback)
 	return node
 
 

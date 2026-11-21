@@ -23,6 +23,8 @@ Clock="*res://scripts/clock.gd"
 EffectApplier="*res://scripts/effect_applier.gd"
 ScheduleManager="*res://scripts/schedule_manager.gd"
 OrderManager="*res://scripts/order_manager.gd"
+SoundSystem="*res://scripts/sound_system.gd"
+PauseMenu="*res://scripts/pause_menu.gd"
 
 [display]
 

@@ -98,6 +98,7 @@ stretch = true
 unique_name_in_owner = true
 transparent_bg = true
 own_world_3d = true
+msaa_3d = 1
 handle_input_locally = false
 size = Vector2i(800, 600)
 render_target_update_mode = 4

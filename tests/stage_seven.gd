@@ -355,7 +355,7 @@ func _check_view() -> void:
 	var board: Node3D = view.find_child("Board", true, false)
 	var camera: Camera3D = view.find_child("Camera", true, false)
 	var space: SubViewportContainer = view.find_child("SpaceContainer", true, false)
-	_check(board.get_node("Tiles").get_child_count() == Math.WIDTH * Math.HEIGHT and board.get_node("PlayerShip").get_child_count() > 4, "The enlarged 3D board has 768 tiles and a multipart ship model")
+	_check(board.get_node("Tiles").get_child_count() == Math.WIDTH * Math.HEIGHT and board.get_node("PlayerShip/ShipModel").get_child_count() > 4, "The enlarged 3D board has 768 tiles and a multipart ship model")
 	_check(camera.rotation_degrees.x > -65 and camera.rotation_degrees.x < -35 and not view.has_method("_turn"), "The camera is visibly angled and turn-in-place controls are absent")
 	var start_position: Vector3 = board.get_node("PlayerShip").position
 	_click(view, Vector2i(15, 13), true)

@@ -1,6 +1,7 @@
 extends Node
 
 const Validator = preload("res://scripts/data_validator.gd")
+const Audio = preload("res://scripts/audio_validator.gd")
 
 var records: Dictionary = {}
 var records_by_group: Dictionary = {}
@@ -28,6 +29,9 @@ func load_data() -> bool:
 		load_errors.append("Missing workshop module shop")
 	if not record_sources.has("ui/hub_corridor_doors"):
 		load_errors.append("Missing bedroom door layout")
+	for sound_id: String in Audio.REQUIRED:
+		if not record_sources.has("audio/" + sound_id):
+			load_errors.append("Missing required audio id '" + sound_id + "'")
 	if not record_sources.has("locations/" + GameState.INITIAL_LOCATION):
 		load_errors.append("Missing initial hub location: " + GameState.INITIAL_LOCATION)
 	load_errors.append_array(Validator.validate(records_by_group, record_sources))

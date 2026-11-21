@@ -6,6 +6,7 @@ signal explosion_created
 
 const Roster = preload("res://scripts/combat_roster.gd")
 const Math = preload("res://scripts/combat_math.gd")
+const FX = preload("res://scripts/impact_fx.gd")
 
 var active: bool = false
 var _generation: int = 0
@@ -31,12 +32,23 @@ func play(shots: Array) -> void:
 		if not hit:
 			var direction: Vector3 = (target - origin).normalized()
 			target += Vector3(-direction.z, 0, direction.x) * 1.1 + direction * 0.9
-		var color: Color = Color(0.2, 0.9, 1.0) if Roster.friendly(str(shot["shooter"])) else Color(1.0, 0.35, 0.12)
+		var mount: String = str(DataLoader.get_record(str(shot["weapon"])).get("mount", "turret"))
+		var color: Color = Color(1.0, 0.72, 0.2) if mount == "course" else Color(0.85, 0.3, 1.0) if mount == "broadside" else Color(0.2, 0.9, 1.0)
+		if not Roster.friendly(str(shot["shooter"])):
+			color = color.lerp(Color(1.0, 0.22, 0.10), 0.35)
 		var beam: Node3D = _beam(origin, target, color)
+		SoundSystem.play_at("sfx_autocannon" if mount == "course" else "sfx_plasma" if mount == "broadside" else "sfx_laser", origin, self)
+		FX.muzzle(self, origin, color)
 		await get_tree().create_timer(0.18).timeout
 		if generation != _generation:
 			return
 		if hit:
+			var target_id: String = Roster.target_at(str(shot["shooter"]), Math.cell(shot["target"]))
+			if float(Roster.actor(target_id).get("shield", 0)) > 0.0:
+				FX.shield(self, target, 1.1)
+				SoundSystem.play_at("sfx_shield_hit", target, self)
+			else:
+				SoundSystem.play_at("sfx_impact", target, self)
 			_explosion(target, 0.75 if shot["result"] == "critical" else 1.0)
 			if shot["result"] == "critical":
 				await get_tree().create_timer(0.14).timeout
@@ -73,32 +85,27 @@ func _beam(origin: Vector3, target: Vector3, color: Color) -> Node3D:
 	body.rotation.x = PI / 2.0
 	body.position.z = -mesh.height / 2.0
 	effect.add_child(body)
+	var halo: MeshInstance3D = MeshInstance3D.new()
+	var halo_mesh: CylinderMesh = mesh.duplicate()
+	halo_mesh.top_radius = 0.085
+	halo_mesh.bottom_radius = 0.085
+	halo.mesh = halo_mesh
+	halo.material_override = _material(Color(color, 0.22))
+	halo.rotation.x = body.rotation.x
+	halo.position = body.position
+	effect.add_child(halo)
 	effect.scale.z = 0.01
 	var tween: Tween = create_tween().bind_node(effect)
 	tween.tween_property(effect, "scale:z", 1.0, 0.15)
 	tween.tween_property(body.material_override, "albedo_color:a", 0.0, 0.3)
+	tween.parallel().tween_property(halo.material_override, "albedo_color:a", 0.0, 0.3)
 	return effect
 
 
 func _explosion(position: Vector3, size: float) -> void:
-	var effect: MeshInstance3D = MeshInstance3D.new()
-	effect.name = "ShotExplosion"
-	var sphere: SphereMesh = SphereMesh.new()
-	sphere.radius = 0.3
-	sphere.height = 0.6
-	sphere.radial_segments = 12
-	sphere.rings = 6
-	effect.mesh = sphere
-	effect.position = position
-	effect.material_override = _material(Color(1.0, 0.65, 0.12))
-	effect.scale = Vector3.ONE * 0.15
-	add_child(effect)
+	FX.burst(self, position, Color(1.0, 0.45, 0.10), size, "ShotExplosion")
+	SoundSystem.play_at("sfx_explosion", position, self)
 	explosion_created.emit()
-	var tween: Tween = create_tween().bind_node(effect)
-	tween.set_parallel(true)
-	tween.tween_property(effect, "scale", Vector3.ONE * size * 2.8, 0.32).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(effect.material_override, "albedo_color:a", 0.0, 0.32)
-	tween.chain().tween_callback(effect.queue_free)
 
 
 func _material(color: Color) -> StandardMaterial3D:
