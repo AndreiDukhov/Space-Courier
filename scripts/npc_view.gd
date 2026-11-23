@@ -1,5 +1,7 @@
 extends Node3D
 
+const Caption = preload("res://scripts/flight_caption.gd")
+
 const Art = preload("res://scripts/flight_art.gd")
 const Motion = preload("res://scripts/flight_motion.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
@@ -64,6 +66,12 @@ func sync_positions() -> void:
 		label.position = vessel.position + Vector3(0, 2.0, 0)
 		if entry["status"] == "battle":
 			_position_battle_label(label, str(npc["id"]))
+
+
+func sync_captions(camera: Camera3D, reserved: Array[Rect2]) -> void:
+	for child: Node in get_children():
+		if child is Label3D and child.visible:
+			child.visible = Caption.fits(child, camera, reserved)
 
 
 func _position_battle_label(label: Label3D, npc_id: String) -> void:

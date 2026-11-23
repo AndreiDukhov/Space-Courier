@@ -11,6 +11,7 @@ const DEFAULT_COLOR: Color = Color(0.4, 0.85, 1.0)
 
 var camera: Camera3D
 var reserved_rect: Rect2 = Rect2()
+var reserved_rects: Array[Rect2] = []
 var _objects: Dictionary = {}
 var _rows: Dictionary = {}
 var _directions: Dictionary = {}
@@ -115,19 +116,61 @@ func _arrange_edge(rows: Array, edge: int, lower: float = MARGIN, upper: float =
 	if upper < 0.0:
 		upper = size[axis] - MARGIN
 	rows.sort_custom(func(a: Control, b: Control) -> bool: return a.position[axis] < b.position[axis])
-	var next: float = lower
-	if reserved_rect.has_area() and edge == 1:
-		next = maxf(next, reserved_rect.end.y + GAP)
+	var thickness: float = 0.0
 	for row: Control in rows:
-		row.position[axis] = maxf(row.position[axis], next)
-		next = row.position[axis] + row.size[axis] + GAP
-	next = upper
-	if reserved_rect.has_area() and edge == 2:
-		next = minf(next, reserved_rect.position.x - GAP)
-	for index: int in range(rows.size() - 1, -1, -1):
-		var row: Control = rows[index]
-		row.position[axis] = minf(row.position[axis], next - row.size[axis])
-		next = row.position[axis] - GAP
+		thickness = maxf(thickness, row.size[1 - axis])
+	var index: int = 0
+	for lane: int in range(rows.size() + 1):
+		if index >= rows.size():
+			break
+		var other: float = MARGIN + lane * (thickness + GAP)
+		if edge in [1, 3]:
+			other = size[1 - axis] - MARGIN - thickness - lane * (thickness + GAP)
+		var strip: Rect2 = Rect2()
+		strip.position[axis] = lower
+		strip.position[1 - axis] = other
+		strip.size[axis] = upper - lower
+		strip.size[1 - axis] = thickness
+		for span: Vector2 in _free_spans(strip, axis, lower, upper):
+			var group: Array[Control] = []
+			var used: float = 0.0
+			while index < rows.size() and used + rows[index].size[axis] <= span.y - span.x:
+				var row: Control = rows[index]
+				row.position[1 - axis] = other
+				group.append(row)
+				used += row.size[axis] + GAP
+				index += 1
+			var cursor: float = span.x
+			for row: Control in group:
+				row.position[axis] = maxf(row.position[axis], cursor)
+				cursor = row.position[axis] + row.size[axis] + GAP
+			cursor = span.y
+			for item: int in range(group.size() - 1, -1, -1):
+				var row: Control = group[item]
+				row.position[axis] = minf(row.position[axis], cursor - row.size[axis])
+				cursor = row.position[axis] - GAP
+
+
+func _free_spans(strip: Rect2, axis: int, lower: float, upper: float) -> Array[Vector2]:
+	var spans: Array[Vector2] = [Vector2(lower, upper)]
+	var blocked: Array[Rect2] = reserved_rects.duplicate()
+	if reserved_rect.has_area():
+		blocked.append(reserved_rect)
+	for rect: Rect2 in blocked:
+		var cut: Rect2 = rect.grow(GAP)
+		if not strip.intersects(cut):
+			continue
+		var remaining: Array[Vector2] = []
+		for span: Vector2 in spans:
+			if cut.end[axis] <= span.x or cut.position[axis] >= span.y:
+				remaining.append(span)
+			else:
+				if cut.position[axis] > span.x:
+					remaining.append(Vector2(span.x, cut.position[axis]))
+				if cut.end[axis] < span.y:
+					remaining.append(Vector2(cut.end[axis], span.y))
+		spans = remaining
+	return spans
 
 
 func _draw_arrow(arrow: Control, object_id: String) -> void:

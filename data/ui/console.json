@@ -1,0 +1,18 @@
+[
+  {"id": "ui_console_brand", "text": "STARWIND · РАБОЧАЯ СТАНЦИЯ"},
+  {"id": "ui_console_online", "text": "В сети"},
+  {"id": "ui_console_arrow", "text": "›"},
+  {"id": "ui_console_parts_hint", "text": "Каталог оборудования и доставка запчастей"},
+  {"id": "ui_console_map_hint", "text": "Известные системы и маршруты"},
+  {"id": "ui_console_launch_hint", "text": "Перейти к кораблю и начать полёт"},
+  {"id": "ui_console_wallet", "text": "Кредиты · {money}"},
+  {"id": "ui_console_system", "text": "Система · {name}"},
+  {"id": "ui_console_day", "text": "День · {day}"},
+  {"id": "ui_console_orders", "text": "Заказы на доставку"},
+  {"id": "ui_console_resources", "text": "Кредиты {money}  ·  Трюм {mass}/{max}"},
+  {"id": "ui_console_order_available", "text": "Доступен"},
+  {"id": "ui_console_faction_private", "text": "Частные"},
+  {"id": "ui_console_order_active", "text": "В работе"},
+  {"id": "ui_console_order_completed", "text": "Доставлен"},
+  {"id": "ui_console_order_failed", "text": "Не выполнен"}
+]

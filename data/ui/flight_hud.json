@@ -1,0 +1,8 @@
+[
+  {"id": "ui_hud_fuel", "text": "Топливо"},
+  {"id": "ui_hud_hull", "text": "Корпус"},
+  {"id": "ui_hud_credits", "text": "Кредиты"},
+  {"id": "ui_hud_resource_value", "text": "{current}/{max}"},
+  {"id": "ui_hud_credits_value", "text": "{money}"},
+  {"id": "ui_hud_boost", "text": "Форсаж"}
+]

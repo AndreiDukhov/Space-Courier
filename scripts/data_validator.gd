@@ -74,7 +74,7 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 			if group == "ui" and record_id == "hub_corridor_doors":
 				for message: String in Bedrooms.validate_layout(record):
 					errors.append(context + ": " + message)
-			if group == "ui" and record_id in ["hub_kitchen_hotspot", "hub_office_hotspot", "hub_tech_hotspot"]:
+			if group == "ui" and record_id in ["hub_kitchen_hotspot", "hub_office_hotspot", "hub_tech_hotspot", "hub_ship_hotspot"]:
 				for message: String in Domestic.validate_hub_hotspot(record):
 					errors.append(context + ": " + message)
 			if group == "ui" and record_id == "hub_lighting":

@@ -1080,6 +1080,10 @@ func process_kitchen_zone(zone: String) -> Error:
 
 
 func cancel_cooking() -> void:
+	if not Conditions.can_cancel_cooking():
+		return
+	for entry: Dictionary in GameState.state["kitchen"]["entries"]:
+		Inventory.change(GameState.state["inventory"], str(entry["item"]), -1)
 	GameState.state["kitchen"] = {}
 	domestic_changed.emit()
 

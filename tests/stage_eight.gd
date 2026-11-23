@@ -101,7 +101,7 @@ func _check_cooking() -> void:
 	_check(Cooking.quality(0) == 1 and Cooking.quality(4) == 1 and Cooking.quality(5) == 2 and Cooking.quality(10) == 3 and Cooking.quality(100) == 3, "Quality increases every five cooked dishes and caps at three")
 	_check(EffectApplier.prepare_ingredient("recipe_carrot_01", "carrot", "boil") == OK, "Preparation order is flexible")
 	EffectApplier.cancel_cooking()
-	_check(_food_count("carrot") == 2 and Clock.current_slot() == "day", "Cancelling leaves ingredients and time unchanged")
+	_check(_food_count("carrot") == 1 and Clock.current_slot() == "day", "Cancelling discards the used portion without spending time")
 	_check(Service.travel("hub_shop") == OK and not Conditions.can_use_food(1), "Food cannot be used outside the hub kitchen")
 
 
@@ -286,8 +286,7 @@ func _check_view() -> void:
 	await _press(view.find_child("fry", true, false).get_node("Process"))
 	_check(GameState.state["kitchen"]["entries"][0]["steps"] == ["fry"] and GameState.state["kitchen"]["entries"][1]["steps"] == ["fry"], "A real click on the transparent action processes the whole pan")
 	await _capture("mixed-pan")
-	var cancel_rect: Rect2 = view.find_child("Cancel", true, false).get_global_rect()
-	_check(cancel_rect.end.x <= get_viewport().get_visible_rect().end.x and cancel_rect.end.y <= get_viewport().get_visible_rect().end.y, "The cancel action stays fully inside the cooking viewport")
+	_check(view.find_child("Cancel", true, false) == null, "The kitchen picture has no redundant clear-counter button")
 	await _drag(view.find_child("Prepared", true, false), view.find_child("plate", true, false))
 	await _drag(view.find_child("Prepared_1", true, false), view.find_child("plate", true, false))
 	_check(Conditions.can_finish_cooking(), "Both portions can be assembled on the pictured plate")
@@ -355,6 +354,7 @@ func _check_scene_flow() -> void:
 	EffectApplier.prepare_ingredient("recipe_carrot_01", "carrot", "cut")
 	var cooking: Dictionary = GameState.serialize()
 	EffectApplier.cancel_cooking()
+	EffectApplier.apply_effects([{"item": "carrot", "add": 1}])
 	Service.travel("hub_tech")
 	EffectApplier.launch_flight()
 	get_tree().change_scene_to_file("res://scenes/system_flight.tscn")
@@ -377,8 +377,10 @@ func _check_scene_flow() -> void:
 		escape.pressed = pressed
 		get_viewport().push_input(escape, true)
 	await get_tree().process_frame
-	_check(hub.find_child("Domestic", true, false) == null and GameState.serialize() == cooking, "Escape closes the kitchen without consuming ingredients, time or unfinished work")
-	_check(hub.open_domestic("kitchen"), "The kitchen can be reopened after Escape")
+	var domestic: Control = hub.find_child("Domestic", true, false)
+	_check(domestic != null and domestic._exit_dialog.visible and GameState.serialize() == cooking, "Escape requests confirmation before discarding unfinished cooking")
+	domestic._exit_dialog.get_cancel_button().pressed.emit()
+	_check(hub.open_domestic("kitchen"), "Canceling the warning keeps the kitchen open")
 	await get_tree().process_frame
 	_check(GameState.restore(in_flight) == OK, "A flight snapshot can be restored while the kitchen overlay is open")
 	flight = await _wait_scene("SystemFlight")

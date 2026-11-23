@@ -8,6 +8,8 @@ const Text = preload("res://scripts/ui_text.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Kitchen = preload("res://scripts/kitchen.gd")
 const Router = preload("res://scripts/scene_router.gd")
+const ExitDialog = preload("res://scripts/cooking_exit_dialog.gd")
+const ConsoleTheme = preload("res://scripts/console_theme.gd")
 
 var tab: String = "inventory"
 var _content: VBoxContainer
@@ -16,9 +18,12 @@ var _status: Label
 var _refresh_queued: bool = false
 var _scroll: ScrollContainer
 var _title: Label
+var _tabs: HBoxContainer
+var _exit_dialog: ExitDialog
 
 
 func _ready() -> void:
+	theme = ConsoleTheme.make()
 	if GameState.state.is_empty():
 		GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
 	if not GameState.state.get("kitchen", {}).is_empty():
@@ -47,6 +52,7 @@ func _ready() -> void:
 	_resources = Widgets.label("")
 	column.add_child(_resources)
 	var tabs: HBoxContainer = HBoxContainer.new()
+	_tabs = tabs
 	column.add_child(tabs)
 	for tab_id: String in ["inventory", "shop", "kitchen"]:
 		var enabled: bool = tab_id == "inventory" or GameState.state.get("location") == "hub_" + ("shop" if tab_id == "shop" else "kitchen")
@@ -65,6 +71,16 @@ func _ready() -> void:
 	_content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_content.add_theme_constant_override("separation", 12)
 	scroll.add_child(_content)
+	var shade: ColorRect = ColorRect.new()
+	shade.name = "ExitShade"
+	shade.color = Color(0.0, 0.01, 0.02, 0.55)
+	shade.hide()
+	add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_exit_dialog = ExitDialog.new()
+	_exit_dialog.name = "CookingExit"
+	add_child(_exit_dialog)
+	_exit_dialog.visibility_changed.connect(func() -> void: shade.visible = _exit_dialog.visible)
 	EffectApplier.domestic_changed.connect(_queue_refresh)
 	Clock.time_changed.connect(func(_day: int, _slot: String) -> void: _queue_refresh())
 	GameState.restored.connect(_on_restored)
@@ -77,6 +93,7 @@ func refresh() -> void:
 		return
 	_resources.text = Text.get_text("ui_home_resources", {"money": GameState.state["money"], "mass": String.num(OrderManager.active_mass(), 2), "capacity": GameState.state["ship"]["cargo"]["max_mass"], "day": Clock.current_day(), "slot": Clock.current_slot()})
 	_resources.visible = tab != "kitchen"
+	_tabs.visible = tab != "kitchen"
 	_status.visible = not _status.text.is_empty()
 	_title.text = Text.get_text({"inventory": "ui_home_inventory", "kitchen": "ui_home_kitchen"}.get(tab, "ui_home_title"))
 	_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED if tab == "kitchen" else ScrollContainer.SCROLL_MODE_AUTO
@@ -161,6 +178,13 @@ func _inventory_card(entry: Dictionary, index: int, food: bool) -> void:
 
 
 func _select_tab(value: String) -> void:
+	if tab == "kitchen" and value != tab:
+		_exit_dialog.request(_change_tab.bind(value))
+	else:
+		_change_tab(value)
+
+
+func _change_tab(value: String) -> void:
 	tab = value
 	refresh()
 
@@ -228,6 +252,10 @@ func _on_restored() -> void:
 
 
 func _close() -> void:
+	_exit_dialog.request(_finish_close)
+
+
+func _finish_close() -> void:
 	if close_requested.get_connections().is_empty():
 		get_tree().change_scene_to_file("res://scenes/hub.tscn")
 	else:

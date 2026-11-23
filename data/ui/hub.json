@@ -58,7 +58,7 @@
     "location": "hub_kitchen",
     "zones": {
       "cook": {
-        "drop_rect": [0.02, 0.31, 0.385, 0.26]
+        "drop_rect": [0.076, 0.32, 0.329, 0.205]
       }
     }
   },

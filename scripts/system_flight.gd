@@ -20,6 +20,7 @@ const Models = preload("res://scripts/ship_models.gd")
 @onready var space: Node3D = %Space
 @onready var camera: Camera3D = %Camera
 @onready var viewport: SubViewport = %Viewport
+@onready var hud: Control = %FlightHUD
 
 var _player: Node3D = Node3D.new()
 var _map: Control = null
@@ -84,11 +85,7 @@ func _ready() -> void:
 	_journal.opened.connect(func() -> void: _following_mouse = false)
 	%SpaceContainer.add_child(_journal)
 	_journal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_status = Label.new()
-	_status.name = "SpaceStatus"
-	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_status.add_theme_color_override("font_color", Color(1.0, 0.65, 0.3))
-	%Help.get_parent().add_child(_status)
+	_status = %SpaceStatus
 	EffectApplier.flight_changed.connect(_sync_flight)
 	EffectApplier.galaxy_changed.connect(_refresh_world)
 	EffectApplier.combat_changed.connect(_on_combat_changed)
@@ -103,15 +100,8 @@ func _ready() -> void:
 	%Map.pressed.connect(open_map)
 	%Ship.pressed.connect(_visit_ship)
 	%Boost.toggled.connect(_on_boost)
-	%Save.pressed.connect(_save)
-	%Load.pressed.connect(_load)
-	%Map.text = Text.get_text("ui_map_open")
-	%Ship.text = Text.get_text("ui_flight_visit_ship")
+	%Map.tooltip_text = Text.get_text("ui_map_open")
 	%Ship.tooltip_text = Text.get_text("ui_flight_visit_ship_hint")
-	%Help.text = Text.get_text("ui_flight_help")
-	%Boost.text = Text.get_text("ui_map_boost")
-	%Save.text = Text.get_text("ui_map_save")
-	%Load.text = Text.get_text("ui_map_load")
 	_refresh_world()
 	_resize_camera.call_deferred()
 	_on_combat_changed.call_deferred()
@@ -142,7 +132,7 @@ func _refresh_world() -> void:
 	%SystemSpace.rebuild(system_id, names)
 	%NPCView.rebuild(system_id)
 	_indicators.rebuild()
-	%Title.text = Text.get_text("ui_flight_title", {"name": DataLoader.get_record(system_id)["name"]})
+	%Title.text = str(DataLoader.get_record(system_id)["name"])
 	_sync_flight()
 
 
@@ -178,11 +168,10 @@ func _sync_flight() -> void:
 	model.animation_enabled = Conditions.can_tick_flight()
 	model.set_motion(direction.length_squared() > 0.01 and Conditions.can_move_flight(), _boost)
 	model.set_damage(float(GameState.state["ship"]["hull"]["current"]) / float(GameState.state["ship"]["hull"]["max"]))
-	%Pause.text = Text.get_text("ui_flight_resume" if flight["paused"] else "ui_flight_pause")
+	%Pause.tooltip_text = Text.get_text("ui_flight_resume" if flight["paused"] else "ui_flight_pause")
 	%Paused.visible = flight["paused"]
 	%Paused.text = Text.get_text("ui_flight_paused")
-	var fuel: Dictionary = GameState.state["ship"]["fuel"]
-	%Resources.text = Text.get_text("ui_flight_resources", {"day": Clock.current_day(), "fuel": String.num(float(fuel["current"]), 2), "max": fuel["max"], "hull": String.num(float(GameState.state["ship"]["hull"]["current"]), 1), "money": GameState.state["money"]})
+	hud.refresh()
 	var status: Array[String] = []
 	if Conditions.star_is_dangerous(Motion.point(flight["pos"])):
 		status.append(Text.get_text("ui_space_star_damage"))
@@ -193,7 +182,6 @@ func _sync_flight() -> void:
 	if not flight["autopilot"].is_empty():
 		status.append(Text.get_text("ui_space_autopilot", {"name": DataLoader.get_record(str(flight["autopilot"]["destination"]))["name"]}))
 	_status.text = "\n".join(status)
-	%Load.disabled = not FileAccess.file_exists(GameState.SAVE_PATH)
 	%Pause.disabled = not Conditions.can_pause_flight()
 	%Map.disabled = not Conditions.can_open_flight_map()
 	%Ship.disabled = not Conditions.can_visit_ship()
@@ -201,7 +189,9 @@ func _sync_flight() -> void:
 		_interactions.sync()
 	if _indicators != null:
 		_indicators.reserved_rect = _journal.button_rect()
+		_indicators.reserved_rects = hud.reserved_rects()
 		_indicators.sync()
+	_sync_captions()
 
 
 func _resize_camera() -> void:
@@ -212,7 +202,19 @@ func _resize_camera() -> void:
 			_interactions.sync()
 		if _indicators != null:
 			_indicators.reserved_rect = _journal.button_rect()
+			_indicators.reserved_rects = hud.reserved_rects()
 			_indicators.sync()
+		%NPCView.sync_positions()
+		_sync_captions()
+
+
+func _sync_captions() -> void:
+	if _journal == null:
+		return
+	var reserved: Array[Rect2] = hud.reserved_rects()
+	reserved.append(_journal.button_rect())
+	%SystemSpace.sync_captions(camera, reserved)
+	%NPCView.sync_captions(camera, reserved)
 
 
 func _follow_camera() -> void:
@@ -356,17 +358,6 @@ func _on_combat_changed() -> void:
 		_leaving = true
 		_following_mouse = false
 		get_tree().call_deferred("change_scene_to_file", Router.current_path())
-
-
-func _save() -> void:
-	%Notice.text = Text.get_text("ui_map_saved" if GameState.save_game() == OK else "ui_map_save_error")
-	_sync_flight()
-
-
-func _load() -> void:
-	if GameState.load_game() != OK:
-		%Notice.text = Text.get_text("ui_map_save_error")
-	_sync_flight()
 
 
 func _open_battle(battle_id: String) -> void:

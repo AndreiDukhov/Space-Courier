@@ -138,7 +138,8 @@ func _fly_with_mouse(view: Control, destination: Array) -> void:
 			return
 		var space: Control = view.get_node("%SpaceContainer")
 		var point: Vector2 = view.camera.unproject_position(Motion.world_position(destination, 0.3))
-		point = point.clamp(Vector2(64, 64), space.size - Vector2(64, 64))
+		var centre: Vector2 = space.size * 0.5
+		point = centre + (point - centre).limit_length(minf(space.size.x, space.size.y) * 0.3)
 		await _click_at(space.global_position + point)
 		EffectApplier.advance_flight(1.0)
 		await _frames()

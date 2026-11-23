@@ -8,6 +8,7 @@ const Text = preload("res://scripts/ui_text.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
 const Product = preload("res://scripts/module_product.gd")
+const ConsoleTheme = preload("res://scripts/console_theme.gd")
 
 var shop_id: String = "hub_module_parts"
 var title: String = ""
@@ -21,6 +22,7 @@ var _refresh_queued: bool = false
 
 
 func _ready() -> void:
+	theme = ConsoleTheme.make()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	custom_minimum_size.y = 350
 	size_flags_vertical = Control.SIZE_EXPAND_FILL

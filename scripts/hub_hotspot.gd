@@ -4,11 +4,12 @@ signal activated
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const HotspotButton = preload("res://scripts/hotspot_button.gd")
 
 var background: TextureRect
 var layout_id: String = "hub_kitchen_hotspot"
 var text_id: String = "ui_hub_start_cooking"
-var _button: Button
+var _button: HotspotButton
 var _hint: Label
 var _zone: String
 
@@ -16,12 +17,12 @@ var _zone: String
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_zone = str(DataLoader.get_record(layout_id)["zones"].keys()[0])
-	_button = Button.new()
+	_button = HotspotButton.new()
 	_button.name = _zone.capitalize()
 	_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	for style: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 		_button.add_theme_stylebox_override(style, StyleBoxEmpty.new())
-	for style: String in ["hover", "pressed", "focus"]:
+	for style: String in ([] if DataLoader.get_record(layout_id)["zones"][_zone].has("drop_polygon") else ["hover", "pressed", "focus"]):
 		var glow: StyleBoxFlat = StyleBoxFlat.new()
 		glow.bg_color = Color(0.6, 0.85, 1.0, 0.16 if style == "pressed" else 0.09)
 		glow.border_color = Color(0.65, 0.9, 1.0, 0.32)
@@ -65,6 +66,10 @@ func _layout_button() -> void:
 	var rect: Array = DataLoader.get_record(layout_id)["zones"][_zone]["drop_rect"]
 	_button.position = offset + Vector2(float(rect[0]), float(rect[1])) * rendered
 	_button.size = Vector2(float(rect[2]), float(rect[3])) * rendered
+	var points: PackedVector2Array = PackedVector2Array()
+	for point: Array in DataLoader.get_record(layout_id)["zones"][_zone].get("drop_polygon", []):
+		points.append(offset + Vector2(float(point[0]), float(point[1])) * rendered - _button.position)
+	_button.polygon = points
 
 
 func _show_hint() -> void:

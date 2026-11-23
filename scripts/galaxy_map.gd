@@ -9,6 +9,7 @@ const State = preload("res://scripts/galaxy_state.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const Chart = preload("res://scripts/galaxy_chart.gd")
 const QuestButton = preload("res://scripts/quest_button.gd")
+const ConsoleTheme = preload("res://scripts/console_theme.gd")
 
 @onready var chart: Chart = %Chart
 var _selected_system: String = ""
@@ -18,6 +19,7 @@ var _journal: QuestButton
 
 
 func _ready() -> void:
+	theme = ConsoleTheme.make()
 	if GameState.state.is_empty():
 		GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
 	_selected_system = str(GameState.state["current_system"])

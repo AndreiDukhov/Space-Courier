@@ -139,7 +139,7 @@ func _check_space() -> void:
 	add_child(view)
 	view.set_physics_process(false)
 	await _frames()
-	_check(view.get_node("%Resources").text.replace(".0", "").contains("60/60"), "Flight resources display the expanded capacity")
+	_check(view.get_node("%FuelValue").text.replace(".0", "").contains("60/60"), "The fuel row displays the expanded capacity")
 	var unknown: String = ""
 	for object: Dictionary in DataLoader.get_record("sys_earth")["objects"]:
 		if object["type"] != "gate":

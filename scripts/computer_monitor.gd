@@ -2,16 +2,27 @@ extends Panel
 
 const Style = preload("res://scripts/hub_widgets.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const ConsoleTheme = preload("res://scripts/console_theme.gd")
+const Glass = preload("res://scripts/console_glass.gd")
 const SCREEN: Rect2 = Rect2(0.0546875, 0.075, 0.890625, 0.73)
 
 @onready var artwork: TextureRect = $Artwork
 @onready var content: Control = $TerminalContent
 @onready var close_button: Button = $CloseTerminal
+var _glass: Glass
 
 
 func _ready() -> void:
 	add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	content.theme = ConsoleTheme.make()
+	_glass = Glass.new()
+	_glass.name = "ScreenGlass"
+	_glass.z_index = 2
+	add_child(_glass)
 	close_button.tooltip_text = Text.get_text("ui_room_power")
+	close_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	close_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	close_button.expand_icon = true
 	close_button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	close_button.add_theme_stylebox_override("hover", Style.box(Color(0.15, 0.55, 0.5, 0.35), 20))
 	close_button.add_theme_stylebox_override("pressed", Style.box(Color(0.2, 0.75, 0.65, 0.5), 20))
@@ -30,5 +41,8 @@ func _layout_monitor() -> void:
 	artwork.size = rendered
 	content.position = origin + SCREEN.position * rendered
 	content.size = SCREEN.size * rendered
-	close_button.size = Vector2(40, 40)
-	close_button.position = origin + Vector2(0.5, 0.84875) * rendered - close_button.size * 0.5
+	_glass.position = content.position
+	_glass.size = content.size
+	close_button.add_theme_constant_override("icon_max_width", maxi(12, roundi(26.0 * scale)))
+	close_button.size = Vector2.ONE * 42.0 * scale
+	close_button.position = origin + Vector2(0.5, 679.0 / 800.0) * rendered - close_button.size * 0.5

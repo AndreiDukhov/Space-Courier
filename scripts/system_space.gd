@@ -3,6 +3,7 @@ extends Node3D
 const Art = preload("res://scripts/flight_art.gd")
 const Motion = preload("res://scripts/flight_motion.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const Caption = preload("res://scripts/flight_caption.gd")
 
 var _objects: Node3D = Node3D.new()
 
@@ -35,3 +36,9 @@ func rebuild(system_id: String, gate_names: Dictionary) -> void:
 			"gate": text = str(gate_names.get(object["to_route"], ""))
 			"event_marker": text = Text.get_text("ui_flight_marker")
 		_objects.add_child(Art.label(text, Motion.world_position(object["pos"])))
+
+
+func sync_captions(camera: Camera3D, reserved: Array[Rect2]) -> void:
+	for child: Node in _objects.get_children():
+		if child is Label3D:
+			child.visible = Caption.fits(child, camera, reserved)

@@ -937,6 +937,10 @@ static func can_finish_cooking() -> bool:
 	return true
 
 
+static func can_cancel_cooking() -> bool:
+	return domestic_available() and GameState.state.get("location") == "hub_kitchen" and not GameState.state.get("kitchen", {}).is_empty()
+
+
 static func can_use_food(index: int, heroine_id: String = "") -> bool:
 	var food: Array = GameState.state.get("inventory", [])
 	if not domestic_available() or not GameState.state.get("kitchen", {}).is_empty() or GameState.state.get("location") != "hub_kitchen" or index < 0 or index >= food.size() or DataLoader.get_record(str(food[index]["item"])).get("type") != "dish":

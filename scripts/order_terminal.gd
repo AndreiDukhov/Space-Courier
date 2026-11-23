@@ -18,12 +18,11 @@ func _ready() -> void:
 
 
 func refresh() -> void:
-	var location: Dictionary = DataLoader.get_record(str(GameState.state.get("location", "")))
-	title_label.text = str(location.get("name", ""))
-	resource_label.text = "money: %d    cargo: %s / %s" % [GameState.state.get("money", 0), String.num(OrderManager.active_mass(), 2), String.num(float(GameState.state.get("ship", {}).get("cargo", {}).get("max_mass", 0)), 2)]
+	title_label.text = Text.get_text("ui_console_orders")
+	resource_label.text = Text.get_text("ui_console_resources", {"money": GameState.state.get("money", 0), "mass": String.num(OrderManager.active_mass(), 2), "max": String.num(float(GameState.state.get("ship", {}).get("cargo", {}).get("max_mass", 0)), 2)})
 	var reputation_parts: PackedStringArray = []
 	for reputation_id: String in GameState.state.get("reputation", {}):
-		reputation_parts.append("%s: %d" % [reputation_id, GameState.state["reputation"][reputation_id]])
+		reputation_parts.append("%s · %d" % [_faction(reputation_id), GameState.state["reputation"][reputation_id]])
 	reputation_label.text = "    ".join(reputation_parts)
 	for child: Node in order_grid.get_children():
 		order_grid.remove_child(child)
@@ -51,14 +50,15 @@ func _order_card(order: Dictionary) -> PanelContainer:
 	var header: HBoxContainer = HBoxContainer.new()
 	column.add_child(header)
 	var source: Label = Label.new()
-	source.text = "%s / %s" % [order["source"], order_id]
+	source.text = _faction(str(order["source"]))
 	source.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	source.add_theme_font_size_override("font_size", 13)
 	source.add_theme_color_override("font_color", Widgets.identity_color(str(order["source"])).lightened(0.4))
 	header.add_child(source)
 	var status_label: Label = Label.new()
 	status_label.name = "Status"
-	status_label.text = OrderManager.status(order_id)
+	var status: String = OrderManager.status(order_id)
+	status_label.text = Text.get_text("ui_console_order_" + ("available" if status.is_empty() else status))
 	status_label.add_theme_font_size_override("font_size", 13)
 	header.add_child(status_label)
 	var title: Label = Label.new()
@@ -109,6 +109,10 @@ func _action_button(button_name: String, symbol: String, order_id: String, disab
 	button.tooltip_text = Text.get_text(hint_id)
 	button.pressed.connect(callback.bind(order_id))
 	return button
+
+
+func _faction(id: String) -> String:
+	return Text.get_text("ui_console_faction_private") if id == "private" else Text.get_text("ui_parts_faction_" + ("mafia" if id == "crime" else id))
 
 
 func _on_accept(order_id: String) -> void:

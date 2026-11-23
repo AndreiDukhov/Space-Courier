@@ -254,13 +254,13 @@ func _check_view() -> void:
 	_deliver_at_destination("ord_private_01")
 	_check(GameState.state["money"] == 1600 and GameState.state["reputation"]["private"] == 1, "The settlement fixture applies rewards to test terminal refresh")
 	_check(not _button(terminal, "ord_private_02", "Accept").disabled and _button(terminal, "ord_private_01", "Accept").disabled, "The terminal opens new offers and closes resolved actions")
-	_check("1600" in terminal.get_node("%Resources").text and "private: 1" in terminal.get_node("%Reputation").text, "Resource and reputation readouts refresh after delivery")
+	_check("1600" in terminal.get_node("%Resources").text and str(DataLoader.get_record("ui_console_faction_private")["text"]) + " · 1" in terminal.get_node("%Reputation").text, "Resource and reputation readouts refresh after delivery")
 	await get_tree().process_frame
 	_check(not terminal.get_node("%Resources").get_global_rect().intersects(view.get_node("%CloseTerminal").get_global_rect()), "The power button does not overlap resource values")
 	await _capture(view, "completed")
 	_button(terminal, "ord_state_01", "Accept").pressed.emit()
 	_button(terminal, "ord_state_01", "Fail").pressed.emit()
-	_check(OrderManager.status("ord_state_01") == "failed" and "state: -4" in terminal.get_node("%Reputation").text, "The fail button applies state reputation penalties")
+	_check(OrderManager.status("ord_state_01") == "failed" and str(DataLoader.get_record("ui_parts_faction_state")["text"]) + " · -4" in terminal.get_node("%Reputation").text, "The fail button applies state reputation penalties")
 	_button(terminal, "ord_crime_01", "Accept").pressed.emit()
 	view.get_node("%CloseTerminal").pressed.emit()
 	_check(not view.get_node("%Terminal").visible and OrderManager.status("ord_crime_01") == "active" and OrderManager.active_mass() == 2, "Closing the PC preserves its active orders")
@@ -271,7 +271,7 @@ func _check_view() -> void:
 	for _turn_index: int in range(12):
 		view.get_node("%Wait").pressed.emit()
 	_check(view.get_node("%Terminal").visible and OrderManager.status("ord_crime_01") == "failed" and GameState.state["flags"].get("mafia_hunt", false), "A deadline can expire while the PC remains open")
-	_check("mafia: -4" in terminal.get_node("%Reputation").text and OrderManager.active_mass() == 0, "Expiration refreshes reputation and cargo controls")
+	_check(str(DataLoader.get_record("ui_parts_faction_mafia")["text"]) + " · -4" in terminal.get_node("%Reputation").text and OrderManager.active_mass() == 0, "Expiration refreshes reputation and cargo controls")
 	await get_tree().process_frame
 	await _capture(view, "expired")
 	view.get_node("%Locations/hub_kitchen/Travel").pressed.emit()

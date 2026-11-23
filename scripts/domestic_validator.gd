@@ -20,7 +20,7 @@ static func validate_kitchen_layout(record: Dictionary) -> Array[String]:
 		if not zones[zone_id] is Dictionary:
 			errors.append("Kitchen zone must be an object")
 			continue
-		errors.append_array(validate_drop_rect(zones[zone_id].get("drop_rect")))
+		errors.append_array(validate_zone(zones[zone_id]))
 	return errors
 
 
@@ -29,9 +29,33 @@ static func validate_hub_hotspot(record: Dictionary) -> Array[String]:
 	if not record.get("location") is String or not zones is Dictionary or zones.size() != 1:
 		return ["Hub hotspot requires a location id and one zone"]
 	var zone: String = str(zones.keys()[0])
-	if zone not in ["cook", "computer"] or not zones[zone] is Dictionary:
-		return ["Hub hotspot requires a cook or computer zone"]
-	return validate_drop_rect(zones[zone].get("drop_rect"))
+	if zone not in ["cook", "computer", "ship"] or not zones[zone] is Dictionary:
+		return ["Hub hotspot requires a cook, computer or ship zone"]
+	return validate_zone(zones[zone])
+
+
+static func validate_zone(zone: Dictionary) -> Array[String]:
+	var errors: Array[String] = validate_drop_rect(zone.get("drop_rect"))
+	if not errors.is_empty() or not zone.has("drop_polygon"):
+		return errors
+	var polygon: Variant = zone["drop_polygon"]
+	if not polygon is Array or polygon.size() < 3 or polygon.size() > 64:
+		return ["Hotspot drop_polygon requires 3 to 64 normalized points"]
+	var rect: Array = zone["drop_rect"]
+	var bounds: Rect2 = Rect2(float(rect[0]), float(rect[1]), float(rect[2]), float(rect[3])).grow(0.00001)
+	var points: PackedVector2Array = PackedVector2Array()
+	for point: Variant in polygon:
+		if not point is Array or point.size() != 2 or not Numbers.finite_number(point[0]) or not Numbers.finite_number(point[1]):
+			return ["Hotspot polygon points require two finite numbers"]
+		var value: Vector2 = Vector2(float(point[0]), float(point[1]))
+		if not bounds.has_point(value) or value.x < 0 or value.y < 0 or value.x > 1 or value.y > 1:
+			return ["Hotspot polygon must stay within its drop_rect and background"]
+		if value in points:
+			return ["Hotspot polygon points must be distinct"]
+		points.append(value)
+	if Geometry2D.triangulate_polygon(points).is_empty():
+		return ["Hotspot polygon must enclose a valid area"]
+	return []
 
 
 static func validate_drop_rect(rect: Variant) -> Array[String]:

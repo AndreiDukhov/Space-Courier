@@ -1,0 +1,9 @@
+[
+  {"id": "ui_kitchen_dishes", "text": "Готовые блюда"},
+  {"id": "ui_kitchen_dishes_empty", "text": "Здесь появятся приготовленные блюда."},
+  {"id": "ui_kitchen_dish_detail", "text": "{count} шт. · качество {quality}"},
+  {"id": "ui_kitchen_abort_title", "text": "Прекратить готовку?"},
+  {"id": "ui_kitchen_abort_warning", "text": "Используемые ингредиенты будут потеряны."},
+  {"id": "ui_kitchen_abort_confirm", "text": "Прекратить готовку"},
+  {"id": "ui_kitchen_abort_continue", "text": "Продолжить готовку"}
+]

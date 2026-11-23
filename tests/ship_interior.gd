@@ -143,7 +143,7 @@ func _check_scene_flow() -> void:
 	_check(flight != null and GameState.serialize() == exterior, "The return button restores the actual flight scene and manual pause")
 	if flight == null:
 		return
-	_check(flight.get_node("%Ship").text == Text.get_text("ui_flight_visit_ship") and not flight.get_node("%Ship").disabled, "The returned map exposes the ship button again")
+	_check(flight.get_node("%Ship").tooltip_text == Text.get_text("ui_flight_visit_ship_hint") and not flight.get_node("%Ship").disabled, "The returned map exposes the ship icon again")
 	_check(GameState.load_game("user://bridge-view.json") == OK, "A bridge save can be loaded from flight")
 	hub = await _wait_scene("Hub")
 	_check(hub != null and GameState.serialize() == interior, "Loading returns to the bridge with the exact frozen state")
