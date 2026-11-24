@@ -20,6 +20,7 @@ const RelationshipsPanel = preload("res://scripts/relationships_panel.gd")
 const ModuleMarket = preload("res://scripts/module_market.gd")
 const Doors = preload("res://scripts/hub_doors.gd")
 const BedroomFeedback = preload("res://scripts/bedroom_feedback.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 
 @onready var background: TextureRect = %Background
 @onready var backdrop: ColorRect = %Backdrop
@@ -52,6 +53,7 @@ func _ready() -> void:
 		return
 	if GameState.state.is_empty():
 		GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
+	theme = HubTheme.make()
 	ScheduleManager.placements_changed.connect(refresh)
 	EffectApplier.location_changed.connect(_on_location_changed)
 	GameState.restored.connect(_on_restored)
@@ -66,13 +68,13 @@ func _ready() -> void:
 	%Inventory.tooltip_text = Text.get_text("ui_home_inventory")
 	%Relationships.tooltip_text = Text.get_text("ui_room_relationships")
 	for button: Button in [%Inventory, %Relationships]:
-		button.add_theme_stylebox_override("normal", Widgets.box(Color(0.025, 0.045, 0.065, 0.9), 12, Color(0.25, 0.38, 0.43), 1))
-		button.add_theme_stylebox_override("hover", Widgets.box(Color(0.08, 0.17, 0.21, 0.95), 12, Color(0.45, 0.85, 0.8), 2))
-		button.add_theme_stylebox_override("pressed", Widgets.box(Color(0.04, 0.1, 0.14), 12))
+		button.add_theme_stylebox_override("normal", HubTheme.surface(12))
+		button.add_theme_stylebox_override("hover", Widgets.box(Color("ffe5b6"), 12, HubTheme.ACCENT, 2))
+		button.add_theme_stylebox_override("pressed", Widgets.box(Color("e5c58f"), 12))
 	%Navigation.add_theme_stylebox_override("panel", Widgets.box(Color.TRANSPARENT, 18))
-	%LocationPanel.add_theme_stylebox_override("panel", Widgets.box(Color(0.025, 0.045, 0.07, 0.9), 18))
-	get_node("ClockPanel").add_theme_stylebox_override("panel", Widgets.box(Color(0.025, 0.045, 0.07, 0.9), 18))
-	conversation.add_theme_stylebox_override("panel", Widgets.box(Color(0.025, 0.045, 0.07, 0.98), 18))
+	%LocationPanel.add_theme_stylebox_override("panel", HubTheme.surface(18))
+	get_node("ClockPanel").add_theme_stylebox_override("panel", HubTheme.surface(18))
+	conversation.add_theme_stylebox_override("panel", HubTheme.surface(18, 0.99))
 	terminal.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_domestic_actions = HBoxContainer.new()
 	_domestic_actions.name = "DomesticActions"
@@ -106,7 +108,7 @@ func refresh() -> void:
 	var location: Dictionary = DataLoader.get_record(location_id)
 	background.texture = _art.background_for(location, Clock.current_slot())
 	background.visible = background.texture != null
-	backdrop.color = Widgets.identity_color(location_id).darkened(0.7)
+	backdrop.color = Color("bda27c")
 	var lighting_slot: String = "day" if location.get("area") == "ship" else Clock.current_slot()
 	background.material = _lighting.material_for(location_id, lighting_slot)
 	backdrop.material = background.material
@@ -460,7 +462,7 @@ func _location_card(location: Dictionary) -> VBoxContainer:
 	label.add_theme_font_size_override("font_size", 13)
 	label.add_theme_color_override("font_outline_color", Color.BLACK)
 	label.add_theme_constant_override("outline_size", 4)
-	label.add_theme_color_override("font_color", Color(0.5, 1.0, 0.9) if selected else Color(0.9, 0.93, 0.96))
+	label.add_theme_color_override("font_color", HubTheme.GLOW if selected else Color("fff2da"))
 	label.custom_minimum_size.x = Widgets.CARD_SIZE
 	label.custom_minimum_size.y = 34.0
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -476,9 +478,9 @@ func _person_button(heroine_id: String) -> Button:
 	button.tooltip_text = str(blueprint.get("name", heroine_id))
 	button.disabled = not Conditions.can_open_conversation(heroine_id)
 	button.modulate.a = 0.65 if button.disabled else 1.0
-	button.add_theme_stylebox_override("normal", Widgets.box(Color(0.09, 0.14, 0.18), 12))
-	button.add_theme_stylebox_override("hover", Widgets.box(Color(0.12, 0.24, 0.28), 12))
-	button.add_theme_stylebox_override("disabled", Widgets.box(Color(0.06, 0.09, 0.12), 12))
+	button.add_theme_stylebox_override("normal", Widgets.box(HubTheme.CARD, 12, HubTheme.BORDER, 1))
+	button.add_theme_stylebox_override("hover", Widgets.box(Color("ffe5b6"), 12, HubTheme.ACCENT, 1))
+	button.add_theme_stylebox_override("disabled", Widgets.box(Color("e8decd"), 12))
 	button.pressed.connect(open_dialogue.bind(heroine_id))
 	var margin: MarginContainer = MarginContainer.new()
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -7,6 +7,7 @@ const MealConversation = preload("res://scripts/meal_conversation.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const Portrait = preload("res://scripts/heroine_portrait.gd")
 const Scenes = preload("res://scripts/scene_queue.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 
 @onready var scene_list: VBoxContainer = %SceneList
 @onready var stat_list: VBoxContainer = %Stats
@@ -103,6 +104,7 @@ func select_bedroom_scene(scene_id: String) -> bool:
 
 func configure_for_hub(heroine_id: String) -> void:
 	_speaker_filter = heroine_id
+	get_node("Background").color = HubTheme.PAPER
 	get_node("Margin/Columns/Sidebar").hide()
 	get_node("Margin/Columns/Divider").hide()
 	var margin: MarginContainer = get_node("Margin")
@@ -150,7 +152,7 @@ func _render_scene(scene: Dictionary) -> void:
 		var speaker: Dictionary = DataLoader.get_record(speaker_id)
 		var speaker_label: Label = Label.new()
 		speaker_label.text = str(speaker.get("name", speaker_id))
-		speaker_label.add_theme_color_override("font_color", Color(0.5, 0.8, 0.9))
+		speaker_label.add_theme_color_override("font_color", HubTheme.ACCENT if not _speaker_filter.is_empty() else Color(0.5, 0.8, 0.9))
 		line_list.add_child(speaker_label)
 		var text_label: Label = Label.new()
 		text_label.text = str(line.get("text", ""))

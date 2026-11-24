@@ -7,6 +7,7 @@ const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 const EXIT_TOP: float = -82.0
 
 var background: TextureRect
@@ -24,9 +25,9 @@ func _ready() -> void:
 		button.tooltip_text = str(DataLoader.get_record(str(door["location"]))["name"])
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-		button.add_theme_stylebox_override("hover", Style.box(Color(0.5, 0.8, 1.0, 0.1), 8, Color(0.7, 0.9, 1.0, 0.3), 1))
-		button.add_theme_stylebox_override("pressed", Style.box(Color(0.5, 0.8, 1.0, 0.18), 8))
-		button.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 8, Color(0.7, 0.9, 1.0, 0.3), 1))
+		button.add_theme_stylebox_override("hover", Style.box(Color(1.0, 0.81, 0.48, 0.1), 8, Color(1.0, 0.9, 0.7, 0.4), 1))
+		button.add_theme_stylebox_override("pressed", Style.box(Color(1.0, 0.81, 0.48, 0.18), 8))
+		button.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 8, Color(1.0, 0.9, 0.7, 0.4), 1))
 		button.pressed.connect(open_menu.bind(str(door["id"])))
 		add_child(button)
 		_buttons[door["id"]] = button
@@ -36,9 +37,13 @@ func _ready() -> void:
 	_exit.tooltip_text = Text.get_text("ui_bedroom_exit")
 	_exit.add_theme_font_size_override("font_size", 20)
 	_exit.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-	_exit.add_theme_stylebox_override("hover", Style.box(Color(0.5, 0.8, 1.0, 0.1), 8, Color(0.7, 0.9, 1.0, 0.3), 1))
-	_exit.add_theme_stylebox_override("pressed", Style.box(Color(0.5, 0.8, 1.0, 0.18), 8))
-	_exit.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 8, Color(0.7, 0.9, 1.0, 0.3), 1))
+	_exit.add_theme_stylebox_override("hover", Style.box(Color(1.0, 0.81, 0.48, 0.1), 8, Color(1.0, 0.9, 0.7, 0.4), 1))
+	_exit.add_theme_stylebox_override("pressed", Style.box(Color(1.0, 0.81, 0.48, 0.18), 8))
+	_exit.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 8, Color(1.0, 0.9, 0.7, 0.4), 1))
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		_exit.add_theme_color_override(state, Color("fff2da"))
+	_exit.add_theme_color_override("font_outline_color", HubTheme.INK)
+	_exit.add_theme_constant_override("outline_size", 4)
 	add_child(_exit)
 	_exit.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	_exit.offset_left = 370
@@ -54,7 +59,7 @@ func _ready() -> void:
 	_menu.name = "DoorMenu"
 	_menu.custom_minimum_size.x = 240
 	_menu.size.x = 240
-	_menu.add_theme_stylebox_override("panel", Style.box(Color(0.025, 0.045, 0.07, 0.98), 12, Color(0.4, 0.7, 0.7), 2))
+	_menu.add_theme_stylebox_override("panel", HubTheme.surface(12, 0.99))
 	add_child(_menu)
 	_menu.minimum_size_changed.connect(_position_menu.call_deferred)
 	_menu.hide()

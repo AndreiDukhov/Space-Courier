@@ -6,19 +6,21 @@ const Text = preload("res://scripts/ui_text.gd")
 const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
 const Portrait = preload("res://scripts/heroine_portrait.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 const STAT_COLORS: Dictionary = {"attitude": Color(0.86, 0.4, 0.53), "mood": Color(0.28, 0.75, 0.68), "arousal": Color(0.68, 0.43, 0.9)}
 
 var _cards: GridContainer
 
 
 func _ready() -> void:
+	theme = HubTheme.make()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.01, 0.02, 0.035, 0.84)
+	dim.color = Color(0.27, 0.15, 0.07, 0.4)
 	add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel: PanelContainer = PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", Style.box(Color(0.035, 0.055, 0.08), 20, Color(0.3, 0.48, 0.55), 2))
+	panel.add_theme_stylebox_override("panel", HubTheme.surface(20, 0.99))
 	add_child(panel)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel.offset_left = 100
@@ -78,6 +80,6 @@ func refresh() -> void:
 			bar.show_percentage = false
 			bar.custom_minimum_size = Vector2(120, 16)
 			bar.tooltip_text = Text.get_text("ui_room_stat_value", {"value": String.num(bar.value, 1)})
-			bar.add_theme_stylebox_override("background", Style.box(Color(0.08, 0.13, 0.18), 6))
+			bar.add_theme_stylebox_override("background", Style.box(Color("e0ccad"), 6))
 			bar.add_theme_stylebox_override("fill", Style.box(STAT_COLORS[stat], 6))
 			values.add_child(bar)

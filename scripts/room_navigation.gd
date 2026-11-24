@@ -2,6 +2,7 @@ extends HBoxContainer
 
 const Widgets = preload("res://scripts/hub_widgets.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 const VISIBLE_ROOMS: int = 6
 const SCROLL_SECONDS: float = 0.28
 
@@ -24,10 +25,10 @@ func _ready() -> void:
 	next.pressed.connect(_scroll_rooms.bind(1))
 	for button: Button in [previous, next]:
 		button.add_theme_stylebox_override("normal", Widgets.box(Color.TRANSPARENT, 12))
-		button.add_theme_stylebox_override("hover", Widgets.box(Color(0.0, 0.0, 0.0, 0.35), 12))
-		button.add_theme_stylebox_override("pressed", Widgets.box(Color(0.0, 0.0, 0.0, 0.55), 12))
+		button.add_theme_stylebox_override("hover", Widgets.box(Color(1.0, 0.83, 0.55, 0.23), 12))
+		button.add_theme_stylebox_override("pressed", Widgets.box(Color(1.0, 0.78, 0.4, 0.35), 12))
 		button.add_theme_stylebox_override("disabled", Widgets.box(Color.TRANSPARENT, 12))
-		button.add_theme_stylebox_override("focus", Widgets.box(Color.TRANSPARENT, 12, Color(0.4, 0.8, 0.8), 2))
+		button.add_theme_stylebox_override("focus", Widgets.box(Color.TRANSPARENT, 12, HubTheme.GLOW, 2))
 		button.add_theme_color_override("icon_disabled_color", Color(1, 1, 1, 0.45))
 	_update_arrows()
 

@@ -38,6 +38,7 @@ static func make() -> Theme:
 		_theme.set_color("font_disabled_color", type, Color("65767d"))
 	_theme.set_color("font_color", "Label", Color("d9e4e5"))
 	_theme.set_stylebox("panel", "PanelContainer", Style.box(Color("0d1b25"), 8, Color("2b424c"), 1))
+	_theme.set_stylebox("card", "PanelContainer", Style.box(Color(0.065, 0.1, 0.14), 12, Color(0.16, 0.28, 0.34), 1))
 	_theme.set_stylebox("background", "ProgressBar", Style.box(Color("091117"), 4))
 	_theme.set_stylebox("fill", "ProgressBar", Style.box(Color("478b88"), 4))
 	var dialog: StyleBoxFlat = Style.box(Color("11222c"), 8, Color("48636d"), 1)

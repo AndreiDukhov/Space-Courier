@@ -36,7 +36,8 @@ static func card(parent: Node, node_name: String, title: String) -> VBoxContaine
 	var panel: PanelContainer = PanelContainer.new()
 	panel.name = node_name
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", Widgets.box(Color(0.065, 0.1, 0.14), 12, Color(0.16, 0.28, 0.34), 1))
+	var surface: StyleBox = parent.get_theme_stylebox("card", "PanelContainer") if parent.has_theme_stylebox("card", "PanelContainer") else Widgets.box(Color(0.065, 0.1, 0.14), 12, Color(0.16, 0.28, 0.34), 1)
+	panel.add_theme_stylebox_override("panel", surface)
 	parent.add_child(panel)
 	var margin: MarginContainer = MarginContainer.new()
 	for edge: String in ["left", "right", "top", "bottom"]:

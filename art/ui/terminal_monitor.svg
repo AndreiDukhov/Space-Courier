@@ -30,8 +30,8 @@
   <path d="M434 787H847V791H434Z" fill="#08141c"/>
   <g fill="#0c161d" stroke="#7e9097" stroke-width="1.5"><circle cx="48" cy="47" r="5"/><circle cx="1232" cy="47" r="5"/><circle cx="50" cy="674" r="5"/><circle cx="1230" cy="674" r="5"/></g>
   <g stroke="#899aa0" stroke-width="1"><path d="M45 47H51M1230 45L1234 49M47 674H53M1227 674H1233"/></g>
-  <circle cx="640" cy="679" r="20" fill="#0b161c" stroke="#617c85" stroke-width="1.5"/>
-  <circle cx="640" cy="679" r="17" fill="#10272d" stroke="#30545d" stroke-width="1"/>
+  <circle cx="640" cy="679" r="16" fill="#0b161c" stroke="#617c85" stroke-width="1.5"/>
+  <circle cx="640" cy="679" r="13" fill="#10272d" stroke="#30545d" stroke-width="1"/>
   <circle cx="681" cy="679" r="2.5" fill="#71d6b5"/>
   <path d="M598 36H682" stroke="#c3d0d3" stroke-opacity=".2" stroke-width="1"/>
 </svg>

@@ -20,6 +20,10 @@
     "text": "Кухня"
   },
   {
+    "id": "ui_kitchen_leave",
+    "text": "Покинуть кухню"
+  },
+  {
     "id": "ui_home_shop",
     "text": "Магазин"
   },

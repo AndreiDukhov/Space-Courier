@@ -9,7 +9,7 @@ const Widgets = preload("res://scripts/domestic_widgets.gd")
 const Kitchen = preload("res://scripts/kitchen.gd")
 const Router = preload("res://scripts/scene_router.gd")
 const ExitDialog = preload("res://scripts/cooking_exit_dialog.gd")
-const ConsoleTheme = preload("res://scripts/console_theme.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 
 var tab: String = "inventory"
 var _content: VBoxContainer
@@ -20,16 +20,19 @@ var _scroll: ScrollContainer
 var _title: Label
 var _tabs: HBoxContainer
 var _exit_dialog: ExitDialog
+var _save_button: Button
+var _load_button: Button
+var _close_button: Button
 
 
 func _ready() -> void:
-	theme = ConsoleTheme.make()
+	theme = HubTheme.make()
 	if GameState.state.is_empty():
 		GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
 	if not GameState.state.get("kitchen", {}).is_empty():
 		tab = "kitchen"
 	var background: ColorRect = ColorRect.new()
-	background.color = Color(0.025, 0.045, 0.065, 0.99)
+	background.color = Color(HubTheme.PAPER, 0.99)
 	add_child(background)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var margin: MarginContainer = MarginContainer.new()
@@ -46,9 +49,11 @@ func _ready() -> void:
 	_title = title
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
-	header.add_child(Widgets.button("Save", "ui_home_save", _save))
-	header.add_child(Widgets.button("Load", "ui_home_load", _load))
-	header.add_child(Widgets.button("Close", "ui_room_close" if Conditions.is_inside_ship() else "ui_home_close", _close))
+	_save_button = Widgets.button("Save", "ui_home_save", _save)
+	_load_button = Widgets.button("Load", "ui_home_load", _load)
+	_close_button = Widgets.button("Close", "ui_home_close", _close)
+	for button: Button in [_save_button, _load_button, _close_button]:
+		header.add_child(button)
 	_resources = Widgets.label("")
 	column.add_child(_resources)
 	var tabs: HBoxContainer = HBoxContainer.new()
@@ -58,7 +63,7 @@ func _ready() -> void:
 		var enabled: bool = tab_id == "inventory" or GameState.state.get("location") == "hub_" + ("shop" if tab_id == "shop" else "kitchen")
 		tabs.add_child(Widgets.button(tab_id, "ui_home_" + tab_id, _select_tab.bind(tab_id), enabled))
 	_status = Widgets.label("")
-	_status.add_theme_color_override("font_color", Color(0.6, 0.95, 0.8))
+	_status.add_theme_color_override("font_color", Color("526b3c"))
 	column.add_child(_status)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	_scroll = scroll
@@ -73,7 +78,7 @@ func _ready() -> void:
 	scroll.add_child(_content)
 	var shade: ColorRect = ColorRect.new()
 	shade.name = "ExitShade"
-	shade.color = Color(0.0, 0.01, 0.02, 0.55)
+	shade.color = Color(0.27, 0.15, 0.07, 0.3)
 	shade.hide()
 	add_child(shade)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -91,6 +96,11 @@ func refresh() -> void:
 	_refresh_queued = false
 	if not is_instance_valid(_content):
 		return
+	_save_button.visible = tab != "kitchen"
+	_load_button.visible = tab != "kitchen"
+	_close_button.text = Text.get_text("ui_kitchen_leave" if tab == "kitchen" else ("ui_room_close" if Conditions.is_inside_ship() else "ui_home_close"))
+	_close_button.custom_minimum_size.y = 30 if tab == "kitchen" else 38
+	_close_button.add_theme_font_size_override("font_size", 14 if tab == "kitchen" else 17)
 	_resources.text = Text.get_text("ui_home_resources", {"money": GameState.state["money"], "mass": String.num(OrderManager.active_mass(), 2), "capacity": GameState.state["ship"]["cargo"]["max_mass"], "day": Clock.current_day(), "slot": Clock.current_slot()})
 	_resources.visible = tab != "kitchen"
 	_tabs.visible = tab != "kitchen"

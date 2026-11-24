@@ -24,9 +24,9 @@ func _ready() -> void:
 	close_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	close_button.expand_icon = true
 	close_button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-	close_button.add_theme_stylebox_override("hover", Style.box(Color(0.15, 0.55, 0.5, 0.35), 20))
-	close_button.add_theme_stylebox_override("pressed", Style.box(Color(0.2, 0.75, 0.65, 0.5), 20))
-	close_button.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 20, Color(0.5, 1.0, 0.9), 1))
+	close_button.add_theme_stylebox_override("hover", Style.box(Color(0.15, 0.55, 0.5, 0.35), 17))
+	close_button.add_theme_stylebox_override("pressed", Style.box(Color(0.2, 0.75, 0.65, 0.5), 17))
+	close_button.add_theme_stylebox_override("focus", Style.box(Color.TRANSPARENT, 17, Color(0.5, 1.0, 0.9), 1))
 	resized.connect(_layout_monitor)
 	_layout_monitor.call_deferred()
 
@@ -43,6 +43,6 @@ func _layout_monitor() -> void:
 	content.size = SCREEN.size * rendered
 	_glass.position = content.position
 	_glass.size = content.size
-	close_button.add_theme_constant_override("icon_max_width", maxi(12, roundi(26.0 * scale)))
-	close_button.size = Vector2.ONE * 42.0 * scale
+	close_button.add_theme_constant_override("icon_max_width", maxi(10, roundi(20.0 * scale)))
+	close_button.size = Vector2.ONE * 34.0 * scale
 	close_button.position = origin + Vector2(0.5, 679.0 / 800.0) * rendered - close_button.size * 0.5

@@ -24,11 +24,11 @@ func _ready() -> void:
 		_button.add_theme_stylebox_override(style, StyleBoxEmpty.new())
 	for style: String in ([] if DataLoader.get_record(layout_id)["zones"][_zone].has("drop_polygon") else ["hover", "pressed", "focus"]):
 		var glow: StyleBoxFlat = StyleBoxFlat.new()
-		glow.bg_color = Color(0.6, 0.85, 1.0, 0.16 if style == "pressed" else 0.09)
-		glow.border_color = Color(0.65, 0.9, 1.0, 0.32)
+		glow.bg_color = Color(1.0, 0.81, 0.48, 0.18 if style == "pressed" else 0.11)
+		glow.border_color = Color(1.0, 0.87, 0.62, 0.4)
 		glow.set_border_width_all(1)
 		glow.set_corner_radius_all(8)
-		glow.shadow_color = Color(0.4, 0.75, 1.0, 0.08)
+		glow.shadow_color = Color(1.0, 0.74, 0.35, 0.1)
 		glow.shadow_size = 8
 		_button.add_theme_stylebox_override(style, glow)
 	add_child(_button)
@@ -38,11 +38,12 @@ func _ready() -> void:
 	_button.gui_input.connect(_on_button_input)
 	_hint = Label.new()
 	_hint.name = "Hint"
+	_hint.z_index = 1
 	_hint.text = Text.get_text(text_id)
 	_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hint.add_theme_font_size_override("font_size", 16)
-	_hint.add_theme_color_override("font_color", Color.WHITE)
-	_hint.add_theme_color_override("font_outline_color", Color.BLACK)
+	_hint.add_theme_color_override("font_color", Color("fff2da"))
+	_hint.add_theme_color_override("font_outline_color", Color("493528"))
 	_hint.add_theme_constant_override("outline_size", 6)
 	_hint.hide()
 	add_child(_hint)
@@ -78,7 +79,11 @@ func _show_hint() -> void:
 
 
 func _position_hint(point: Vector2) -> void:
-	_hint.position = (point + Vector2(16, 18)).clamp(Vector2.ZERO, (size - _hint.get_combined_minimum_size()).max(Vector2.ZERO))
+	var extent: Vector2 = _hint.get_combined_minimum_size()
+	var origin: Vector2 = point + Vector2(16, 18)
+	if origin.x + extent.x > size.x - 92:
+		origin.x = point.x - extent.x - 16
+	_hint.position = origin.clamp(Vector2.ZERO, (size - extent).max(Vector2.ZERO))
 
 
 func _on_button_input(event: InputEvent) -> void:

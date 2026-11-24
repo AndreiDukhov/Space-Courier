@@ -3,8 +3,8 @@ extends Control
 signal closed
 
 const Widgets = preload("res://scripts/domestic_widgets.gd")
-const Style = preload("res://scripts/hub_widgets.gd")
 const Text = preload("res://scripts/ui_text.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 
 var scene_id: String = ""
 var heading: String = ""
@@ -12,9 +12,10 @@ var message_id: String = ""
 
 
 func _ready() -> void:
+	theme = HubTheme.make()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.01, 0.02, 0.04, 0.7)
+	dim.color = Color(0.27, 0.15, 0.07, 0.35)
 	add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var centre: CenterContainer = CenterContainer.new()
@@ -22,7 +23,7 @@ func _ready() -> void:
 	centre.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel: PanelContainer = PanelContainer.new()
 	panel.custom_minimum_size = Vector2(400, 200)
-	panel.add_theme_stylebox_override("panel", Style.box(Color(0.025, 0.045, 0.07), 14, Color(0.4, 0.7, 0.7), 2))
+	panel.add_theme_stylebox_override("panel", HubTheme.surface(14, 1.0))
 	centre.add_child(panel)
 	var margin: MarginContainer = MarginContainer.new()
 	for edge: String in ["left", "right", "top", "bottom"]:

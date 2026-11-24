@@ -6,6 +6,7 @@ const Text = preload("res://scripts/ui_text.gd")
 const State = preload("res://scripts/domestic_state.gd")
 const Inventory = preload("res://scripts/inventory.gd")
 const Token = preload("res://scripts/cooking_token.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 
 
 static func populate(parent: Control, kitchen: Dictionary) -> void:
@@ -38,7 +39,7 @@ static func _panel(parent: Control, dishes: bool) -> VBoxContainer:
 	panel.name = "DishesPanel" if dishes else "IngredientsPanel"
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.size_flags_stretch_ratio = 0.85 if dishes else 1.15
-	panel.add_theme_stylebox_override("panel", Style.box(Color(0.025, 0.045, 0.06), 10, Color(0.18, 0.30, 0.33), 1))
+	panel.add_theme_stylebox_override("panel", Style.box(HubTheme.CARD, 10, HubTheme.BORDER, 1))
 	parent.add_child(panel)
 	var margin: MarginContainer = MarginContainer.new()
 	for edge: String in ["left", "right", "top", "bottom"]:

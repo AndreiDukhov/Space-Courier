@@ -29,6 +29,9 @@ static func avatar(heroine_id: String, size: float = 24.0) -> PanelContainer:
 	initial.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	initial.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	initial.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	initial.add_theme_color_override("font_color", Color("fff8e8"))
+	initial.add_theme_color_override("font_outline_color", Color("493528"))
+	initial.add_theme_constant_override("outline_size", 2)
 	initial.add_theme_font_size_override("font_size", int(size * 0.55))
 	icon.add_child(initial)
 	return icon
