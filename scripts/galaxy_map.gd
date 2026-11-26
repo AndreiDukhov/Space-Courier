@@ -46,7 +46,7 @@ func _ready() -> void:
 	%Close.text = Text.get_text("ui_map_close")
 	%Boost.text = Text.get_text("ui_map_boost")
 	%Boost.visible = false
-	%Tow.text = Text.get_text("ui_map_tow", {"price": EffectApplier.TOW_FEE})
+	%Tow.text = Text.get_text("ui_map_tow", {"price": EffectApplier.FUEL_TOW_FEE})
 	%Save.text = Text.get_text("ui_map_save")
 	%Load.text = Text.get_text("ui_map_load")
 	refresh()

@@ -29,6 +29,8 @@ func load_data() -> bool:
 		load_errors.append("Missing workshop module shop")
 	if not record_sources.has("ui/hub_corridor_doors"):
 		load_errors.append("Missing bedroom door layout")
+	if not record_sources.has("ui/peek_layout"):
+		load_errors.append("Missing peeking overlay layout")
 	for sound_id: String in Audio.REQUIRED:
 		if not record_sources.has("audio/" + sound_id):
 			load_errors.append("Missing required audio id '" + sound_id + "'")

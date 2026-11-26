@@ -7,10 +7,12 @@ var kind: String = "turret"
 var title: String = ""
 var _icon: Icon
 var _label: Label
+var _pulse: Tween
+var _attention: bool = false
 
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(122, 118)
+	custom_minimum_size = Vector2(104, 100)
 	var column: VBoxContainer = VBoxContainer.new()
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(column)
@@ -22,7 +24,7 @@ func _ready() -> void:
 	_icon = Icon.new()
 	_icon.name = "Icon"
 	_icon.kind = kind
-	_icon.custom_minimum_size = Vector2(48, 48)
+	_icon.custom_minimum_size = Vector2(32, 32)
 	_icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_icon)
@@ -34,7 +36,7 @@ func _ready() -> void:
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_label.add_theme_font_size_override("font_size", 12)
+	_label.add_theme_font_size_override("font_size", 11)
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_label)
 	set_selected(false)
@@ -47,3 +49,16 @@ func set_selected(selected: bool) -> void:
 	if is_instance_valid(_label):
 		_label.modulate = Color(0.45, 0.5, 0.55) if disabled else Color.WHITE
 		_icon.modulate = _label.modulate
+
+
+func set_attention(enabled: bool) -> void:
+	if enabled == _attention:
+		return
+	_attention = enabled
+	if _pulse != null:
+		_pulse.kill()
+	modulate = Color.WHITE
+	if enabled:
+		_pulse = create_tween().set_loops()
+		_pulse.tween_property(self, "modulate", Color(1.0, 0.65, 0.25), 0.45)
+		_pulse.tween_property(self, "modulate", Color.WHITE, 0.45)

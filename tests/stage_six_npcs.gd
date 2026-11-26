@@ -91,7 +91,7 @@ func _check_simulation() -> void:
 	GameState.state["ship"]["fuel"]["current"] = 0.0
 	before = GameState.serialize()
 	EffectApplier.advance_flight(0.5)
-	_check(GameState.state["flight"]["pos"] == before["flight"]["pos"] and GameState.state["flight"]["npcs"]["npc_earth_courier"] != before["flight"]["npcs"]["npc_earth_courier"], "NPCs continue moving when the player has no fuel")
+	_check(GameState.serialize() == before, "Ships freeze while the empty-fuel decision is pending")
 	_check(GameState.state["ship"]["fuel"]["current"] == 0.0, "NPC movement never consumes the player's fuel")
 	_launch()
 	for _leg: int in range(30):

@@ -21,6 +21,8 @@ const ModuleMarket = preload("res://scripts/module_market.gd")
 const Doors = preload("res://scripts/hub_doors.gd")
 const BedroomFeedback = preload("res://scripts/bedroom_feedback.gd")
 const HubTheme = preload("res://scripts/hub_theme.gd")
+const PeekView = preload("res://scripts/peek_view.gd")
+const FuelDialog = preload("res://scripts/fuel_dialog.gd")
 
 @onready var background: TextureRect = %Background
 @onready var backdrop: ColorRect = %Backdrop
@@ -46,6 +48,8 @@ var _refit: Refit
 var _relationships: RelationshipsPanel
 var _doors: Doors
 var _bedroom_feedback: BedroomFeedback
+var _peek: PeekView
+var _tow_notice: FuelDialog
 
 
 func _ready() -> void:
@@ -60,6 +64,7 @@ func _ready() -> void:
 	EffectApplier.domestic_changed.connect(refresh)
 	EffectApplier.scenes_changed.connect(_show_pending_scene)
 	EffectApplier.bedroom_action_resolved.connect(_on_bedroom_action)
+	EffectApplier.peek_changed.connect(_sync_peek)
 	wait_button.pressed.connect(_on_wait_pressed)
 	%CloseDialogue.pressed.connect(_close_dialogue)
 	%CloseTerminal.pressed.connect(_close_terminal)
@@ -92,6 +97,7 @@ func _ready() -> void:
 	move_child(_doors, %Navigation.get_index())
 	_doors.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	refresh()
+	_sync_peek()
 	if not GameState.state.get("kitchen", {}).is_empty():
 		open_domestic("kitchen")
 	if Conditions.can_fly():
@@ -126,6 +132,12 @@ func refresh() -> void:
 	wait_button.disabled = not Conditions.can_wait()
 	if is_instance_valid(_domestic_actions):
 		_clear(_domestic_actions)
+		if Conditions.can_peek_shower():
+			var peek_button: Button = Button.new()
+			peek_button.name = "PeekShower"
+			peek_button.text = Text.get_text("ui_door_peek")
+			peek_button.pressed.connect(_peek_shower)
+			_domestic_actions.add_child(peek_button)
 		if Conditions.is_inside_ship():
 			var return_button: Button = Button.new()
 			return_button.name = "ReturnToFlight"
@@ -192,6 +204,15 @@ func open_dialogue(heroine_id: String) -> bool:
 
 
 func _show_pending_scene() -> void:
+	if is_inside_tree() and is_node_ready() and Conditions.has_tow_notice():
+		if _tow_notice == null:
+			_tow_notice = FuelDialog.new()
+			_tow_notice.arrived = true
+			_tow_notice.dismissed.connect(_close_tow_notice)
+			add_child(_tow_notice)
+		return
+	if _peek != null:
+		return
 	if not is_inside_tree() or not is_node_ready() or conversation.visible or terminal.visible or _domestic != null or _galaxy_map != null or _refit != null or _relationships != null or _bedroom_feedback != null:
 		return
 	var scene_id: String = Conditions.next_pending_scene()
@@ -204,6 +225,9 @@ func _on_bedroom_action(door_id: String, action: String, scene_id: String) -> vo
 		return
 	_close_bedroom_feedback()
 	var door: Dictionary = Conditions.bedroom_door(door_id)
+	if action == "peek":
+		_sync_peek()
+		return
 	if action == "enter" and GameState.state["location"] == door["location"]:
 		if door.has("heroine") and Conditions.is_present(str(door["heroine"])) and open_dialogue(str(door["heroine"])):
 			var view: DialogueView = dialogue_content.get_child(0)
@@ -223,6 +247,47 @@ func _close_bedroom_feedback() -> void:
 		remove_child(_bedroom_feedback)
 		_bedroom_feedback.queue_free()
 		_bedroom_feedback = null
+
+
+func _peek_shower() -> void:
+	if Conditions.can_peek_shower():
+		EffectApplier.begin_peeking("hub_showers")
+
+
+func _sync_peek() -> void:
+	var peek: Dictionary = GameState.state.get("peek", {})
+	if peek.is_empty():
+		var was_open: bool = _peek != null
+		_remove_peek()
+		if was_open:
+			refresh()
+		return
+	if _peek != null:
+		return
+	_peek = PeekView.new()
+	_peek.location_id = str(peek["location"])
+	_peek.closed.connect(_close_peek)
+	add_child(_peek)
+
+
+func _close_peek() -> void:
+	EffectApplier.end_peeking()
+	_remove_peek()
+
+
+func _remove_peek() -> void:
+	if _peek != null:
+		remove_child(_peek)
+		_peek.queue_free()
+		_peek = null
+
+
+func _close_tow_notice() -> void:
+	if _tow_notice != null:
+		remove_child(_tow_notice)
+		_tow_notice.queue_free()
+		_tow_notice = null
+	_show_pending_scene.call_deferred()
 
 
 func open_order_terminal() -> bool:
@@ -351,8 +416,18 @@ func _close_domestic() -> void:
 
 
 func _launch_flight() -> void:
-	if EffectApplier.launch_flight() == OK:
+	var result: Error = EffectApplier.launch_flight()
+	if result == OK:
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/system_flight.tscn")
+	elif result != ERR_UNAVAILABLE:
+		var error: AcceptDialog = AcceptDialog.new()
+		error.title = Text.get_text("ui_autosave_title")
+		error.dialog_text = Text.get_text("ui_autosave_failed")
+		add_child(error)
+		error.get_ok_button().text = Text.get_text("ui_tow_continue")
+		error.confirmed.connect(error.queue_free)
+		error.close_requested.connect(error.queue_free)
+		error.popup_centered(Vector2i(460, 170))
 
 
 func _return_to_flight() -> void:
@@ -524,11 +599,14 @@ func _on_wait_pressed() -> void:
 
 
 func _on_location_changed(_location_id: String) -> void:
+	_close_peek()
 	_close_bedroom_feedback()
 	refresh()
 
 
 func _on_restored() -> void:
+	_remove_peek()
+	_close_tow_notice()
 	_close_bedroom_feedback()
 	_close_relationships()
 	_close_refit()
@@ -536,6 +614,7 @@ func _on_restored() -> void:
 	_close_dialogue()
 	_close_terminal()
 	refresh()
+	_sync_peek()
 	if Conditions.can_fly():
 		get_tree().call_deferred("change_scene_to_file", Router.current_path())
 	elif not GameState.state.get("kitchen", {}).is_empty():

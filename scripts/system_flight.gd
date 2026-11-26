@@ -16,6 +16,7 @@ const BattlePanel = preload("res://scripts/battle_panel.gd")
 const BattleView = preload("res://scripts/ambient_battle_view.gd")
 const Navigation = preload("res://scripts/galaxy_navigation.gd")
 const Models = preload("res://scripts/ship_models.gd")
+const FuelDialog = preload("res://scripts/fuel_dialog.gd")
 
 @onready var space: Node3D = %Space
 @onready var camera: Camera3D = %Camera
@@ -36,6 +37,7 @@ var _flash: ColorRect
 var _flash_tween: Tween
 var _journal: QuestButton
 var _player_model_key: String = ""
+var _fuel_dialog: FuelDialog
 
 
 func _ready() -> void:
@@ -141,6 +143,7 @@ func gate_name(route_id: String, number: int) -> String:
 
 
 func _sync_flight() -> void:
+	_check_fuel.call_deferred()
 	if not is_node_ready():
 		return
 	var model_key: String = Models.actor_key("player")
@@ -192,6 +195,26 @@ func _sync_flight() -> void:
 		_indicators.reserved_rects = hud.reserved_rects()
 		_indicators.sync()
 	_sync_captions()
+
+
+func _check_fuel() -> void:
+	if not is_inside_tree() or _leaving:
+		return
+	if Conditions.fuel_is_empty():
+		_following_mouse = false
+		if _fuel_dialog == null:
+			_fuel_dialog = FuelDialog.new()
+			_fuel_dialog.dismissed.connect(_close_fuel_dialog)
+			add_child(_fuel_dialog)
+	elif _fuel_dialog != null:
+		_close_fuel_dialog()
+
+
+func _close_fuel_dialog() -> void:
+	if _fuel_dialog != null:
+		remove_child(_fuel_dialog)
+		_fuel_dialog.queue_free()
+		_fuel_dialog = null
 
 
 func _resize_camera() -> void:

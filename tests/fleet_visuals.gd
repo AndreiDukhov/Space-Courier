@@ -89,6 +89,26 @@ func _check_gallery() -> void:
 	_check(meshes[0] != meshes[2] and meshes[2] != meshes[3] and meshes[3] != meshes[5] and meshes[3] != meshes[4], "Factions and pirate variants use distinct hull geometry")
 	await _frames()
 	await _capture("ship-gallery")
+	if "--capture-fleet" in OS.get_cmdline_user_args():
+		for ship: Node3D in ships:
+			ship.visible = ship.role == "pirate"
+		for child: Node in viewport.get_children():
+			if child is Label3D:
+				child.hide()
+		ships[3].position = Vector3(-1.25, 0, 0)
+		ships[4].position = Vector3(1.25, 0, 0)
+		camera.size = 3.5
+		camera.position = Vector3(0, 6, 5)
+		camera.look_at(Vector3.ZERO)
+		await _frames()
+		await _capture("pirate-detail")
+		camera.position = Vector3(0, 8, 0.01)
+		camera.look_at(Vector3.ZERO)
+		await _frames()
+		await _capture("pirate-top")
+		camera.size = 8.0
+		camera.position = Vector3(0, 10, 8)
+		camera.look_at(Vector3.ZERO)
 	for ship: Node3D in ships:
 		ship.queue_free()
 	for child: Node in viewport.get_children():

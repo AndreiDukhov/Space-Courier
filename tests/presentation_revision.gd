@@ -59,7 +59,7 @@ func _check_abilities() -> void:
 	_check(Math.distance(Math.cell(combat["player"]["pos"]), Math.cell(combat["opponents"][0]["pos"])) == 10.0, "New battles begin with ten cells between the ships")
 	combat["ap"] = 4
 	GameState.state["heroines"]["pilot"]["mood"] = 50.0
-	_check(EffectApplier.use_combat_ability("emergency_burn") == OK and combat["ap"] == 0 and combat["move_points"] == 9 and GameState.state["ship"]["fuel"]["current"] == 29.0, "Dash spends all remaining AP and fuel while granting movement")
+	_check(EffectApplier.use_combat_ability("emergency_burn") == OK and combat["ap"] == 0 and combat["move_points"] == 9 and GameState.state["ship"]["fuel"]["current"] == 30.0, "Dash spends all remaining AP while preserving fuel")
 	_check(EffectApplier.move_combat(Math.cell(combat["player"]["pos"]) + Vector2i.RIGHT) == OK, "Dash movement remains usable with zero AP")
 	_check(not Conditions.can_use_combat_ability("evasive_maneuver"), "Dash prevents further AP actions in that turn")
 	_battle()
@@ -181,14 +181,16 @@ func _check_combat_view() -> void:
 	await _capture("combat-tooltip")
 	var old_bar: Vector2 = vitals.get_node("PlayerVitals").position
 	var old_vessel: Vector3 = view._board.get_node("PlayerShip").position
-	view._camera.handle_input(InputEventMouseMotion.new())
+	var idle_motion: InputEventMouseMotion = InputEventMouseMotion.new()
+	idle_motion.position = view._space.size * 0.5
+	view._camera.handle_input(idle_motion)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_check(vitals.get_node("PlayerVitals").position.is_equal_approx(old_bar) and view._board.get_node("PlayerShip").position == old_vessel, "Pointer movement preserves the locked camera and health bars")
+	_check(vitals.get_node("PlayerVitals").position.is_equal_approx(old_bar) and view._board.get_node("PlayerShip").position == old_vessel, "A stationary central pointer preserves camera and health bars")
 	var camera_position: Vector3 = view._camera.position
 	EffectApplier.move_combat(Math.cell(GameState.state["combat"]["player"]["pos"]) + Vector2i.RIGHT)
 	await get_tree().create_timer(0.55).timeout
-	_check(view._camera.position != camera_position, "Combat camera follows the animated player model")
+	_check(view._camera.position == camera_position, "The free camera stays in place while the player model moves")
 	var vessel: Node3D = view._board.get_node("PlayerShip")
 	var expected: Vector2 = view._camera.unproject_position(vessel.global_position + Vector3.UP * 2.0) - Vector2(56, 34)
 	_check(vitals.get_node("PlayerVitals").position.distance_to(expected) < 2, "The bars follow the animated model's current position")

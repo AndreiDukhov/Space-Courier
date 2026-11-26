@@ -1,5 +1,7 @@
 extends RefCounted
 
+const Peek = preload("res://scripts/peek_state.gd")
+
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Effects = preload("res://scripts/effect_applier.gd")
 const Locations = preload("res://scripts/location_validator.gd")
@@ -71,6 +73,11 @@ static func validate(groups: Dictionary, sources: Dictionary) -> Array[String]:
 			if group == "ui" and record_id == "kitchen_layout":
 				for message: String in Domestic.validate_kitchen_layout(record):
 					errors.append(context + ": " + message)
+			if group == "ui" and record_id == "peek_layout":
+				for message: String in Peek.validate_layout(record):
+					errors.append(context + ": " + message)
+				if not record.get("background") is String or not ResourceLoader.exists(str(record.get("background", ""))):
+					errors.append(context + ": peeking background must reference an existing image")
 			if group == "ui" and record_id == "hub_corridor_doors":
 				for message: String in Bedrooms.validate_layout(record):
 					errors.append(context + ": " + message)

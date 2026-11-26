@@ -80,7 +80,7 @@ static func validate_record(record: Dictionary, group: String) -> Array[String]:
 				if effect.size() != 2 or not Rules.finite_number(effect["self_evasion"]) or effect["self_evasion"] <= 0 or effect["self_evasion"] > 1 or not Rules.whole_number(effect.get("duration")) or effect["duration"] < 1:
 					errors.append("Invalid evasion effect")
 			elif effect.has("move_points"):
-				if effect.size() != 2 or not Rules.whole_number(effect["move_points"]) or effect["move_points"] < 1 or not Rules.finite_number(effect.get("fuel")) or effect["fuel"] <= 0:
+				if effect.size() != 2 or not Rules.whole_number(effect["move_points"]) or effect["move_points"] < 1 or not Rules.finite_number(effect.get("fuel")) or effect["fuel"] != 0:
 					errors.append("Invalid emergency burn effect")
 			elif effect.has("shield_restore"):
 				if effect.size() != 2 or not Rules.finite_number(effect["shield_restore"]) or effect["shield_restore"] <= 0 or not Rules.whole_number(effect.get("delay")) or effect["delay"] < 1:

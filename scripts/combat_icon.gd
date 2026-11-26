@@ -1,15 +1,22 @@
 extends Control
 
 var kind: String = "turret"
+var warm: bool = false
 
 
 func _draw() -> void:
 	var centre: Vector2 = size * 0.5
 	var scale: float = minf(size.x, size.y) / 64.0
 	draw_set_transform(centre, 0.0, Vector2.ONE * scale)
-	var metal: Color = Color(0.65, 0.76, 0.82)
-	var glow: Color = Color(0.35, 0.95, 0.85)
+	var metal: Color = Color("9b7952") if warm else Color(0.65, 0.76, 0.82)
+	var glow: Color = Color("ce963d") if warm else Color(0.35, 0.95, 0.85)
 	match kind:
+		"ap":
+			draw_colored_polygon(PackedVector2Array([Vector2(5, -28), Vector2(-20, 4), Vector2(-3, 4), Vector2(-8, 28), Vector2(22, -7), Vector2(4, -7)]), Color(1.0, 0.76, 0.3))
+		"end_turn":
+			draw_arc(Vector2.ZERO, 22, -1.3, 3.8, 40, metal, 4, true)
+			draw_colored_polygon(PackedVector2Array([Vector2(-25, -22), Vector2(-24, -6), Vector2(-8, -13)]), glow)
+			draw_polyline(PackedVector2Array([Vector2(-7, 1), Vector2(-1, 8), Vector2(13, -8)]), glow, 4, true)
 		"fuel_tank":
 			draw_rect(Rect2(-18, -21, 36, 47), metal.darkened(0.25))
 			draw_rect(Rect2(-10, -28, 20, 7), metal)

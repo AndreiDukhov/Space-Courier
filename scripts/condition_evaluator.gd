@@ -1,5 +1,7 @@
 extends RefCounted
 
+const Peek = preload("res://scripts/peek_state.gd")
+
 const Slots = preload("res://scripts/time_slots.gd")
 const Orders = preload("res://scripts/order_rules.gd")
 const Galaxy = preload("res://scripts/galaxy_state.gd")
@@ -107,7 +109,7 @@ static func evaluate_scene(scene: Dictionary) -> bool:
 
 
 static func can_enter(location_id: String) -> bool:
-	if has_combat() or not GameState.state.get("kitchen", {}).is_empty():
+	if has_combat() or not GameState.state.get("kitchen", {}).is_empty() or not GameState.state.get("peek", {}).is_empty():
 		return false
 	if not DataLoader.record_sources.has("locations/" + location_id):
 		return false
@@ -137,7 +139,7 @@ static func room_is_in_navigation(location_id: String) -> bool:
 
 
 static func can_use_bedroom_doors() -> bool:
-	return domestic_available() and GameState.state.get("kitchen", {}).is_empty() and GameState.state.get("location") == DataLoader.get_record("hub_corridor_doors").get("location")
+	return domestic_available() and GameState.state.get("peek", {}).is_empty() and GameState.state.get("kitchen", {}).is_empty() and GameState.state.get("location") == DataLoader.get_record("hub_corridor_doors").get("location")
 
 
 static func can_exit_bedroom() -> bool:
@@ -211,7 +213,7 @@ static func heroine_visible(heroine_id: String) -> bool:
 
 
 static func can_wait() -> bool:
-	if has_combat() or not GameState.state.get("kitchen", {}).is_empty():
+	if has_combat() or not GameState.state.get("kitchen", {}).is_empty() or not GameState.state.get("peek", {}).is_empty():
 		return false
 	var location: Dictionary = DataLoader.get_record(str(GameState.state.get("location", "")))
 	return "wait" in location.get("actions", [])
@@ -267,7 +269,47 @@ static func can_move_flight() -> bool:
 
 static func can_tick_flight() -> bool:
 	var flight: Dictionary = GameState.state.get("flight", {})
-	return not has_combat() and can_fly() and not flight.get("paused", true) and flight.get("encounter", "").is_empty()
+	return not has_combat() and can_fly() and not fuel_is_empty() and not flight.get("paused", true) and flight.get("encounter", "").is_empty()
+
+
+static func fuel_is_empty() -> bool:
+	return can_fly() and not has_combat() and float(GameState.state.get("ship", {}).get("fuel", {}).get("current", 0.0)) <= 0.0
+
+
+static func has_tow_notice() -> bool:
+	return domestic_available() and bool(GameState.state.get("flags", {}).get(GameState.TOW_NOTICE_FLAG, false))
+
+
+static func can_peek_shower() -> bool:
+	return domestic_available() and GameState.state.get("peek", {}).is_empty() and GameState.state.get("location") == "hub_showers" and "peek" in DataLoader.get_record("hub_showers").get("actions", []) and GameState.state.get("kitchen", {}).is_empty()
+
+
+static func can_begin_peeking(location_id: String) -> bool:
+	if not GameState.state.get("peek", {}).is_empty() or not Peek.valid_target(location_id):
+		return false
+	if location_id == "hub_showers":
+		return can_peek_shower()
+	return can_use_bedroom_doors()
+
+
+static func can_move_peek_door(opening: float, elapsed: float) -> bool:
+	var peek: Dictionary = GameState.state.get("peek", {})
+	return not peek.is_empty() and not peek["noticed"] and Peek.valid_save(GameState.state) and is_finite(opening) and opening >= 0 and opening <= 1 and is_finite(elapsed) and elapsed > 0
+
+
+static func peek_would_notice(opening: float, elapsed: float) -> bool:
+	var peek: Dictionary = GameState.state["peek"]
+	var speed: float = absf(opening - float(peek["opening"])) / elapsed
+	return opening > float(peek["limit"]) or speed > float(DataLoader.get_record("peek_layout")["rules"]["max_speed"])
+
+
+static func peek_occupants() -> Array[String]:
+	var result: Array[String] = []
+	var location_id: String = str(GameState.state.get("peek", {}).get("location", ""))
+	for heroine_id: String in GameState.state.get("heroines", {}):
+		if GameState.state["heroines"][heroine_id]["loc"] == location_id:
+			result.append(heroine_id)
+	return result
 
 
 static func can_open_pause_menu() -> bool:
@@ -459,6 +501,10 @@ static func can_sell_route(route_id: String) -> bool:
 
 
 static func can_request_tow() -> bool:
+	if not can_fly():
+		return false
+	if fuel_is_empty():
+		return true
 	if not can_use_galaxy_map():
 		return false
 	if float(GameState.state.get("ship", {}).get("fuel", {}).get("current", 0.0)) <= 0.0:
@@ -696,7 +742,7 @@ static func can_use_combat_ability(ability_id: String) -> bool:
 		return false
 	if ability["effect"].has("shield_restore") and (not combat["shield_recharge"].is_empty() or float(combat["player"]["shield"]) >= CombatMath.player_shield_max()):
 		return false
-	return not ability["effect"].has("fuel") or float(GameState.state["ship"]["fuel"]["current"]) >= float(ability["effect"]["fuel"])
+	return true
 
 
 static func can_finish_combat() -> bool:
@@ -799,7 +845,7 @@ static func can_use_hub_hotspot(layout_id: String) -> bool:
 
 
 static func can_modify_ship() -> bool:
-	return domestic_available() and GameState.state.get("location") == "hub_tech" and GameState.state.get("kitchen", {}).is_empty()
+	return domestic_available() and GameState.state.get("peek", {}).is_empty() and GameState.state.get("location") == "hub_tech" and GameState.state.get("kitchen", {}).is_empty()
 
 
 static func can_install_module(module_id: String, target_slot: String = "") -> bool:

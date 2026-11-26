@@ -132,7 +132,7 @@ func _check_player_motion() -> void:
 	await _frames()
 	var reverse: Array[Vector2i] = path.duplicate()
 	reverse.reverse()
-	view.find_child("Undo", true, false).pressed.emit()
+	EffectApplier.undo_combat_move()
 	_check(board._active_route == reverse, "Undo after loading reconstructs the same route in reverse")
 	await _follow_animation(board, ship, reverse)
 	_check(GameState.state["combat"]["player"]["pos"] == [8, 12] and GameState.state["combat"]["move_points"] == 6 and GameState.restore(GameState.serialize()) == OK, "Undo restores position, movement points and a valid combat snapshot")

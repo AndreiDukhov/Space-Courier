@@ -227,7 +227,7 @@ func _check_abilities_and_results() -> void:
 	EffectApplier.end_combat_turn()
 	_check(combat["evasion"]["rounds"] == 0 and combat["evasion"]["value"] == 0, "Evasion expires after two enemy turns")
 	GameState.state["ship"]["fuel"]["current"] = 0.5
-	_check(not Conditions.can_use_combat_ability("emergency_burn"), "Burn requires its full fuel cost")
+	_check(Conditions.can_use_combat_ability("emergency_burn"), "Burn is available without consuming flight fuel")
 	GameState.state["combat"]["player"]["shield"] = 8.0
 	_check(EffectApplier.shield_combat() == OK and combat["player"]["shield"] == 8 and combat["ap"] == 3 and not combat["shield_recharge"].is_empty(), "Shield reboot spends half the full AP budget and queues recovery")
 	_check(EffectApplier.shield_combat() == ERR_UNAVAILABLE, "An already pending shield recharge cannot be queued twice")
@@ -365,9 +365,9 @@ func _check_view() -> void:
 	_check(intermediate != start_position and intermediate != Math.world_position([15, 13]), "The model passes through an intermediate position during its smooth move")
 	await _idle(view)
 	_check(board.get_node("PlayerShip").position.is_equal_approx(Math.world_position([15, 13])), "The model finishes exactly at the selected cell")
-	view.find_child("Undo", true, false).pressed.emit()
+	EffectApplier.undo_combat_move()
 	await _idle(view)
-	_check(GameState.state["combat"]["player"]["pos"] == [13, 12], "The UI undo button restores the prior maneuver")
+	_check(GameState.state["combat"]["player"]["pos"] == [13, 12], "The underlying maneuver history still restores the prior position")
 	view.find_child("Weapon_course_cannon", true, false).pressed.emit()
 	var motion: InputEventMouseMotion = InputEventMouseMotion.new()
 	var point: Vector3 = Math.world_position([19, 12])
@@ -392,7 +392,7 @@ func _check_view() -> void:
 	space.gui_input.emit(motion)
 	drag.pressed = false
 	space.gui_input.emit(drag)
-	_check(camera.position == previous_camera and GameState.serialize() == before, "Dragging cannot detach the tactical camera from the player")
+	_check(camera.position != previous_camera and GameState.serialize() == before, "Dragging pans the tactical camera without changing the battle")
 	var old_zoom: float = camera.size
 	var wheel: InputEventMouseButton = InputEventMouseButton.new()
 	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
@@ -413,8 +413,8 @@ func _check_view() -> void:
 	space.gui_input.emit(motion)
 	previous_camera = camera.position
 	camera._process(0.25)
-	_check(camera.position == previous_camera, "The field edge cannot scroll the locked camera")
-	_check((camera.position - board.get_node("PlayerShip").position).is_equal_approx(Vector3(0, 16.85, 13)) and GameState.serialize() == before, "The locked camera preserves its offset without mutating the battle")
+	_check(camera.position != previous_camera, "The field edge scrolls the free tactical camera")
+	_check(GameState.serialize() == before, "Camera movement preserves the battle state")
 	camera.size = 24.0
 	camera.stop_tracking()
 	var selection_state: Dictionary = GameState.serialize()
@@ -422,10 +422,10 @@ func _check_view() -> void:
 	_check(view._moving and view._weapon_id.is_empty() and GameState.serialize() == selection_state and view.find_child("evasive_maneuver", true, false) == null, "The movement card replaces evasion and changes mode without spending resources")
 	if "--probe-combat-user-save" in OS.get_cmdline_user_args() and not FileAccess.file_exists(GameState.SAVE_PATH):
 		var snapshot: Dictionary = GameState.serialize()
-		view.find_child("Save", true, false).pressed.emit()
+		GameState.save_game()
 		_check(FileAccess.file_exists(GameState.SAVE_PATH), "Combat UI writes actual user://save.json")
 		EffectApplier.end_combat_turn()
-		view.find_child("Load", true, false).pressed.emit()
+		GameState.load_game()
 		_check(GameState.serialize() == snapshot, "Combat UI restores exact state from the actual user save")
 		_check(DirAccess.remove_absolute(ProjectSettings.globalize_path(GameState.SAVE_PATH)) == OK, "The user-save probe is removed")
 	await _capture("models")

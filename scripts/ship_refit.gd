@@ -13,6 +13,7 @@ const Icon = preload("res://scripts/combat_icon.gd")
 const Blueprint = preload("res://art/ui/ship_blueprint.svg")
 const Details = preload("res://scripts/module_details.gd")
 const Storage = preload("res://scripts/module_storage.gd")
+const HubTheme = preload("res://scripts/hub_theme.gd")
 const POSITIONS: Dictionary = {"engine": Vector2(0.48, 0.88), "maneuver_engine": Vector2(0.16, 0.78), "turret": Vector2(0.48, 0.45), "course": Vector2(0.48, 0.12), "armor": Vector2(0.83, 0.32), "shield": Vector2(0.83, 0.77), "broadside": Vector2(0.16, 0.45), "fuel_tank": Vector2(0.16, 0.12)}
 const STATS: Dictionary = {"speed": "engine", "maneuver": "maneuver_engine", "broadside": "broadside", "course": "course", "turret": "turret", "fuel": "fuel_tank"}
 const ICON_KINDS: Dictionary = {"engine": "burn", "maneuver_engine": "evasion", "armor": "armor"}
@@ -29,9 +30,10 @@ var _bars: Dictionary = {}
 
 
 func _ready() -> void:
+	theme = HubTheme.make()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel: PanelContainer = PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", Style.box(Color(0.025, 0.045, 0.065), 0))
+	panel.add_theme_stylebox_override("panel", Style.box(HubTheme.PAPER, 0))
 	add_child(panel)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var margin: MarginContainer = MarginContainer.new()
@@ -68,8 +70,8 @@ func _ready() -> void:
 		bar.name = stat
 		bar.show_percentage = false
 		bar.custom_minimum_size = Vector2(80, 14)
-		bar.add_theme_stylebox_override("background", Style.box(Color(0.08, 0.15, 0.2), 6))
-		bar.add_theme_stylebox_override("fill", Style.box(Color(0.22, 0.78, 0.76), 6))
+		bar.add_theme_stylebox_override("background", Style.box(Color("e0ccad"), 6))
+		bar.add_theme_stylebox_override("fill", Style.box(HubTheme.ACCENT, 6))
 		group.add_child(bar)
 		var value: Label = Widgets.label("", 14)
 		group.add_child(value)
@@ -99,6 +101,7 @@ func _ready() -> void:
 		button.set_drag_forwarding(Callable(), _can_drop_module.bind(slot), _drop_module.bind(slot))
 		cell.add_child(button)
 		var icon: Icon = Icon.new()
+		icon.warm = true
 		icon.kind = str(ICON_KINDS.get(slot, slot))
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		button.add_child(icon)
@@ -144,7 +147,7 @@ func refresh() -> void:
 		_slots[slot]["icon"].visible = not module.is_empty()
 		var button: Button = _slots[slot]["button"]
 		button.tooltip_text = Text.get_text("ui_refit_slot_" + slot) + "\n" + str(module.get("name", Text.get_text("ui_refit_empty"))) + "\n" + _module_hint(module)
-		button.add_theme_stylebox_override("normal", Style.box(Color(0.04, 0.10, 0.14, 0.94), 10, Color(0.35, 0.95, 0.85) if slot == _selected else Color(0.2, 0.4, 0.48), 2))
+		button.add_theme_stylebox_override("normal", Style.box(HubTheme.CARD, 10, HubTheme.ACCENT if slot == _selected else HubTheme.BORDER, 2))
 	for stat: String in STATS:
 		var module: Dictionary = Loadout.installed(ship, STATS[stat])
 		var maximum: float = 1.0

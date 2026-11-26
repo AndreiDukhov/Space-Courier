@@ -23,7 +23,7 @@
     "cooldown": 3,
     "effect": {
       "move_points": 3,
-      "fuel": 1
+      "fuel": 0
     },
     "mood_scale": {
       "stat": "pilot.mood",

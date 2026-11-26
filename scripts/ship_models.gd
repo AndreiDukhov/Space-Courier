@@ -3,6 +3,7 @@ extends RefCounted
 const G = preload("res://scripts/model_geometry.gd")
 const Visual = preload("res://scripts/ship_visual.gd")
 const Roster = preload("res://scripts/combat_roster.gd")
+const Pirate = preload("res://scripts/pirate_model.gd")
 const STEEL: Color = Color(0.23, 0.29, 0.36)
 const DARK: Color = Color(0.075, 0.1, 0.14)
 const GLASS: Color = Color(0.2, 0.85, 1.0)
@@ -66,21 +67,10 @@ static func _courier(ship: Visual, player: bool) -> void:
 
 
 static func _pirate(ship: Visual, variant: int) -> void:
-	var accent: Color = Color(0.72, 0.16, 0.07)
-	var wide: float = 0.28 if variant == 0 else 0.38
-	G.hull(ship, "Hull", PackedVector2Array([Vector2(-wide, 0.53), Vector2(-wide, -0.05), Vector2(-0.08, -0.87), Vector2(0.13, -0.72), Vector2(wide, 0.12), Vector2(wide, 0.53)]), 0.26, Color(0.29, 0.23, 0.22))
-	G.box(ship, "ArmourSpine", Vector3(-0.08, 0.30, -0.02), Vector3(0.18, 0.12, 0.61), accent)
-	G.box(ship, "Cockpit", Vector3(-0.04, 0.28, -0.36), Vector3(0.18, 0.06, 0.13), Color(1.0, 0.52, 0.12), true)
+	Pirate.build(ship, variant)
 	for side: int in [-1, 1]:
-		var z: float = -0.12 if side < 0 else 0.22
-		var fin: MeshInstance3D = G.box(ship, "SweptFin", Vector3(side * 0.39, 0.1, z), Vector3(0.43, 0.1, 0.22), accent.darkened(0.25))
-		fin.rotation.y = side * 0.5
-		G.box(ship, "ArmourPlate", Vector3(side * wide * 0.7, 0.27, 0.24), Vector3(0.13, 0.06, 0.3), STEEL)
-		_engine(ship, Vector3(side * (0.25 if variant == 0 else 0.32), 0.1, 0.57), 0.12)
-		_beacon(ship, Vector3(side * 0.52, 0.18, z), Color(1.0, 0.22, 0.04))
-	G.cylinder(ship, "ExposedReactor", Vector3(0.14, 0.31, 0.33), 0.12, 0.12, Color(1, 0.45, 0.08), -1, true)
-	if variant == 1:
-		G.box(ship, "SalvagePod", Vector3(-0.42, 0.22, 0.34), Vector3(0.22, 0.27, 0.38), Color(0.47, 0.37, 0.18))
+		_engine(ship, Vector3(side * (0.48 if variant == 0 else 0.38), 0.15, 0.59 if variant == 0 else 0.73), 0.095 if variant == 0 else 0.13)
+		_beacon(ship, Vector3(side * 0.60, 0.22, -0.25 if variant == 0 else 0.05), Color(1.0, 0.22, 0.04))
 
 
 static func _patrol(ship: Visual, variant: int) -> void:
@@ -135,13 +125,16 @@ static func _weapons(ship: Visual, weapons: Array) -> void:
 		if not mount.is_empty() and mount not in mounts:
 			mounts.append(mount)
 	var parent: Node3D = ship.get_node("Weapons")
+	var pirate: bool = ship.role == "pirate"
 	if "turret" in mounts:
-		G.cylinder(parent, "Turret", Vector3(0, 0.35, 0.14), 0.12, 0.12, STEEL)
-		G.box(parent, "TurretBarrel", Vector3(0, 0.41, -0.01), Vector3(0.055, 0.055, 0.33), DARK)
+		G.cylinder(parent, "Turret", Vector3(0, 0.48 if pirate else 0.35, 0.14), 0.12, 0.12, STEEL)
+		G.box(parent, "TurretBarrel", Vector3(0, 0.54 if pirate else 0.41, -0.01), Vector3(0.055, 0.055, 0.33), DARK)
+		if pirate:
+			G.box(parent, "TurretArmor", Vector3(0, 0.56, 0.15), Vector3(0.20, 0.045, 0.16), Pirate.RUST)
 	if "course" in mounts:
 		for side: int in [-1, 1]:
-			G.box(parent, "CourseBarrel", Vector3(side * 0.17, 0.16, -0.57), Vector3(0.065, 0.065, 0.5), DARK)
+			G.box(parent, "CourseBarrel", Vector3(side * 0.17, 0.33 if pirate else 0.16, -0.72 if pirate else -0.57), Vector3(0.065, 0.065, 0.5), DARK)
 	if "broadside" in mounts:
 		for side: int in [-1, 1]:
 			for index: int in range(2):
-				G.box(parent, "BroadsidePort", Vector3(side * 0.37, 0.22, 0.02 + index * 0.14), Vector3(0.21, 0.07, 0.065), DARK)
+				G.box(parent, "BroadsidePort", Vector3(side * (0.57 if pirate else 0.37), 0.35 if pirate else 0.22, 0.02 + index * 0.14), Vector3(0.21, 0.07, 0.065), DARK)

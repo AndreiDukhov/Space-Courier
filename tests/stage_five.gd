@@ -156,7 +156,7 @@ func _check_economy() -> void:
 	GameState.state["ship"]["fuel"]["current"] = 0
 	GameState.state["money"] = 0
 	_check(Conditions.can_request_tow() and EffectApplier.request_tow() == OK, "A zero-fuel ship has a rescue action")
-	_check(GameState.state["current_system"] == "sys_earth" and GameState.state["location"] == "ship_bridge" and GameState.state["money"] == -EffectApplier.TOW_FEE and GameState.state["ship"]["fuel"]["current"] == 30, "The test tow returns the ship with debt instead of ending the game")
+	_check(GameState.state["current_system"] == "sys_earth" and GameState.state["location"] == GameState.INITIAL_LOCATION and GameState.state["money"] == -EffectApplier.FUEL_TOW_FEE and GameState.state["ship"]["fuel"]["current"] == 30, "The test tow returns the ship with debt instead of ending the game")
 	snapshot = GameState.serialize()
 	_check(EffectApplier.request_tow() == ERR_UNAVAILABLE and GameState.serialize() == snapshot, "Rescue cannot be repeatedly invoked after recovery")
 

@@ -50,7 +50,9 @@ func _check_rules() -> void:
 		heroine["loc"] = "hub_tech"
 		var empty: Dictionary = GameState.serialize()
 		for action: String in ["peek", "knock"]:
-			_check(EffectApplier.use_bedroom_door(id, action) == OK and GameState.serialize() == empty, "An absent owner does not grant permission or change stats")
+			var result: Error = EffectApplier.use_bedroom_door(id, action)
+			EffectApplier.end_peeking()
+			_check(result == OK and GameState.serialize() == empty, "An absent owner does not grant permission or change stats")
 		_check(EffectApplier.use_bedroom_door(id, "enter") == OK and GameState.state["location"] == destination, "An empty room can be entered")
 		EffectApplier.move_player("hub_corridor")
 		heroine["loc"] = destination
@@ -70,7 +72,9 @@ func _check_rules() -> void:
 		EffectApplier.move_player("hub_corridor")
 		heroine["attitude"] = 0.0
 		var peek: Dictionary = GameState.serialize()
-		_check(EffectApplier.use_bedroom_door(id, "peek") == OK and GameState.serialize() == peek, "Peeking only shows placeholder text")
+		_check(EffectApplier.use_bedroom_door(id, "peek") == OK and not GameState.state["peek"].is_empty(), "Peeking starts the saved door challenge")
+		EffectApplier.end_peeking()
+		_check(GameState.serialize() == peek, "Closing the unopened door changes no stats or time")
 		_check(EffectApplier.use_bedroom_door(id, "knock") == OK and Conditions.bedroom_has_permission(id), "Knocking at an occupied room grants permission")
 		var saved: Dictionary = GameState.serialize()
 		_check(saved.size() == GameState.SAVE_FIELDS.size() and GameState.save_game("user://bedroom-check.json") == OK and GameState.load_game("user://bedroom-check.json") == OK and GameState.serialize() == saved, "Permission round-trips in existing flags with the current save contract")

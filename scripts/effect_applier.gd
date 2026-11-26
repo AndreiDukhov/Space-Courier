@@ -13,6 +13,7 @@ signal ship_changed
 signal modules_changed
 signal bedroom_action_resolved(door_id: String, action: String, scene_id: String)
 signal space_effect(kind: String, position: Vector2, npc_id: String)
+signal peek_changed
 
 const Conditions = preload("res://scripts/condition_evaluator.gd")
 const Orders = preload("res://scripts/order_rules.gd")
@@ -39,6 +40,7 @@ const Meals = preload("res://scripts/meal_schedule.gd")
 const Scenes = preload("res://scripts/scene_queue.gd")
 const ShipLoadout = preload("res://scripts/ship_loadout.gd")
 const TOW_FEE: int = 400
+const FUEL_TOW_FEE: int = 500
 const TOW_DAYS: int = 1
 const STAT_MIN: float = 0.0
 const STAT_MAX: float = 100.0
@@ -234,6 +236,9 @@ func jump_route(route_id: String, boost: bool = false) -> Error:
 func launch_flight() -> Error:
 	if not Conditions.can_launch():
 		return ERR_UNAVAILABLE
+	var saved: Error = GameState.save_game(GameState.AUTOSAVE_PATH)
+	if saved != OK:
+		return saved
 	GameState.state["flags"].erase(GameState.SHIP_INTERIOR_FLAG)
 	GameState.state["location"] = "ship_bridge"
 	GameState.state["flight"] = Flight.reset_player(GameState.state["flight"], Spawn.hub_departure())
@@ -364,6 +369,9 @@ func _tick_flight(delta: float, boost: bool) -> void:
 			flight["pos"] = Motion.coordinates(next)
 			var cost: float = available if budget <= requested else distance * fuel_per_distance
 			apply_effects([{"fuel": -cost}])
+	if float(GameState.state["ship"]["fuel"]["current"]) <= 0.0:
+		flight["autopilot"] = {}
+		return
 	_apply_star_damage(origin, Motion.point(flight["pos"]), delta, speed)
 	if not Conditions.can_fly():
 		return
@@ -560,10 +568,17 @@ func request_tow() -> Error:
 	if not Conditions.can_request_tow():
 		return ERR_UNAVAILABLE
 	_visit_system(Galaxy.INITIAL_SYSTEM)
-	var result: Error = apply_effects([{"money": -TOW_FEE}, {"fuel": int(GameState.state["ship"]["fuel"]["max"])}, {"advance_time": TOW_DAYS * Clock.TIME_SLOTS.size()}])
+	GameState.state["flags"].erase(GameState.SHIP_INTERIOR_FLAG)
+	GameState.state["location"] = GameState.INITIAL_LOCATION
+	var result: Error = apply_effects([{"money": -FUEL_TOW_FEE}, {"fuel": int(GameState.state["ship"]["fuel"]["max"])}, {"advance_time": TOW_DAYS * Clock.TIME_SLOTS.size()}, {"flag": GameState.TOW_NOTICE_FLAG, "set": true}])
 	galaxy_changed.emit()
 	location_changed.emit(str(GameState.state["location"]))
 	return result
+
+
+func acknowledge_tow() -> void:
+	if Conditions.has_tow_notice():
+		apply_effects([{"flag": GameState.TOW_NOTICE_FLAG, "set": false}])
 
 
 func _reveal_system(system_id: String) -> void:
@@ -659,6 +674,11 @@ func use_bedroom_door(door_id: String, action: String) -> Error:
 	if not Conditions.can_use_bedroom_door(door_id, action):
 		return ERR_UNAVAILABLE
 	var door: Dictionary = Conditions.bedroom_door(door_id)
+	if action == "peek":
+		var started: Error = begin_peeking(str(door["location"]))
+		if started == OK:
+			bedroom_action_resolved.emit(door_id, action, "")
+		return started
 	var scene_id: String = Conditions.bedroom_action_scene(door_id, action)
 	if Conditions.bedroom_owner_is_home(door_id) and scene_id.is_empty():
 		return ERR_INVALID_DATA
@@ -677,6 +697,37 @@ func use_bedroom_door(door_id: String, action: String) -> Error:
 			return result
 	bedroom_action_resolved.emit(door_id, action, scene_id)
 	return OK
+
+
+func begin_peeking(location_id: String) -> Error:
+	if not Conditions.can_begin_peeking(location_id):
+		return ERR_UNAVAILABLE
+	var limits: Array = DataLoader.get_record("peek_layout")["rules"]["limit"]
+	GameState.state["peek"] = {"location": location_id, "opening": 0.0, "limit": randf_range(float(limits[0]), float(limits[1])), "noticed": false}
+	peek_changed.emit()
+	return OK
+
+
+func move_peek_door(opening: float, elapsed: float) -> Error:
+	if not Conditions.can_move_peek_door(opening, elapsed):
+		return ERR_UNAVAILABLE
+	var noticed: bool = Conditions.peek_would_notice(opening, elapsed)
+	GameState.state["peek"]["opening"] = opening
+	if noticed:
+		GameState.state["peek"]["noticed"] = true
+		var effects: Array = []
+		for heroine_id: String in Conditions.peek_occupants():
+			effects.append({"stat": heroine_id + ".mood", "add": -int(DataLoader.get_record("peek_layout")["rules"]["mood_penalty"])})
+		if not effects.is_empty():
+			apply_effects(effects)
+	peek_changed.emit()
+	return OK
+
+
+func end_peeking() -> void:
+	if not GameState.state.get("peek", {}).is_empty():
+		GameState.state["peek"] = {}
+		peek_changed.emit()
 
 
 func _clear_bedroom_permissions() -> void:
@@ -855,7 +906,6 @@ func use_combat_ability(ability_id: String) -> Error:
 		combat["evasion"] = {"value": float(Vector2(clampf(float(effect["self_evasion"]) * scale, 0.0, 1.0), 0).x), "rounds": int(effect["duration"])}
 	if effect.has("move_points"):
 		combat["move_points"] = int(combat["move_points"]) + ceili(float(effect["move_points"]) * scale)
-		apply_effects([{"fuel": -float(effect["fuel"])}])
 	if effect.has("shield_restore"):
 		combat["shield_recharge"] = {"amount": float(effect["shield_restore"]), "round": int(combat["round"]) + int(effect["delay"])}
 	combat_changed.emit()

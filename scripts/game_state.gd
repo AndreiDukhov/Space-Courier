@@ -12,12 +12,15 @@ const SceneQueue = preload("res://scripts/scene_queue.gd")
 const Loadout = preload("res://scripts/ship_loadout.gd")
 const ModuleStorage = preload("res://scripts/module_storage.gd")
 const AudioSettings = preload("res://scripts/audio_settings.gd")
+const Peek = preload("res://scripts/peek_state.gd")
 const SAVE_PATH: String = "user://save.json"
+const AUTOSAVE_PATH: String = "user://autosave.json"
+const TOW_NOTICE_FLAG: String = "tow_notice_pending"
 const INITIAL_MONEY: int = 1000
 const INITIAL_LOCATION: String = "hub_kitchen"
 const SHIP_INTERIOR_FLAG: String = "ship_interior_open"
 const HEROINE_STAT_FIELDS: Array[String] = ["attitude", "mood", "arousal"]
-const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes", "module_storage", "module_deliveries", "settings"]
+const SAVE_FIELDS: Array[String] = ["day", "time_slot", "money", "flags", "known_routes", "heroines", "ship", "location", "reputation", "orders", "current_system", "systems", "public_routes", "flight", "combat", "inventory", "known_recipes", "cooking_skill", "buffs", "served_days", "kitchen", "meal_invites", "pending_scenes", "module_storage", "module_deliveries", "settings", "peek"]
 
 var state: Dictionary = {}
 
@@ -52,7 +55,7 @@ func start_new_game(heroine_records: Array[Dictionary], ship_record: Dictionary)
 		"orders": {}
 	}
 	state.merge({"inventory": [], "known_recipes": Domestic.initial_recipes(), "cooking_skill": 0, "buffs": {}, "served_days": {}, "kitchen": {}, "meal_invites": {}, "pending_scenes": []})
-	state.merge({"module_storage": {}, "module_deliveries": [], "settings": AudioSettings.initial()})
+	state.merge({"module_storage": {}, "module_deliveries": [], "settings": AudioSettings.initial(), "peek": {}})
 	_normalize_fuel()
 	Loadout.normalize_numbers(state["ship"])
 	if ScheduleManager.assign_locations() != OK:
@@ -91,6 +94,7 @@ func _upgrade_mechanic(save_data: Dictionary) -> Dictionary:
 
 func restore(save_data: Dictionary) -> Error:
 	save_data = AudioSettings.migrate(save_data)
+	save_data = Peek.migrate(save_data)
 	save_data = _upgrade_mechanic(save_data)
 	save_data = ModuleStorage.migrate(save_data, SAVE_FIELDS)
 	var previous_fields: Array[String] = SAVE_FIELDS.duplicate()
@@ -211,6 +215,8 @@ func _is_valid_state(save_data: Dictionary) -> bool:
 	if not Orders.valid_save(save_data.get("reputation"), save_data.get("orders"), int(save_data["day"]), save_data["ship"]):
 		return false
 	if not Domestic.valid_save(save_data):
+		return false
+	if not Peek.valid_save(save_data):
 		return false
 	if not SceneQueue.valid_save(save_data.get("pending_scenes")):
 		return false

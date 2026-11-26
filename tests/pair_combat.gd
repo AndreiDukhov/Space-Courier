@@ -253,8 +253,8 @@ func _check_view() -> void:
 		await RenderingServer.frame_post_draw
 		var delta: Vector3 = view._board.get_node("PlayerShip").position - ship_before
 		moving = moving or delta.length() > 0.05
-		tracked = tracked and (view._camera.position - camera_before).is_equal_approx(delta)
-	_check(tracked and moving, "The camera follows every rendered frame of the smooth player movement")
+		tracked = tracked and view._camera.position.is_equal_approx(camera_before)
+	_check(tracked and moving, "The free camera stays in place throughout smooth player movement")
 	var focus: Vector3 = view._camera.position
 	var snapshot: Dictionary = GameState.serialize()
 	var drag: InputEventMouseButton = InputEventMouseButton.new()
@@ -267,15 +267,16 @@ func _check_view() -> void:
 	motion.relative = Vector2(180, 100)
 	view._camera.handle_input(motion)
 	await _frames()
-	_check(view._camera.position == focus and GameState.serialize() == snapshot, "Dragging and edge hovering cannot detach the camera or change state")
+	_check(view._camera.position != focus and GameState.serialize() == snapshot, "Dragging freely pans the camera without changing state")
+	var dragged_focus: Vector3 = view._camera.position
 	var zoom: float = view._camera.size
 	drag.button_index = MOUSE_BUTTON_WHEEL_UP
 	view._camera.handle_input(drag)
-	_check(view._camera.size < zoom and view._camera.position == focus, "Zoom remains available while focus stays on the player")
+	_check(view._camera.size < zoom and view._camera.position == dragged_focus, "Zoom preserves the manually selected focus")
 	await _capture("follow")
 	_round_trip("view")
 	await _frames()
-	_check(view._camera.position.is_equal_approx(focus), "Loading a paired battle restores the camera over the player")
+	_check((view._camera.position - view._board.get_node("PlayerShip").position).is_equal_approx(Vector3(0, 16.85, 13)), "Loading a paired battle recenters the free camera over the player")
 	_close_positions()
 	Roster.actor("opponent_2")["hull"] = 1.0
 	Roster.actor("opponent_2")["shield"] = 0.0

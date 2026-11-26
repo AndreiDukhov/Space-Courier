@@ -1,0 +1,120 @@
+[
+  {
+    "id": "peek_layout",
+    "background": "res://art/ui/peek_door.png",
+    "zones": {
+      "frame": {
+        "drop_rect": [
+          0,
+          0,
+          0.2822265625,
+          1
+        ]
+      },
+      "door": {
+        "drop_rect": [
+          0.4248046875,
+          0,
+          0.5751953125,
+          1
+        ]
+      }
+    },
+    "rules": {
+      "max_speed": 0.2,
+      "limit": [
+        0.35,
+        0.65
+      ],
+      "mood_penalty": 5
+    }
+  },
+  {
+    "id": "ui_peek_placeholder",
+    "text": "TODO scene text"
+  },
+  {
+    "id": "ui_peek_close",
+    "text": "Отойти от двери"
+  },
+  {
+    "id": "ui_fuel_empty_title",
+    "text": "Топливо закончилось"
+  },
+  {
+    "id": "ui_fuel_empty_body",
+    "text": "Корабль остановлен. Буксир домой стоит {fee} кредитов и займёт {days} день. Можно загрузить игру."
+  },
+  {
+    "id": "ui_fuel_tow",
+    "text": "Буксир домой"
+  },
+  {
+    "id": "ui_fuel_load",
+    "text": "Загрузить игру"
+  },
+  {
+    "id": "ui_fuel_load_hint",
+    "text": "Выбрать ручное сохранение или автосохранение перед вылетом."
+  },
+  {
+    "id": "ui_tow_arrived_title",
+    "text": "Вы вернулись в хаб"
+  },
+  {
+    "id": "ui_tow_arrived_body",
+    "text": "Буксировка завершена. Оплата: {fee} кредитов. При нехватке денег сумма записана в долг. Топливо пополнено."
+  },
+  {
+    "id": "ui_tow_continue",
+    "text": "Продолжить"
+  },
+  {
+    "id": "ui_combat_ap_value",
+    "text": "{value}/6"
+  },
+  {
+    "id": "ui_combat_mp_value",
+    "text": "{value}"
+  },
+  {
+    "id": "ui_combat_ap_hint",
+    "text": "Очки действий"
+  },
+  {
+    "id": "ui_combat_mp_hint",
+    "text": "Очки перемещения"
+  },
+  {
+    "id": "ui_fuel_load_manual",
+    "text": "Ручное сохранение"
+  },
+  {
+    "id": "ui_fuel_load_auto",
+    "text": "Автосохранение перед вылетом"
+  },
+  {
+    "id": "ui_fuel_back",
+    "text": "Назад"
+  },
+  {
+    "id": "ui_autosave_failed",
+    "text": "Не удалось создать автосохранение. Вылет отменён."
+  },
+  {
+    "id": "ui_autosave_title",
+    "text": "Автосохранение"
+  },
+  {
+    "id": "ui_peek_drag_hint",
+    "text": "Зажми ЛКМ на двери и медленно тяни вправо. Движение влево закрывает дверь."
+  },
+  {
+    "id": "ui_peek_caught",
+    "text": "Вас заметили. Настроение девушек в комнате ухудшилось."
+  },
+  {
+    "id": "ui_peek_caught_empty",
+    "text": "Дверь открыта неосторожно. В комнате никого нет."
+  }
+]

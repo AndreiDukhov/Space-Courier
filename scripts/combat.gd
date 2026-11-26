@@ -2,23 +2,24 @@ extends Control
 
 const Math = preload("res://scripts/combat_math.gd")
 const Conditions = preload("res://scripts/condition_evaluator.gd")
-const Art = preload("res://scripts/flight_art.gd")
 const Board = preload("res://scripts/combat_board.gd")
 const Text = preload("res://scripts/ui_text.gd")
 const Router = preload("res://scripts/scene_router.gd")
 const Camera = preload("res://scripts/combat_camera.gd")
-const Movement = preload("res://scripts/combat_movement.gd")
 const Card = preload("res://scripts/combat_card.gd")
 const Vitals = preload("res://scripts/combat_vitals.gd")
 const Backdrop = preload("res://scripts/space_backdrop.gd")
 const Style = preload("res://scripts/hub_widgets.gd")
+const Icon = preload("res://scripts/combat_icon.gd")
 
 var _board: Node3D
 var _camera: Camera3D
 var _viewport: SubViewport
 var _space: SubViewportContainer
 var _title: Label
-var _resources: Label
+var _ap_value: Label
+var _mp_value: Label
+var _points: VBoxContainer
 var _notice: Label
 var _result: Label
 var _target_info: Label
@@ -55,60 +56,90 @@ func _build_view() -> void:
 	background.color = Color(0.025, 0.04, 0.07)
 	add_child(background)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var margin: MarginContainer = MarginContainer.new()
-	for edge: String in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + edge, 16)
-	add_child(margin)
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var column: VBoxContainer = VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	margin.add_child(column)
-	var header: HBoxContainer = HBoxContainer.new()
-	column.add_child(header)
-	_title = _label(header, "Title", 22)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_resources = _label(header, "Resources", 15)
-	_result = _label(column, "Result", 16)
+	_build_space(self)
+	_space.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_title = _label(self, "Title", 22)
+	_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_title.add_theme_color_override("font_outline_color", Color.BLACK)
+	_title.add_theme_constant_override("outline_size", 4)
+	_points = VBoxContainer.new()
+	_points.name = "Points"
+	_points.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_points)
+	for kind: String in ["ap", "movement"]:
+		var row: HBoxContainer = HBoxContainer.new()
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_points.add_child(row)
+		var icon: Icon = Icon.new()
+		icon.kind = kind
+		icon.custom_minimum_size = Vector2(26, 26)
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(icon)
+		var value: Label = _label(row, "AP" if kind == "ap" else "MP", 18)
+		value.mouse_filter = Control.MOUSE_FILTER_PASS
+		value.tooltip_text = Text.get_text("ui_combat_ap_hint" if kind == "ap" else "ui_combat_mp_hint")
+		value.add_theme_color_override("font_outline_color", Color.BLACK)
+		value.add_theme_constant_override("outline_size", 4)
+		if kind == "ap":
+			_ap_value = value
+		else:
+			_mp_value = value
+	_result = _label(self, "Result", 18)
 	_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_build_space(column)
-	_target_info = _label(_space, "TargetInfo", 12)
-	_target_info.position = Vector2(10, 8)
-	_target_info.size = Vector2(340, 90)
-	_target_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_target_info = _label(self, "TargetInfo", 12)
 	_target_info.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_target_info.add_theme_color_override("font_outline_color", Color.BLACK)
 	_target_info.add_theme_constant_override("outline_size", 3)
-	var controls: HBoxContainer = HBoxContainer.new()
-	controls.add_theme_constant_override("separation", 10)
-	column.add_child(controls)
-	_button(controls, "Undo", "ui_combat_undo", _undo)
-	_button(controls, "EndTurn", "ui_combat_end_turn", _end_turn)
-	_button(controls, "Continue", "ui_combat_continue", _finish)
-	_build_actions(column)
-	var help: Label = _label(column, "Help", 12)
-	help.text = Text.get_text("ui_combat_help")
-	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var footer: HBoxContainer = HBoxContainer.new()
-	column.add_child(footer)
-	_button(footer, "Save", "ui_map_save", _save)
-	_button(footer, "Load", "ui_map_load", _load)
-	_notice = _label(footer, "Notice", 13)
-	_notice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_notice = _label(self, "Notice", 13)
+	_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_notice.add_theme_color_override("font_outline_color", Color.BLACK)
+	_notice.add_theme_constant_override("outline_size", 3)
+	_build_actions(self)
+	_button(self, "Continue", "ui_combat_continue", _finish)
+	resized.connect(_layout)
+	_layout.call_deferred()
+
+
+func _layout() -> void:
+	_title.position = Vector2(22, 18)
+	_points.position = Vector2(size.x - 112, 18)
+	_target_info.position = Vector2(22, 54)
+	_target_info.size = Vector2(390, 40)
+	_notice.position = Vector2(size.x * 0.2, size.y - 180)
+	_notice.size = Vector2(size.x * 0.6, 28)
+	_result.position = Vector2(size.x * 0.2, size.y * 0.42)
+	_result.size = Vector2(size.x * 0.6, 76)
+	_buttons["Continue"].position = Vector2(size.x * 0.5 - 110, size.y * 0.55)
+	_buttons["Continue"].size = Vector2(220, 42)
 
 
 func _build_actions(parent: Control) -> void:
 	_actions = ScrollContainer.new()
 	_actions.name = "CombatActions"
-	_actions.custom_minimum_size.y = 160
+	_actions.custom_minimum_size.y = 138
 	_actions.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	parent.add_child(_actions)
+	_actions.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	_actions.offset_left = 16
+	_actions.offset_right = -16
+	_actions.offset_top = -144
+	_actions.offset_bottom = -6
 	var cards: HBoxContainer = HBoxContainer.new()
 	cards.name = "ActionCards"
-	cards.alignment = BoxContainer.ALIGNMENT_CENTER
+	cards.alignment = BoxContainer.ALIGNMENT_BEGIN
 	cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cards.add_theme_constant_override("separation", 16)
+	cards.add_theme_constant_override("separation", 10)
 	_actions.add_child(cards)
+	var finish: HBoxContainer = _action_section(cards, "TurnSection", "")
+	var end: Card = Card.new()
+	end.name = "EndTurn"
+	end.title = Text.get_text("ui_combat_end_turn")
+	end.kind = "end_turn"
+	end.pressed.connect(_end_turn)
+	finish.add_child(end)
+	_buttons["EndTurn"] = end
 	var movement: HBoxContainer = _action_section(cards, "MovementSection", "")
 	var move: Card = Card.new()
 	move.name = "Move"
@@ -156,7 +187,7 @@ func _action_section(parent: HBoxContainer, node_name: String, text_id: String) 
 		margin.add_theme_constant_override("margin_" + edge, 8)
 	panel.add_child(margin)
 	var column: VBoxContainer = VBoxContainer.new()
-	column.add_theme_constant_override("separation", 6)
+	column.add_theme_constant_override("separation", 3)
 	margin.add_child(column)
 	if not text_id.is_empty():
 		var heading: Label = _label(column, "Heading", 14)
@@ -164,7 +195,7 @@ func _action_section(parent: HBoxContainer, node_name: String, text_id: String) 
 		heading.add_theme_color_override("font_color", Color(0.65, 0.85, 0.9))
 	var row: HBoxContainer = HBoxContainer.new()
 	row.name = "Cards"
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 6)
 	column.add_child(row)
 	return row
 
@@ -174,7 +205,7 @@ func _build_space(parent: Control) -> void:
 	_space.name = "SpaceContainer"
 	_space.stretch = true
 	_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_space.custom_minimum_size = Vector2(300, 260)
+	_space.custom_minimum_size = Vector2.ZERO
 	parent.add_child(_space)
 	_space.add_child(Backdrop.new())
 	_viewport = SubViewport.new()
@@ -227,15 +258,15 @@ func refresh() -> void:
 		return
 	var combat: Dictionary = GameState.state["combat"]
 	for button_id: String in _buttons:
-		if button_id not in ["Save", "Load", "Continue"]:
+		if button_id != "Continue":
 			_buttons[button_id].visible = combat["result"] == "active"
 	_title.text = Text.get_text("ui_combat_title", {"round": combat["round"]})
-	_resources.text = Text.get_text("ui_combat_resources", {"ap": combat["ap"], "mp": combat["move_points"], "fuel": String.num(float(GameState.state["ship"]["fuel"]["current"]), 2)})
+	_ap_value.text = Text.get_text("ui_combat_ap_value", {"value": combat["ap"]})
+	_mp_value.text = Text.get_text("ui_combat_mp_value", {"value": combat["move_points"]})
 	_actions.visible = combat["result"] == "active"
 	_target_info.visible = combat["result"] == "active"
 	var busy: bool = _board.is_animating()
 	_buttons["Move"].disabled = busy or not Conditions.can_act_combat() or combat["move_points"] <= 0
-	_buttons["Undo"].disabled = busy or not Conditions.can_undo_combat_move()
 	for weapon_id: String in _weapons:
 		var weapon: Dictionary = DataLoader.get_record(weapon_id)
 		var fired: bool = Conditions.weapon_has_fired("player", weapon_id)
@@ -243,9 +274,9 @@ func refresh() -> void:
 		_weapons[weapon_id].disabled = busy or fired or not Conditions.can_act_combat() or int(combat["ap"]) < int(weapon["ap_cost"])
 		_weapons[weapon_id].set_selected(_weapon_id == weapon_id and not _moving)
 	_buttons["EndTurn"].disabled = busy or not Conditions.can_act_combat()
+	_buttons["EndTurn"].set_attention(not busy and combat["result"] == "active" and int(combat["ap"]) == 0 and int(combat["move_points"]) == 0)
 	_buttons["Continue"].visible = Conditions.can_finish_combat()
 	_buttons["Continue"].disabled = busy
-	_buttons["Load"].disabled = not FileAccess.file_exists(GameState.SAVE_PATH)
 	_buttons["Move"].set_selected(_moving)
 	for ability_id: String in _abilities:
 		var ability: Dictionary = DataLoader.get_record(ability_id)
@@ -349,29 +380,11 @@ func _select_weapon(weapon_id: String) -> void:
 	refresh()
 
 
-func _undo() -> void:
-	if not _board.is_animating():
-		EffectApplier.undo_combat_move()
-
-
 func _refresh_target() -> void:
 	if not Conditions.has_combat() or _target_info == null:
 		return
-	if _board.is_animating():
-		_target_info.text = Text.get_text("ui_combat_animating")
-	elif _moving:
-		var player: Dictionary = GameState.state["combat"]["player"]
-		var origin: Vector2i = Math.cell(player["pos"])
-		if Movement.edge_turn_bonus(origin, int(player["facing"])) > 0:
-			_target_info.text = Text.get_text("ui_combat_edge_assist", {"angle": Movement.turn_steps(origin, int(player["facing"]), Math.movement_settings(true)) * 45})
-		else:
-			_target_info.text = Text.get_text("ui_combat_move_hint")
-	elif Conditions.weapon_has_fired("player", _weapon_id):
-		_target_info.text = Text.get_text("ui_combat_weapon_spent")
-	elif not Math.inside(_hovered):
-		_target_info.text = Text.get_text("ui_combat_pick_target")
-	elif not Conditions.can_shoot_combat(_weapon_id, _hovered):
-		_target_info.text = Text.get_text("ui_combat_invalid_target")
+	if _board.is_animating() or _moving or Conditions.weapon_has_fired("player", _weapon_id) or not Math.inside(_hovered) or not Conditions.can_shoot_combat(_weapon_id, _hovered):
+		_target_info.text = ""
 	else:
 		var weapon: Dictionary = DataLoader.get_record(_weapon_id)
 		var chance: float = Math.shot_chance(GameState.state["combat"]["player"], _hovered, weapon, true)
@@ -408,16 +421,6 @@ func _end_turn() -> void:
 func _finish() -> void:
 	if not _board.is_animating():
 		EffectApplier.finish_combat()
-
-
-func _save() -> void:
-	_notice.text = Text.get_text("ui_map_saved" if GameState.save_game() == OK else "ui_map_save_error")
-	refresh()
-
-
-func _load() -> void:
-	if GameState.load_game() != OK:
-		_notice.text = Text.get_text("ui_map_save_error")
 
 
 func _on_restored() -> void:
