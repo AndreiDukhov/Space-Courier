@@ -2,7 +2,7 @@
   {
     "id": "ord_state_01",
     "source": "state",
-    "title": "TODO state order 01",
+    "title": "Продовольствие для колонии",
     "cargo": {
       "type": "food",
       "mass": 4,
@@ -46,7 +46,7 @@
   {
     "id": "ord_state_02",
     "source": "state",
-    "title": "TODO state order 02",
+    "title": "Медикаменты для колонии",
     "cargo": {
       "type": "medicine",
       "mass": 5,

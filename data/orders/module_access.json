@@ -2,7 +2,7 @@
   {
     "id": "ord_state_03",
     "source": "state",
-    "title": "TODO state parts contract 03",
+    "title": "Контракт снабжения №3",
     "cargo": {
       "type": "food",
       "mass": 3,
@@ -46,7 +46,7 @@
   {
     "id": "ord_state_04",
     "source": "state",
-    "title": "TODO state parts contract 04",
+    "title": "Контракт снабжения №4",
     "cargo": {
       "type": "food",
       "mass": 2,
@@ -90,7 +90,7 @@
   {
     "id": "ord_state_05",
     "source": "state",
-    "title": "TODO state parts contract 05",
+    "title": "Контракт снабжения №5",
     "cargo": {
       "type": "food",
       "mass": 3,
@@ -134,7 +134,7 @@
   {
     "id": "ord_crime_03",
     "source": "crime",
-    "title": "TODO crime parts contract 03",
+    "title": "Закрытый контракт №3",
     "cargo": {
       "type": "contraband",
       "mass": 3,
@@ -184,7 +184,7 @@
   {
     "id": "ord_crime_04",
     "source": "crime",
-    "title": "TODO crime parts contract 04",
+    "title": "Закрытый контракт №4",
     "cargo": {
       "type": "contraband",
       "mass": 2,
@@ -234,7 +234,7 @@
   {
     "id": "ord_crime_05",
     "source": "crime",
-    "title": "TODO crime parts contract 05",
+    "title": "Закрытый контракт №5",
     "cargo": {
       "type": "contraband",
       "mass": 3,

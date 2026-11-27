@@ -77,7 +77,7 @@ func _check_graph() -> void:
 	_check(Graph.shortest_path("c", "a", routes, [], 0).is_empty(), "Directed edges never create an implicit return route")
 	_check(Graph.shortest_path("a", "a", routes, [], 0).is_empty(), "A path to the current system has no legs")
 	_check(Graph.shortest_path("a", "missing", routes, [], 0).is_empty(), "An unreachable destination has no path")
-	_check(Graph.fuel_cost(4, 2) == 5 and Graph.fuel_cost(4, 2, true) == 7, "Cargo and boost multiply before rounding up")
+	_check(Graph.fuel_cost(4, 2) == 5 and Graph.fuel_cost(4, 2, true) == 14, "Cargo and triple boost consumption multiply before rounding up")
 	_check(Graph.estimate(routes[2], 0, false) == 5 and Graph.estimate(routes[2], 0, true) == 4, "A hidden true value cannot affect an expected fuel estimate")
 
 
@@ -125,7 +125,7 @@ func _check_travel() -> void:
 	_check(GameState.state["known_routes"].size() == 2 and _travel("r_earth_alpha") == OK and GameState.state["known_routes"].size() == 2, "Repeated travel does not duplicate discovered routes")
 	_check(OrderManager.status("ord_private_01") == "failed" and GameState.state["money"] == 880 and OrderManager.active_mass() == 0, "Jump days expire orders through the existing failure system")
 	_workshop()
-	_check(_travel("r_earth_alpha", true) == OK and GameState.state["ship"]["fuel"]["current"] == 24, "Boost spends fifty percent more fuel")
+	_check(_travel("r_earth_alpha", true) == OK and GameState.state["ship"]["fuel"]["current"] == 18, "Boost spends three times the ordinary jump fuel")
 	_check(Navigation.return_warning("sys_earth", Navigation.plan("sys_earth")) == "", "The current home destination has no extra unknown return leg")
 	EffectApplier.apply_effects([{"unlock_route": "r_alpha_earth"}])
 	GameState.state["ship"]["fuel"]["current"] = 1
@@ -229,7 +229,7 @@ func _check_view() -> void:
 	var terminal: Control = hub.get_node("%TerminalContent").get_child(0)
 	var card: Control = terminal.get_node("%Orders/ord_private_01")
 	_check(card.find_child("Payment", true, false).text == Text.get_text("ui_order_payment", {"amount": 600}), "Payment is visible before accepting an order")
-	_check("TODO Колония-3" in card.find_child("Destination", true, false).text and "TODO Планета-3" in card.find_child("Destination", true, false).text, "The order card shows its system and exact planet name")
+	_check("Колония-3" in card.find_child("Destination", true, false).text and "Планета-3" in card.find_child("Destination", true, false).text, "The order card shows its clean system and exact planet name")
 	_check(card.tooltip_text == DataLoader.get_record("ord_private_01")["description"] and "{" not in card.tooltip_text, "Hovering an order shows placeholder prose instead of JSON")
 	_check("{" not in card.find_child("Accept", true, false).tooltip_text and "Принять" in card.find_child("Accept", true, false).tooltip_text, "Action buttons also have readable hints")
 	await _capture("orders")

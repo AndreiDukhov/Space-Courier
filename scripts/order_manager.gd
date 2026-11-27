@@ -28,6 +28,11 @@ func remaining_days(order_id: String) -> int:
 	return maxi(0, deadline_day(order_id) - Clock.current_day()) if status(order_id) == "active" else -1
 
 
+func elapsed_days(order_id: String) -> int:
+	var entry: Dictionary = GameState.state.get("orders", {}).get(order_id, {})
+	return maxi(0, Clock.current_day() - int(entry["accepted_day"])) if not entry.is_empty() else 0
+
+
 func is_overdue(order_id: String) -> bool:
 	return DataLoader.get_record(order_id).get("source") != "shop" and status(order_id) == "active" and Clock.current_day() > deadline_day(order_id)
 

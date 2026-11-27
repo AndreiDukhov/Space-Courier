@@ -796,6 +796,19 @@ static func active_order_ids() -> Array[String]:
 	return result
 
 
+static func timed_order_ids() -> Array[String]:
+	var result: Array[String] = []
+	for order_id: String in active_order_ids():
+		if DataLoader.get_record(order_id).has("deadline_days"):
+			result.append(order_id)
+	result.sort_custom(func(a: String, b: String) -> bool:
+		var first: int = OrderManager.deadline_day(a)
+		var second: int = OrderManager.deadline_day(b)
+		return a < b if first == second else first < second
+	)
+	return result
+
+
 static func accepted_order_ids() -> Array[String]:
 	var result: Array[String] = active_order_ids()
 	for order_id: String in GameState.state.get("orders", {}):

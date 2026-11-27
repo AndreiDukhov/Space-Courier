@@ -2,7 +2,7 @@
   {
     "id": "ord_slice_test",
     "source": "private",
-    "title": "Тестовый рейс: Солнечная-2",
+    "title": "Местная доставка: Марс",
     "description": "текст текст текст текст текст текст текст текст",
     "cargo": {"type": "parcel", "mass": 1, "tags": ["legal"]},
     "from": "sys_earth",

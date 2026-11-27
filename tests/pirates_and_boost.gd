@@ -153,7 +153,11 @@ func _check_boost() -> void:
 	view._physics_process(1.0)
 	_check(is_equal_approx(normal_distance, 150.0) and is_equal_approx(Motion.point(GameState.state["flight"]["pos"]).x - 300.0, normal_distance * 2.0), "The actual flight toolbar doubles local movement speed")
 	var boost_cost: float = 30.0 - float(GameState.state["ship"]["fuel"]["current"])
-	_check(absf(boost_cost - normal_cost * 3.0) < 0.00001, "Double-speed flight spends fifty percent more fuel per distance")
+	_check(absf(boost_cost - normal_cost * 6.0) < 0.00001, "Double-speed flight spends six times the fuel per second")
+	_position(Vector2(300, 2100), Vector2(1200, 2100))
+	GameState.state["ship"]["fuel"]["current"] = 30.0
+	view._physics_process(0.5)
+	_check(absf(Motion.point(GameState.state["flight"]["pos"]).x - 450.0) < 0.001 and absf(30.0 - float(GameState.state["ship"]["fuel"]["current"]) - normal_cost * 3.0) < 0.00001, "The same distance under boost costs exactly three times as much fuel")
 	await _capture("boost")
 	EffectApplier.toggle_flight_pause()
 	var snapshot: Dictionary = GameState.serialize()
@@ -163,7 +167,7 @@ func _check_boost() -> void:
 	GameState.state["ship"]["fuel"]["current"] = 0.001
 	_position(Vector2(300, 2100), Vector2(1200, 2100))
 	view._physics_process(1.0)
-	_check(float(GameState.state["ship"]["fuel"]["current"]) == 0.0 and absf(Motion.point(GameState.state["flight"]["pos"]).x - 306.0) < 0.001, "Boost stops at its fuel-limited distance without overdrawing")
+	_check(float(GameState.state["ship"]["fuel"]["current"]) == 0.0 and absf(Motion.point(GameState.state["flight"]["pos"]).x - 303.0) < 0.001, "Boost stops at its fuel-limited distance without overdrawing")
 	snapshot = GameState.serialize()
 	view._physics_process(1.0)
 	_check(GameState.state["flight"]["pos"] == snapshot["flight"]["pos"], "An empty tank cannot move under boost")

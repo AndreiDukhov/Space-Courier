@@ -2,7 +2,7 @@
   {
     "id": "npc_earth_courier",
     "system": "sys_earth",
-    "name": "TODO Courier 1",
+    "name": "Курьер · Солнечная №1",
     "pos": [
       1860,
       1770
@@ -34,7 +34,7 @@
     "id": "npc_earth_transport",
     "shop": "planet_market_test",
     "system": "sys_earth",
-    "name": "TODO Transport 1",
+    "name": "Транспорт · Солнечная №1",
     "pos": [
       630,
       1200
@@ -65,7 +65,7 @@
   {
     "id": "npc_alpha_courier",
     "system": "sys_alpha",
-    "name": "TODO Courier 2",
+    "name": "Курьер · Альфа №1",
     "pos": [
       1950,
       1680
@@ -96,7 +96,7 @@
   {
     "id": "npc_beta_courier",
     "system": "sys_beta",
-    "name": "TODO Courier 3",
+    "name": "Курьер · Бета №1",
     "pos": [
       780,
       1560
@@ -127,7 +127,7 @@
   {
     "id": "npc_colony_courier",
     "system": "sys_colony_3",
-    "name": "TODO Courier 4",
+    "name": "Курьер · Колония-3 №1",
     "pos": [
       2040,
       1770
@@ -158,7 +158,7 @@
   {
     "id": "npc_delta_courier",
     "system": "sys_delta",
-    "name": "TODO Courier 5",
+    "name": "Курьер · Дельта №1",
     "pos": [
       720,
       1530
@@ -189,7 +189,7 @@
   {
     "id": "npc_far_courier",
     "system": "sys_far",
-    "name": "TODO Courier 6",
+    "name": "Курьер · Дальний край №1",
     "pos": [
       2100,
       1590
@@ -220,7 +220,7 @@
   {
     "id": "npc_earth_pirate",
     "system": "sys_earth",
-    "name": "TODO pirate name",
+    "name": "Пират · Солнечная №1",
     "pos": [
       2400,
       720
@@ -265,7 +265,7 @@
   {
     "id": "npc_earth_traffic_1",
     "system": "sys_earth",
-    "name": "TODO Transport earth 1",
+    "name": "Транспорт · Солнечная №1",
     "pos": [
       900,
       660
@@ -296,7 +296,7 @@
   {
     "id": "npc_earth_traffic_2",
     "system": "sys_earth",
-    "name": "TODO Transport earth 2",
+    "name": "Транспорт · Солнечная №2",
     "pos": [
       1950,
       1200
@@ -327,7 +327,7 @@
   {
     "id": "npc_earth_traffic_3",
     "system": "sys_earth",
-    "name": "TODO Transport earth 3",
+    "name": "Транспорт · Солнечная №3",
     "pos": [
       900,
       660
@@ -358,7 +358,7 @@
   {
     "id": "npc_earth_traffic_4",
     "system": "sys_earth",
-    "name": "TODO Transport earth 4",
+    "name": "Транспорт · Солнечная №4",
     "pos": [
       1950,
       1200
@@ -389,7 +389,7 @@
   {
     "id": "npc_earth_patrol",
     "system": "sys_earth",
-    "name": "Госполиция · TODO earth",
+    "name": "Патруль · Солнечная",
     "pos": [
       390,
       360
@@ -429,7 +429,7 @@
   {
     "id": "npc_alpha_traffic_1",
     "system": "sys_alpha",
-    "name": "TODO Transport alpha 1",
+    "name": "Транспорт · Альфа №1",
     "pos": [
       1080,
       840
@@ -460,7 +460,7 @@
   {
     "id": "npc_alpha_traffic_2",
     "system": "sys_alpha",
-    "name": "TODO Transport alpha 2",
+    "name": "Транспорт · Альфа №2",
     "pos": [
       2190,
       1260
@@ -491,7 +491,7 @@
   {
     "id": "npc_alpha_traffic_3",
     "system": "sys_alpha",
-    "name": "TODO Transport alpha 3",
+    "name": "Транспорт · Альфа №3",
     "pos": [
       1080,
       840
@@ -522,7 +522,7 @@
   {
     "id": "npc_alpha_traffic_4",
     "system": "sys_alpha",
-    "name": "TODO Transport alpha 4",
+    "name": "Транспорт · Альфа №4",
     "pos": [
       2190,
       1260
@@ -553,7 +553,7 @@
   {
     "id": "npc_alpha_patrol",
     "system": "sys_alpha",
-    "name": "Госполиция · TODO alpha",
+    "name": "Патруль · Альфа",
     "pos": [
       390,
       360
@@ -593,7 +593,7 @@
   {
     "id": "npc_alpha_pirate",
     "system": "sys_alpha",
-    "name": "TODO Pirate alpha",
+    "name": "Пират · Альфа №1",
     "pos": [
       2550,
       1050
@@ -638,7 +638,7 @@
   {
     "id": "npc_beta_traffic_1",
     "system": "sys_beta",
-    "name": "TODO Transport beta 1",
+    "name": "Транспорт · Бета №1",
     "pos": [
       1860,
       930
@@ -669,7 +669,7 @@
   {
     "id": "npc_beta_traffic_2",
     "system": "sys_beta",
-    "name": "TODO Transport beta 2",
+    "name": "Транспорт · Бета №2",
     "pos": [
       780,
       1320
@@ -700,7 +700,7 @@
   {
     "id": "npc_beta_traffic_3",
     "system": "sys_beta",
-    "name": "TODO Transport beta 3",
+    "name": "Транспорт · Бета №3",
     "pos": [
       1860,
       930
@@ -731,7 +731,7 @@
   {
     "id": "npc_beta_traffic_4",
     "system": "sys_beta",
-    "name": "TODO Transport beta 4",
+    "name": "Транспорт · Бета №4",
     "pos": [
       780,
       1320
@@ -762,7 +762,7 @@
   {
     "id": "npc_beta_patrol",
     "system": "sys_beta",
-    "name": "Госполиция · TODO beta",
+    "name": "Патруль · Бета",
     "pos": [
       390,
       360
@@ -802,7 +802,7 @@
   {
     "id": "npc_beta_pirate",
     "system": "sys_beta",
-    "name": "TODO Pirate beta",
+    "name": "Пират · Бета №1",
     "pos": [
       2550,
       1050
@@ -847,7 +847,7 @@
   {
     "id": "npc_colony_3_traffic_1",
     "system": "sys_colony_3",
-    "name": "TODO Transport colony_3 1",
+    "name": "Транспорт · Колония-3 №1",
     "pos": [
       1230,
       750
@@ -878,7 +878,7 @@
   {
     "id": "npc_colony_3_traffic_2",
     "system": "sys_colony_3",
-    "name": "TODO Transport colony_3 2",
+    "name": "Транспорт · Колония-3 №2",
     "pos": [
       2100,
       1320
@@ -909,7 +909,7 @@
   {
     "id": "npc_colony_3_traffic_3",
     "system": "sys_colony_3",
-    "name": "TODO Transport colony_3 3",
+    "name": "Транспорт · Колония-3 №3",
     "pos": [
       1230,
       750
@@ -940,7 +940,7 @@
   {
     "id": "npc_colony_3_traffic_4",
     "system": "sys_colony_3",
-    "name": "TODO Transport colony_3 4",
+    "name": "Транспорт · Колония-3 №4",
     "pos": [
       2100,
       1320
@@ -971,7 +971,7 @@
   {
     "id": "npc_colony_3_patrol",
     "system": "sys_colony_3",
-    "name": "Госполиция · TODO colony_3",
+    "name": "Патруль · Колония-3",
     "pos": [
       390,
       360
@@ -1011,7 +1011,7 @@
   {
     "id": "npc_colony_3_pirate",
     "system": "sys_colony_3",
-    "name": "TODO Pirate colony_3",
+    "name": "Пират · Колония-3 №1",
     "pos": [
       2550,
       1050
@@ -1056,7 +1056,7 @@
   {
     "id": "npc_delta_traffic_1",
     "system": "sys_delta",
-    "name": "TODO Transport delta 1",
+    "name": "Транспорт · Дельта №1",
     "pos": [
       1830,
       1350
@@ -1087,7 +1087,7 @@
   {
     "id": "npc_delta_traffic_2",
     "system": "sys_delta",
-    "name": "TODO Transport delta 2",
+    "name": "Транспорт · Дельта №2",
     "pos": [
       930,
       840
@@ -1118,7 +1118,7 @@
   {
     "id": "npc_delta_traffic_3",
     "system": "sys_delta",
-    "name": "TODO Transport delta 3",
+    "name": "Транспорт · Дельта №3",
     "pos": [
       1830,
       1350
@@ -1149,7 +1149,7 @@
   {
     "id": "npc_delta_traffic_4",
     "system": "sys_delta",
-    "name": "TODO Transport delta 4",
+    "name": "Транспорт · Дельта №4",
     "pos": [
       930,
       840
@@ -1180,7 +1180,7 @@
   {
     "id": "npc_delta_patrol",
     "system": "sys_delta",
-    "name": "Госполиция · TODO delta",
+    "name": "Патруль · Дельта",
     "pos": [
       390,
       360
@@ -1220,7 +1220,7 @@
   {
     "id": "npc_delta_pirate",
     "system": "sys_delta",
-    "name": "TODO Pirate delta",
+    "name": "Пират · Дельта №1",
     "pos": [
       2550,
       1050
@@ -1265,7 +1265,7 @@
   {
     "id": "npc_far_traffic_1",
     "system": "sys_far",
-    "name": "TODO Transport far 1",
+    "name": "Транспорт · Дальний край №1",
     "pos": [
       1920,
       930
@@ -1296,7 +1296,7 @@
   {
     "id": "npc_far_traffic_2",
     "system": "sys_far",
-    "name": "TODO Transport far 2",
+    "name": "Транспорт · Дальний край №2",
     "pos": [
       900,
       1500
@@ -1327,7 +1327,7 @@
   {
     "id": "npc_far_traffic_3",
     "system": "sys_far",
-    "name": "TODO Transport far 3",
+    "name": "Транспорт · Дальний край №3",
     "pos": [
       1920,
       930
@@ -1358,7 +1358,7 @@
   {
     "id": "npc_far_traffic_4",
     "system": "sys_far",
-    "name": "TODO Transport far 4",
+    "name": "Транспорт · Дальний край №4",
     "pos": [
       900,
       1500
@@ -1389,7 +1389,7 @@
   {
     "id": "npc_far_patrol",
     "system": "sys_far",
-    "name": "Госполиция · TODO far",
+    "name": "Патруль · Дальний край",
     "pos": [
       390,
       360
@@ -1429,7 +1429,7 @@
   {
     "id": "npc_far_pirate",
     "system": "sys_far",
-    "name": "TODO Pirate far",
+    "name": "Пират · Дальний край №1",
     "pos": [
       2550,
       1050
@@ -1474,7 +1474,7 @@
   {
     "id": "npc_gamma_traffic_1",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 1",
+    "name": "Транспорт · Гамма №1",
     "pos": [
       630,
       1770
@@ -1505,7 +1505,7 @@
   {
     "id": "npc_gamma_traffic_2",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 2",
+    "name": "Транспорт · Гамма №2",
     "pos": [
       2280,
       1860
@@ -1536,7 +1536,7 @@
   {
     "id": "npc_gamma_traffic_3",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 3",
+    "name": "Транспорт · Гамма №3",
     "pos": [
       780,
       780
@@ -1567,7 +1567,7 @@
   {
     "id": "npc_gamma_traffic_4",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 4",
+    "name": "Транспорт · Гамма №4",
     "pos": [
       2220,
       1380
@@ -1598,7 +1598,7 @@
   {
     "id": "npc_gamma_traffic_5",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 5",
+    "name": "Транспорт · Гамма №5",
     "pos": [
       780,
       780
@@ -1629,7 +1629,7 @@
   {
     "id": "npc_gamma_traffic_6",
     "system": "sys_gamma",
-    "name": "TODO Transport gamma 6",
+    "name": "Транспорт · Гамма №6",
     "pos": [
       2220,
       1380
@@ -1660,7 +1660,7 @@
   {
     "id": "npc_gamma_patrol",
     "system": "sys_gamma",
-    "name": "Госполиция · TODO gamma",
+    "name": "Патруль · Гамма",
     "pos": [
       390,
       360
@@ -1700,7 +1700,7 @@
   {
     "id": "npc_gamma_pirate",
     "system": "sys_gamma",
-    "name": "TODO Pirate gamma",
+    "name": "Пират · Гамма №1",
     "pos": [
       2550,
       1050
@@ -1745,7 +1745,7 @@
   {
     "id": "npc_epsilon_traffic_1",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 1",
+    "name": "Транспорт · Эпсилон №1",
     "pos": [
       630,
       1770
@@ -1776,7 +1776,7 @@
   {
     "id": "npc_epsilon_traffic_2",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 2",
+    "name": "Транспорт · Эпсилон №2",
     "pos": [
       2280,
       1860
@@ -1807,7 +1807,7 @@
   {
     "id": "npc_epsilon_traffic_3",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 3",
+    "name": "Транспорт · Эпсилон №3",
     "pos": [
       780,
       780
@@ -1838,7 +1838,7 @@
   {
     "id": "npc_epsilon_traffic_4",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 4",
+    "name": "Транспорт · Эпсилон №4",
     "pos": [
       2220,
       1380
@@ -1869,7 +1869,7 @@
   {
     "id": "npc_epsilon_traffic_5",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 5",
+    "name": "Транспорт · Эпсилон №5",
     "pos": [
       780,
       780
@@ -1900,7 +1900,7 @@
   {
     "id": "npc_epsilon_traffic_6",
     "system": "sys_epsilon",
-    "name": "TODO Transport epsilon 6",
+    "name": "Транспорт · Эпсилон №6",
     "pos": [
       2220,
       1380
@@ -1931,7 +1931,7 @@
   {
     "id": "npc_epsilon_patrol",
     "system": "sys_epsilon",
-    "name": "Госполиция · TODO epsilon",
+    "name": "Патруль · Эпсилон",
     "pos": [
       390,
       360
@@ -1971,7 +1971,7 @@
   {
     "id": "npc_epsilon_pirate",
     "system": "sys_epsilon",
-    "name": "TODO Pirate epsilon",
+    "name": "Пират · Эпсилон №1",
     "pos": [
       2550,
       1050
@@ -2016,7 +2016,7 @@
   {
     "id": "npc_zeta_traffic_1",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 1",
+    "name": "Транспорт · Дзета №1",
     "pos": [
       630,
       1770
@@ -2047,7 +2047,7 @@
   {
     "id": "npc_zeta_traffic_2",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 2",
+    "name": "Транспорт · Дзета №2",
     "pos": [
       2280,
       1860
@@ -2078,7 +2078,7 @@
   {
     "id": "npc_zeta_traffic_3",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 3",
+    "name": "Транспорт · Дзета №3",
     "pos": [
       780,
       780
@@ -2109,7 +2109,7 @@
   {
     "id": "npc_zeta_traffic_4",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 4",
+    "name": "Транспорт · Дзета №4",
     "pos": [
       2220,
       1380
@@ -2140,7 +2140,7 @@
   {
     "id": "npc_zeta_traffic_5",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 5",
+    "name": "Транспорт · Дзета №5",
     "pos": [
       780,
       780
@@ -2171,7 +2171,7 @@
   {
     "id": "npc_zeta_traffic_6",
     "system": "sys_zeta",
-    "name": "TODO Transport zeta 6",
+    "name": "Транспорт · Дзета №6",
     "pos": [
       2220,
       1380
@@ -2202,7 +2202,7 @@
   {
     "id": "npc_zeta_patrol",
     "system": "sys_zeta",
-    "name": "Госполиция · TODO zeta",
+    "name": "Патруль · Дзета",
     "pos": [
       390,
       360
@@ -2242,7 +2242,7 @@
   {
     "id": "npc_zeta_pirate",
     "system": "sys_zeta",
-    "name": "TODO Pirate zeta",
+    "name": "Пират · Дзета №1",
     "pos": [
       2550,
       1050
@@ -2287,7 +2287,7 @@
   {
     "id": "npc_orion_traffic_1",
     "system": "sys_orion",
-    "name": "TODO Transport orion 1",
+    "name": "Транспорт · Орион №1",
     "pos": [
       630,
       1770
@@ -2318,7 +2318,7 @@
   {
     "id": "npc_orion_traffic_2",
     "system": "sys_orion",
-    "name": "TODO Transport orion 2",
+    "name": "Транспорт · Орион №2",
     "pos": [
       2280,
       1860
@@ -2349,7 +2349,7 @@
   {
     "id": "npc_orion_traffic_3",
     "system": "sys_orion",
-    "name": "TODO Transport orion 3",
+    "name": "Транспорт · Орион №3",
     "pos": [
       780,
       780
@@ -2380,7 +2380,7 @@
   {
     "id": "npc_orion_traffic_4",
     "system": "sys_orion",
-    "name": "TODO Transport orion 4",
+    "name": "Транспорт · Орион №4",
     "pos": [
       2220,
       1380
@@ -2411,7 +2411,7 @@
   {
     "id": "npc_orion_traffic_5",
     "system": "sys_orion",
-    "name": "TODO Transport orion 5",
+    "name": "Транспорт · Орион №5",
     "pos": [
       780,
       780
@@ -2442,7 +2442,7 @@
   {
     "id": "npc_orion_traffic_6",
     "system": "sys_orion",
-    "name": "TODO Transport orion 6",
+    "name": "Транспорт · Орион №6",
     "pos": [
       2220,
       1380
@@ -2473,7 +2473,7 @@
   {
     "id": "npc_orion_patrol",
     "system": "sys_orion",
-    "name": "Госполиция · TODO orion",
+    "name": "Патруль · Орион",
     "pos": [
       390,
       360
@@ -2513,7 +2513,7 @@
   {
     "id": "npc_orion_pirate",
     "system": "sys_orion",
-    "name": "TODO Pirate orion",
+    "name": "Пират · Орион №1",
     "pos": [
       2550,
       1050
@@ -2558,7 +2558,7 @@
   {
     "id": "npc_vega_traffic_1",
     "system": "sys_vega",
-    "name": "TODO Transport vega 1",
+    "name": "Транспорт · Вега №1",
     "pos": [
       630,
       1770
@@ -2589,7 +2589,7 @@
   {
     "id": "npc_vega_traffic_2",
     "system": "sys_vega",
-    "name": "TODO Transport vega 2",
+    "name": "Транспорт · Вега №2",
     "pos": [
       2280,
       1860
@@ -2620,7 +2620,7 @@
   {
     "id": "npc_vega_traffic_3",
     "system": "sys_vega",
-    "name": "TODO Transport vega 3",
+    "name": "Транспорт · Вега №3",
     "pos": [
       780,
       780
@@ -2651,7 +2651,7 @@
   {
     "id": "npc_vega_traffic_4",
     "system": "sys_vega",
-    "name": "TODO Transport vega 4",
+    "name": "Транспорт · Вега №4",
     "pos": [
       2220,
       1380
@@ -2682,7 +2682,7 @@
   {
     "id": "npc_vega_traffic_5",
     "system": "sys_vega",
-    "name": "TODO Transport vega 5",
+    "name": "Транспорт · Вега №5",
     "pos": [
       780,
       780
@@ -2713,7 +2713,7 @@
   {
     "id": "npc_vega_traffic_6",
     "system": "sys_vega",
-    "name": "TODO Transport vega 6",
+    "name": "Транспорт · Вега №6",
     "pos": [
       2220,
       1380
@@ -2744,7 +2744,7 @@
   {
     "id": "npc_vega_patrol",
     "system": "sys_vega",
-    "name": "Госполиция · TODO vega",
+    "name": "Патруль · Вега",
     "pos": [
       390,
       360
@@ -2784,7 +2784,7 @@
   {
     "id": "npc_vega_pirate",
     "system": "sys_vega",
-    "name": "TODO Pirate vega",
+    "name": "Пират · Вега №1",
     "pos": [
       2550,
       1050
@@ -2829,7 +2829,7 @@
   {
     "id": "npc_frontier_traffic_1",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 1",
+    "name": "Транспорт · Рубеж №1",
     "pos": [
       630,
       1770
@@ -2860,7 +2860,7 @@
   {
     "id": "npc_frontier_traffic_2",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 2",
+    "name": "Транспорт · Рубеж №2",
     "pos": [
       2280,
       1860
@@ -2891,7 +2891,7 @@
   {
     "id": "npc_frontier_traffic_3",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 3",
+    "name": "Транспорт · Рубеж №3",
     "pos": [
       780,
       780
@@ -2922,7 +2922,7 @@
   {
     "id": "npc_frontier_traffic_4",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 4",
+    "name": "Транспорт · Рубеж №4",
     "pos": [
       2220,
       1380
@@ -2953,7 +2953,7 @@
   {
     "id": "npc_frontier_traffic_5",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 5",
+    "name": "Транспорт · Рубеж №5",
     "pos": [
       780,
       780
@@ -2984,7 +2984,7 @@
   {
     "id": "npc_frontier_traffic_6",
     "system": "sys_frontier",
-    "name": "TODO Transport frontier 6",
+    "name": "Транспорт · Рубеж №6",
     "pos": [
       2220,
       1380
@@ -3015,7 +3015,7 @@
   {
     "id": "npc_frontier_patrol",
     "system": "sys_frontier",
-    "name": "Госполиция · TODO frontier",
+    "name": "Патруль · Рубеж",
     "pos": [
       390,
       360
@@ -3055,7 +3055,7 @@
   {
     "id": "npc_frontier_pirate",
     "system": "sys_frontier",
-    "name": "TODO Pirate frontier",
+    "name": "Пират · Рубеж №1",
     "pos": [
       2550,
       1050

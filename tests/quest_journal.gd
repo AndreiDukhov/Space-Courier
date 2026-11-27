@@ -18,6 +18,7 @@ func _run() -> void:
 	_check(DataLoader.load_errors.is_empty(), "Journal content validates")
 	await _check_empty()
 	await _check_flight()
+	await _check_day_counter()
 	for failure: String in failures:
 		printerr("FAIL: " + failure)
 	print("Quest journal checks: %d passed, %d failed" % [check_count - failures.size(), failures.size()])
@@ -31,6 +32,7 @@ func _check_empty() -> void:
 	add_child(map)
 	await _frames()
 	var button: Button = map.find_child("OpenQuests", true, false)
+	_check(not map.find_child("QuestDays", true, false).visible, "No counter appears without an accepted task")
 	await _click(button)
 	var journal: Control = map.get_node("QuestJournal")
 	var content: VBoxContainer = journal.find_child("Quests", true, false)
@@ -144,7 +146,56 @@ func _check_pointer_updates(view: Control, indicators: Control) -> void:
 	Clock.advance_slots(20)
 	await _frames()
 	_check(content.get_node("ord_state_01").find_child("Status", true, false).text == "Провалено" and content.get_node("shop_quest_01").find_child("Status", true, false).text == "Выполняется", "Deadline expiry updates the journal status while shop tasks remain active")
+	_check(view.find_child("QuestDays", true, false).text == "Без срока", "Untimed shop work never invents a deadline")
 	order.merge(original, true)
+
+
+func _check_day_counter() -> void:
+	GameState.start_new_game(DataLoader.get_records("heroines"), DataLoader.get_record("ship_main"))
+	EffectApplier.move_player("hub_office")
+	for order_id: String in ["ord_state_01", "ord_private_01", "ord_slice_test"]:
+		_check(EffectApplier.accept_order(order_id) == OK, "The counter accepts a real timed delivery")
+	EffectApplier.move_player("hub_tech")
+	EffectApplier.launch_flight()
+	for entry: Dictionary in GameState.state["flight"]["npcs"].values():
+		entry["cooldown"] = 10000.0
+	var view: Control = FlightScene.instantiate()
+	add_child(view)
+	view.set_physics_process(false)
+	await _frames()
+	var counter: Label = view.find_child("QuestDays", true, false)
+	var button: Button = view.find_child("OpenQuests", true, false)
+	_check(counter.visible and counter.text == "Дни: 0/1", "The earliest deadline wins regardless of acceptance order")
+	_check(counter.get_global_rect().position.y >= button.get_global_rect().end.y and counter.get_global_rect().end.y <= view.get_node("%FlightResources").get_global_rect().position.y, "The counter sits directly below the quest button and above ship resources")
+	_check(view.get_global_rect().encloses(counter.get_global_rect()) and view._journal.button_rect().encloses(counter.get_rect()), "The counter fits the viewport and reserves its area from pointers")
+	for order_id: String in ["ord_state_01", "ord_private_01", "ord_slice_test"]:
+		_check(str(DataLoader.get_record(order_id)["title"]) in counter.tooltip_text, "The tooltip identifies every timed task")
+	var snapshot: Dictionary = GameState.serialize()
+	await _click_at(counter.get_global_rect().get_center())
+	_check(GameState.serialize() == snapshot, "Clicking the day counter cannot steer the ship")
+	Clock.advance_slots()
+	await _frames()
+	_check(counter.text == "Дни: 0/1", "A time slot within the same day does not increment elapsed days")
+	Clock.advance_slots(3)
+	await _frames()
+	_check(counter.text == "Дни: 1/1" and OrderManager.status("ord_slice_test") == "active", "The last permitted day is displayed inclusively")
+	await _capture("day-counter")
+	_check(GameState.save_game("user://quest-counter.json") == OK, "A counter uses the existing saved order dates")
+	Clock.advance_slots(4)
+	await _frames()
+	_check(counter.text == "Дни: 2/2" and OrderManager.status("ord_slice_test") == "failed", "Expiry switches the counter to the next active deadline")
+	_check(GameState.load_game("user://quest-counter.json") == OK, "The saved date can be restored")
+	await _frames()
+	_check(counter.text == "Дни: 1/1" and OrderManager.status("ord_slice_test") == "active", "Loading recomputes the counter from the restored calendar")
+	await _click(view.get_node("%Map"))
+	var map: Control = view.get_node("GalaxyMap")
+	_check(map.find_child("QuestDays", true, false).text == "Дни: 1/1", "The galaxy map uses the same deadline")
+	await _click(map.get_node("%Close"))
+	Clock.advance_slots(4)
+	_check(EffectApplier.settle_order("ord_private_01", "failed", false) == OK and counter.text == "Дни: 2/3", "Removing the nearest order reveals the next one")
+	_check(EffectApplier.settle_order("ord_state_01", "failed", false) == OK and not counter.visible, "The counter disappears after the final timed task closes")
+	view.queue_free()
+	await _frames()
 
 
 func _check_green(indicators: Control, planet_id: String, green: bool) -> void:

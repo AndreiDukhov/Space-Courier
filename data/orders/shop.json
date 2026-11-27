@@ -3,7 +3,7 @@
     "id": "shop_quest_01",
     "source": "shop",
     "giver": "shopkeeper",
-    "title": "TODO shop task 1",
+    "title": "Помощь в магазине",
     "requires": [],
     "reward": [
       {
@@ -24,7 +24,7 @@
     "id": "shop_quest_02",
     "source": "shop",
     "giver": "shopkeeper",
-    "title": "TODO shop task 2",
+    "title": "Пополнение запасов",
     "requires": [
       {
         "flag": "shop_quest_01_done",
@@ -55,7 +55,7 @@
     "id": "shop_quest_03",
     "source": "shop",
     "giver": "shopkeeper",
-    "title": "TODO shop task 3",
+    "title": "Работа на складе",
     "requires": [
       {
         "flag": "shop_quest_02_done",

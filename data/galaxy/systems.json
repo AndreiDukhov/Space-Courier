@@ -2,7 +2,7 @@
   {
     "id": "sys_earth",
     "background": "res://art/backgrounds/space_blue.png",
-    "name": "TODO Солнечная",
+    "name": "Солнечная система",
     "map_pos": [
       120,
       320
@@ -18,7 +18,7 @@
       {
         "type": "planet",
         "id": "earth_1",
-        "name": "TODO Земля",
+        "name": "Земля",
         "pos": [
           900,
           660
@@ -32,7 +32,7 @@
       {
         "type": "planet",
         "id": "earth_2",
-        "name": "TODO Солнечная-2",
+        "name": "Марс",
         "pos": [
           1950,
           1200
@@ -46,7 +46,7 @@
       {
         "type": "planet",
         "id": "earth_3",
-        "name": "TODO Солнечная-3",
+        "name": "Венера",
         "pos": [
           2160,
           1920
@@ -58,7 +58,7 @@
       {
         "type": "star",
         "id": "star_earth",
-        "name": "TODO Звезда: Солнечная",
+        "name": "Солнце",
         "pos": [
           1500,
           1140
@@ -97,7 +97,7 @@
       {
         "type": "station",
         "id": "station_police",
-        "name": "TODO Станция госполиции",
+        "name": "Станция госполиции",
         "pos": [
           450,
           1200
@@ -120,7 +120,7 @@
   {
     "id": "sys_alpha",
     "background": "res://art/backgrounds/space_violet.png",
-    "name": "TODO Альфа",
+    "name": "Альфа",
     "map_pos": [
       370,
       100
@@ -136,7 +136,7 @@
       {
         "type": "planet",
         "id": "alpha_1",
-        "name": "TODO Альфа-1",
+        "name": "Альфа-1",
         "pos": [
           1080,
           840
@@ -150,7 +150,7 @@
       {
         "type": "planet",
         "id": "alpha_2",
-        "name": "TODO Альфа-2",
+        "name": "Альфа-2",
         "pos": [
           2190,
           1260
@@ -164,7 +164,7 @@
       {
         "type": "planet",
         "id": "alpha_3",
-        "name": "TODO Альфа-3",
+        "name": "Альфа-3",
         "pos": [
           870,
           1890
@@ -176,7 +176,7 @@
       {
         "type": "star",
         "id": "star_alpha",
-        "name": "TODO Звезда: Альфа",
+        "name": "Звезда: Альфа",
         "pos": [
           1500,
           1140
@@ -215,7 +215,7 @@
       {
         "type": "station",
         "id": "station_pirate",
-        "name": "TODO Пиратская верфь",
+        "name": "Пиратская верфь",
         "pos": [
           2440,
           1840
@@ -238,7 +238,7 @@
   {
     "id": "sys_beta",
     "background": "res://art/backgrounds/space_amber.png",
-    "name": "TODO Бета",
+    "name": "Бета",
     "map_pos": [
       370,
       550
@@ -254,7 +254,7 @@
       {
         "type": "planet",
         "id": "beta_1",
-        "name": "TODO Бета-1",
+        "name": "Бета-1",
         "pos": [
           1860,
           930
@@ -268,7 +268,7 @@
       {
         "type": "planet",
         "id": "beta_2",
-        "name": "TODO Бета-2",
+        "name": "Бета-2",
         "pos": [
           780,
           1320
@@ -282,7 +282,7 @@
       {
         "type": "planet",
         "id": "beta_3",
-        "name": "TODO Бета-3",
+        "name": "Бета-3",
         "pos": [
           2040,
           1920
@@ -294,7 +294,7 @@
       {
         "type": "star",
         "id": "star_beta",
-        "name": "TODO Звезда: Бета",
+        "name": "Звезда: Бета",
         "pos": [
           1500,
           1140
@@ -335,7 +335,7 @@
   {
     "id": "sys_colony_3",
     "background": "res://art/backgrounds/space_blue.png",
-    "name": "TODO Колония-3",
+    "name": "Колония-3",
     "map_pos": [
       620,
       320
@@ -351,7 +351,7 @@
       {
         "type": "planet",
         "id": "colony_3_1",
-        "name": "TODO Планета-3",
+        "name": "Планета-3",
         "pos": [
           1230,
           750
@@ -365,7 +365,7 @@
       {
         "type": "planet",
         "id": "colony_3_2",
-        "name": "TODO Планета-4",
+        "name": "Планета-4",
         "pos": [
           2100,
           1320
@@ -379,7 +379,7 @@
       {
         "type": "planet",
         "id": "colony_3_3",
-        "name": "TODO Колония-3-3",
+        "name": "Колония-3-3",
         "pos": [
           570,
           1560
@@ -391,7 +391,7 @@
       {
         "type": "star",
         "id": "star_colony_3",
-        "name": "TODO Звезда: Колония-3",
+        "name": "Звезда: Колония-3",
         "pos": [
           1500,
           1140
@@ -432,7 +432,7 @@
   {
     "id": "sys_delta",
     "background": "res://art/backgrounds/space_violet.png",
-    "name": "TODO Дельта",
+    "name": "Дельта",
     "map_pos": [
       620,
       550
@@ -448,7 +448,7 @@
       {
         "type": "planet",
         "id": "delta_1",
-        "name": "TODO Дельта-1",
+        "name": "Дельта-1",
         "pos": [
           1830,
           1350
@@ -462,7 +462,7 @@
       {
         "type": "planet",
         "id": "delta_2",
-        "name": "TODO Дельта-2",
+        "name": "Дельта-2",
         "pos": [
           930,
           840
@@ -476,7 +476,7 @@
       {
         "type": "planet",
         "id": "delta_3",
-        "name": "TODO Дельта-3",
+        "name": "Дельта-3",
         "pos": [
           2430,
           870
@@ -488,7 +488,7 @@
       {
         "type": "star",
         "id": "star_delta",
-        "name": "TODO Звезда: Дельта",
+        "name": "Звезда: Дельта",
         "pos": [
           1500,
           1140
@@ -529,7 +529,7 @@
   {
     "id": "sys_far",
     "background": "res://art/backgrounds/space_amber.png",
-    "name": "TODO Дальний край",
+    "name": "Дальний край",
     "map_pos": [
       120,
       100
@@ -545,7 +545,7 @@
       {
         "type": "planet",
         "id": "far_1",
-        "name": "TODO Дальний край-1",
+        "name": "Дальний край-1",
         "pos": [
           1920,
           930
@@ -559,7 +559,7 @@
       {
         "type": "planet",
         "id": "far_2",
-        "name": "TODO Дальний край-2",
+        "name": "Дальний край-2",
         "pos": [
           900,
           1500
@@ -573,7 +573,7 @@
       {
         "type": "planet",
         "id": "far_3",
-        "name": "TODO Дальний край-3",
+        "name": "Дальний край-3",
         "pos": [
           990,
           330
@@ -585,7 +585,7 @@
       {
         "type": "star",
         "id": "star_far",
-        "name": "TODO Звезда: Дальний край",
+        "name": "Звезда: Дальний край",
         "pos": [
           1500,
           1140
@@ -634,7 +634,7 @@
   {
     "id": "sys_gamma",
     "background": "res://art/backgrounds/space_blue.png",
-    "name": "TODO Гамма",
+    "name": "Гамма",
     "map_pos": [
       870,
       550
@@ -658,7 +658,7 @@
       {
         "type": "planet",
         "id": "gamma_1",
-        "name": "TODO Гамма-1",
+        "name": "Гамма-1",
         "pos": [
           780,
           780
@@ -672,7 +672,7 @@
       {
         "type": "planet",
         "id": "gamma_2",
-        "name": "TODO Гамма-2",
+        "name": "Гамма-2",
         "pos": [
           2220,
           1380
@@ -686,7 +686,7 @@
       {
         "type": "planet",
         "id": "gamma_3",
-        "name": "TODO Гамма-3",
+        "name": "Гамма-3",
         "pos": [
           840,
           1950
@@ -698,7 +698,7 @@
       {
         "type": "star",
         "id": "star_gamma",
-        "name": "TODO Звезда: Гамма",
+        "name": "Звезда: Гамма",
         "pos": [
           1500,
           1140
@@ -731,7 +731,7 @@
   {
     "id": "sys_epsilon",
     "background": "res://art/backgrounds/space_violet.png",
-    "name": "TODO Эпсилон",
+    "name": "Эпсилон",
     "map_pos": [
       870,
       320
@@ -755,7 +755,7 @@
       {
         "type": "planet",
         "id": "epsilon_1",
-        "name": "TODO Эпсилон-1",
+        "name": "Эпсилон-1",
         "pos": [
           780,
           780
@@ -769,7 +769,7 @@
       {
         "type": "planet",
         "id": "epsilon_2",
-        "name": "TODO Эпсилон-2",
+        "name": "Эпсилон-2",
         "pos": [
           2220,
           1380
@@ -783,7 +783,7 @@
       {
         "type": "planet",
         "id": "epsilon_3",
-        "name": "TODO Эпсилон-3",
+        "name": "Эпсилон-3",
         "pos": [
           840,
           1950
@@ -795,7 +795,7 @@
       {
         "type": "star",
         "id": "star_epsilon",
-        "name": "TODO Звезда: Эпсилон",
+        "name": "Звезда: Эпсилон",
         "pos": [
           1500,
           1140
@@ -828,7 +828,7 @@
   {
     "id": "sys_zeta",
     "background": "res://art/backgrounds/space_amber.png",
-    "name": "TODO Дзета",
+    "name": "Дзета",
     "map_pos": [
       120,
       550
@@ -852,7 +852,7 @@
       {
         "type": "planet",
         "id": "zeta_1",
-        "name": "TODO Дзета-1",
+        "name": "Дзета-1",
         "pos": [
           780,
           780
@@ -866,7 +866,7 @@
       {
         "type": "planet",
         "id": "zeta_2",
-        "name": "TODO Дзета-2",
+        "name": "Дзета-2",
         "pos": [
           2220,
           1380
@@ -880,7 +880,7 @@
       {
         "type": "planet",
         "id": "zeta_3",
-        "name": "TODO Дзета-3",
+        "name": "Дзета-3",
         "pos": [
           840,
           1950
@@ -892,7 +892,7 @@
       {
         "type": "star",
         "id": "star_zeta",
-        "name": "TODO Звезда: Дзета",
+        "name": "Звезда: Дзета",
         "pos": [
           1500,
           1140
@@ -925,7 +925,7 @@
   {
     "id": "sys_orion",
     "background": "res://art/backgrounds/space_blue.png",
-    "name": "TODO Орион",
+    "name": "Орион",
     "map_pos": [
       870,
       100
@@ -949,7 +949,7 @@
       {
         "type": "planet",
         "id": "orion_1",
-        "name": "TODO Орион-1",
+        "name": "Орион-1",
         "pos": [
           780,
           780
@@ -963,7 +963,7 @@
       {
         "type": "planet",
         "id": "orion_2",
-        "name": "TODO Орион-2",
+        "name": "Орион-2",
         "pos": [
           2220,
           1380
@@ -977,7 +977,7 @@
       {
         "type": "planet",
         "id": "orion_3",
-        "name": "TODO Орион-3",
+        "name": "Орион-3",
         "pos": [
           840,
           1950
@@ -989,7 +989,7 @@
       {
         "type": "star",
         "id": "star_orion",
-        "name": "TODO Звезда: Орион",
+        "name": "Звезда: Орион",
         "pos": [
           1500,
           1140
@@ -1022,7 +1022,7 @@
   {
     "id": "sys_vega",
     "background": "res://art/backgrounds/space_violet.png",
-    "name": "TODO Вега",
+    "name": "Вега",
     "map_pos": [
       620,
       100
@@ -1046,7 +1046,7 @@
       {
         "type": "planet",
         "id": "vega_1",
-        "name": "TODO Вега-1",
+        "name": "Вега-1",
         "pos": [
           780,
           780
@@ -1060,7 +1060,7 @@
       {
         "type": "planet",
         "id": "vega_2",
-        "name": "TODO Вега-2",
+        "name": "Вега-2",
         "pos": [
           2220,
           1380
@@ -1074,7 +1074,7 @@
       {
         "type": "planet",
         "id": "vega_3",
-        "name": "TODO Вега-3",
+        "name": "Вега-3",
         "pos": [
           840,
           1950
@@ -1086,7 +1086,7 @@
       {
         "type": "star",
         "id": "star_vega",
-        "name": "TODO Звезда: Вега",
+        "name": "Звезда: Вега",
         "pos": [
           1500,
           1140
@@ -1119,7 +1119,7 @@
   {
     "id": "sys_frontier",
     "background": "res://art/backgrounds/space_amber.png",
-    "name": "TODO Рубеж",
+    "name": "Рубеж",
     "map_pos": [
       370,
       320
@@ -1143,7 +1143,7 @@
       {
         "type": "planet",
         "id": "frontier_1",
-        "name": "TODO Рубеж-1",
+        "name": "Рубеж-1",
         "pos": [
           780,
           780
@@ -1157,7 +1157,7 @@
       {
         "type": "planet",
         "id": "frontier_2",
-        "name": "TODO Рубеж-2",
+        "name": "Рубеж-2",
         "pos": [
           2220,
           1380
@@ -1171,7 +1171,7 @@
       {
         "type": "planet",
         "id": "frontier_3",
-        "name": "TODO Рубеж-3",
+        "name": "Рубеж-3",
         "pos": [
           840,
           1950
@@ -1183,7 +1183,7 @@
       {
         "type": "star",
         "id": "star_frontier",
-        "name": "TODO Звезда: Рубеж",
+        "name": "Звезда: Рубеж",
         "pos": [
           1500,
           1140

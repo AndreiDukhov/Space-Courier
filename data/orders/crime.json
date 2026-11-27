@@ -2,7 +2,7 @@
   {
     "id": "ord_crime_01",
     "source": "crime",
-    "title": "TODO crime order 01",
+    "title": "Закрытая доставка",
     "cargo": {
       "type": "contraband",
       "mass": 2,
@@ -52,7 +52,7 @@
   {
     "id": "ord_crime_02",
     "source": "crime",
-    "title": "TODO crime order 02",
+    "title": "Контрабандный груз",
     "cargo": {
       "type": "contraband",
       "mass": 3,

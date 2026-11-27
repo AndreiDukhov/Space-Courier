@@ -1,7 +1,8 @@
 extends RefCounted
 
+const Motion = preload("res://scripts/flight_motion.gd")
 const CARGO_FUEL_FACTOR: float = 0.05
-const BOOST_MULTIPLIER: float = 1.5
+const BOOST_MULTIPLIER: float = Motion.BOOST_FUEL_MULTIPLIER
 
 
 static func fuel_cost(base: float, mass: float, boost: bool = false) -> int:

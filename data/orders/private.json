@@ -2,7 +2,7 @@
   {
     "id": "ord_private_01",
     "source": "private",
-    "title": "TODO private order 01",
+    "title": "Частная посылка",
     "cargo": {
       "type": "parcel",
       "mass": 2,
@@ -40,7 +40,7 @@
   {
     "id": "ord_private_02",
     "source": "private",
-    "title": "TODO private order 02",
+    "title": "Курьерская доставка",
     "cargo": {
       "type": "parcel",
       "mass": 3,

@@ -10,5 +10,9 @@
   {"id": "ui_journal_failed", "text": "Провалено"},
   {"id": "ui_journal_closed_deadline", "text": "Срок сдачи — до дня {day} включительно"},
   {"id": "ui_journal_handover", "text": "Подлетите к планете назначения и нажмите «Сдать заказ» над ней."},
-  {"id": "ui_journal_reward", "text": "Награда по заказу — {amount} кредитов"}
+  {"id": "ui_journal_reward", "text": "Награда по заказу — {amount} кредитов"},
+  {"id": "ui_journal_days", "text": "Дни: {elapsed}/{total}"},
+  {"id": "ui_journal_untimed", "text": "Без срока"},
+  {"id": "ui_journal_nearest", "text": "Ближайший срок: {title}"},
+  {"id": "ui_journal_day_entry", "text": "{title} — {days}"}
 ]

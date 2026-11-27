@@ -2,7 +2,7 @@
   {
     "id": "npc_earth_raider_2",
     "system": "sys_earth",
-    "name": "TODO Pirate earth 2",
+    "name": "Пират · Солнечная №2",
     "pos": [
       2348,
       780
@@ -47,7 +47,7 @@
   {
     "id": "npc_earth_raider_3",
     "system": "sys_earth",
-    "name": "TODO Pirate earth 3",
+    "name": "Пират · Солнечная №3",
     "pos": [
       2400,
       1950
@@ -92,7 +92,7 @@
   {
     "id": "npc_alpha_raider_2",
     "system": "sys_alpha",
-    "name": "TODO Pirate alpha 2",
+    "name": "Пират · Альфа №2",
     "pos": [
       2498,
       1110
@@ -137,7 +137,7 @@
   {
     "id": "npc_alpha_raider_3",
     "system": "sys_alpha",
-    "name": "TODO Pirate alpha 3",
+    "name": "Пират · Альфа №3",
     "pos": [
       2400,
       1950
@@ -182,7 +182,7 @@
   {
     "id": "npc_beta_raider_2",
     "system": "sys_beta",
-    "name": "TODO Pirate beta 2",
+    "name": "Пират · Бета №2",
     "pos": [
       2498,
       1110
@@ -227,7 +227,7 @@
   {
     "id": "npc_beta_raider_3",
     "system": "sys_beta",
-    "name": "TODO Pirate beta 3",
+    "name": "Пират · Бета №3",
     "pos": [
       2400,
       1950
@@ -272,7 +272,7 @@
   {
     "id": "npc_colony_3_raider_2",
     "system": "sys_colony_3",
-    "name": "TODO Pirate colony_3 2",
+    "name": "Пират · Колония-3 №2",
     "pos": [
       2498,
       1110
@@ -317,7 +317,7 @@
   {
     "id": "npc_colony_3_raider_3",
     "system": "sys_colony_3",
-    "name": "TODO Pirate colony_3 3",
+    "name": "Пират · Колония-3 №3",
     "pos": [
       2400,
       1950
@@ -362,7 +362,7 @@
   {
     "id": "npc_delta_raider_2",
     "system": "sys_delta",
-    "name": "TODO Pirate delta 2",
+    "name": "Пират · Дельта №2",
     "pos": [
       2498,
       1110
@@ -407,7 +407,7 @@
   {
     "id": "npc_delta_raider_3",
     "system": "sys_delta",
-    "name": "TODO Pirate delta 3",
+    "name": "Пират · Дельта №3",
     "pos": [
       2400,
       1950
@@ -452,7 +452,7 @@
   {
     "id": "npc_far_raider_2",
     "system": "sys_far",
-    "name": "TODO Pirate far 2",
+    "name": "Пират · Дальний край №2",
     "pos": [
       2498,
       1110
@@ -497,7 +497,7 @@
   {
     "id": "npc_far_raider_3",
     "system": "sys_far",
-    "name": "TODO Pirate far 3",
+    "name": "Пират · Дальний край №3",
     "pos": [
       2400,
       1950
@@ -542,7 +542,7 @@
   {
     "id": "npc_gamma_raider_2",
     "system": "sys_gamma",
-    "name": "TODO Pirate gamma 2",
+    "name": "Пират · Гамма №2",
     "pos": [
       2498,
       1110
@@ -587,7 +587,7 @@
   {
     "id": "npc_gamma_raider_3",
     "system": "sys_gamma",
-    "name": "TODO Pirate gamma 3",
+    "name": "Пират · Гамма №3",
     "pos": [
       2400,
       1950
@@ -632,7 +632,7 @@
   {
     "id": "npc_epsilon_raider_2",
     "system": "sys_epsilon",
-    "name": "TODO Pirate epsilon 2",
+    "name": "Пират · Эпсилон №2",
     "pos": [
       2498,
       1110
@@ -677,7 +677,7 @@
   {
     "id": "npc_epsilon_raider_3",
     "system": "sys_epsilon",
-    "name": "TODO Pirate epsilon 3",
+    "name": "Пират · Эпсилон №3",
     "pos": [
       2400,
       1950
@@ -722,7 +722,7 @@
   {
     "id": "npc_zeta_raider_2",
     "system": "sys_zeta",
-    "name": "TODO Pirate zeta 2",
+    "name": "Пират · Дзета №2",
     "pos": [
       2498,
       1110
@@ -767,7 +767,7 @@
   {
     "id": "npc_zeta_raider_3",
     "system": "sys_zeta",
-    "name": "TODO Pirate zeta 3",
+    "name": "Пират · Дзета №3",
     "pos": [
       2400,
       1950
@@ -812,7 +812,7 @@
   {
     "id": "npc_orion_raider_2",
     "system": "sys_orion",
-    "name": "TODO Pirate orion 2",
+    "name": "Пират · Орион №2",
     "pos": [
       2498,
       1110
@@ -857,7 +857,7 @@
   {
     "id": "npc_orion_raider_3",
     "system": "sys_orion",
-    "name": "TODO Pirate orion 3",
+    "name": "Пират · Орион №3",
     "pos": [
       2400,
       1950
@@ -902,7 +902,7 @@
   {
     "id": "npc_vega_raider_2",
     "system": "sys_vega",
-    "name": "TODO Pirate vega 2",
+    "name": "Пират · Вега №2",
     "pos": [
       2498,
       1110
@@ -947,7 +947,7 @@
   {
     "id": "npc_vega_raider_3",
     "system": "sys_vega",
-    "name": "TODO Pirate vega 3",
+    "name": "Пират · Вега №3",
     "pos": [
       2400,
       1950
@@ -992,7 +992,7 @@
   {
     "id": "npc_frontier_raider_2",
     "system": "sys_frontier",
-    "name": "TODO Pirate frontier 2",
+    "name": "Пират · Рубеж №2",
     "pos": [
       2498,
       1110
@@ -1037,7 +1037,7 @@
   {
     "id": "npc_frontier_raider_3",
     "system": "sys_frontier",
-    "name": "TODO Pirate frontier 3",
+    "name": "Пират · Рубеж №3",
     "pos": [
       2400,
       1950

@@ -1,6 +1,6 @@
 {
   "id": "shopkeeper",
-  "name": "Продавщица (тест)",
+  "name": "Продавщица",
   "age": 27,
   "role": "shopkeeper",
   "stats": {
